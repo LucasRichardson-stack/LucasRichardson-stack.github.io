@@ -17,7 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=7" />
+    <link rel="stylesheet" href="styles.css?v=17" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -39,8 +39,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#leadership">Leadership</a></li>
             <li><a href="#work">Work</a></li>
-            <li><a href="#interactive">Demo</a></li>
-            <li><a href="#ai-builds">AI builds</a></li>
+            <li><a href="#showcase">Showcase</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
@@ -65,30 +64,38 @@
               <a class="btn btn-ghost" href="#contact">Get in touch</a>
             </div>
           </div>
-          <aside class="hero-card" aria-label="At a glance">
-            <h2 class="hero-card-title">At a glance</h2>
-            <dl class="stat-list">
-              <div>
-                <dt>Current role</dt>
-                <dd>Sr. Manager, Training &amp; Learning Operations, Apera AI</dd>
-              </div>
-              <div>
-                <dt>Experience</dt>
-                <dd>
-                  15+ years in training, teaching, and learning &amp; development;
-                  tech, robotics, SaaS, digital clone and simulation software, and
-                  partner channel programs
-                </dd>
-              </div>
-              <div>
-                <dt>Education</dt>
-                <dd class="stat-stack">
-                  <span>MS Management, University of Illinois at Urbana-Champaign</span>
-                  <span>BA International Relations, Michigan State</span>
-                </dd>
-              </div>
-            </dl>
-          </aside>
+          <figure class="hero-photo">
+            <img
+              src="assets/images/kawasaki-duaro-training.jpg"
+              alt="Hands-on robotics training session with a Kawasaki duAro collaborative robot."
+              width="1200"
+              height="900"
+            />
+            <figcaption>Hands-on technical training in the lab</figcaption>
+          </figure>
+        </div>
+        <div class="container hero-glance" aria-label="At a glance">
+          <h2 class="hero-glance-title">At a glance</h2>
+          <dl class="stat-list stat-list--horizontal">
+            <div>
+              <dt>Current role</dt>
+              <dd>Sr. Manager, Training &amp; Learning Operations @ Apera AI</dd>
+            </div>
+            <div>
+              <dt>Experience</dt>
+              <dd>
+                15+ years in training, teaching, and L&amp;D; tech, robotics, SaaS,
+                and partner channel programs
+              </dd>
+            </div>
+            <div>
+              <dt>Education</dt>
+              <dd class="stat-stack">
+                <span>MS Management, University of Illinois at Urbana-Champaign</span>
+                <span>BA International Relations, Michigan State</span>
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
 
@@ -260,255 +267,418 @@
             </li>
           </ol>
 
-          <div class="subsection" id="interactive">
-            <h3 class="subsection-title">Interactive e-learning</h3>
+
+          <div class="subsection" id="showcase">
+            <h3 class="subsection-title">Showcase</h3>
             <p class="subsection-intro">
-              Storyline modules hosted externally and embedded here for quick preview.
-              Full experience opens in a new tab if your browser blocks the player.
+              Samples of e-learning, AI-assisted apps, and other deliverables. Click
+              any screenshot in Agentic creations to open a larger view.
             </p>
-            <article class="module-showcase">
-              <div class="module-showcase-header">
-                <div class="project-meta">
-                  <span class="tag">Articulate Storyline</span>
-                  <span class="tag">~1 day build</span>
-                </div>
-                <h4>D&amp;D fantasy races primer (therapy campaign)</h4>
-                <p>
-                  A short interactive module I built for a therapist friend who runs
-                  D&amp;D-based therapy campaigns for younger patients. It introduces
-                  the basic fantasy races in plain language so kids can choose a
-                  character with more confidence before session one.
-                </p>
-                <div class="artifact-links">
-                  <a
-                    class="btn btn-primary"
-                    href="https://legendary-paprenjak-9b87fb.netlify.app/story.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Launch full module</a
-                  >
-                </div>
-              </div>
-              <div class="module-embed-wrap">
-                <iframe
-                  class="module-embed"
-                  src="https://legendary-paprenjak-9b87fb.netlify.app/story.html"
-                  title="D&amp;D fantasy races interactive module"
-                  loading="lazy"
-                  allowfullscreen
-                ></iframe>
-              </div>
-              <p class="module-embed-note">
-                Hosted on
-                <a
-                  href="https://legendary-paprenjak-9b87fb.netlify.app/story.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Netlify</a
-                >; not re-hosted on GitHub Pages.
+
+            <div class="showcase-group" id="showcase-elearning">
+              <h4 class="showcase-group-title">E-learning</h4>
+              <p class="showcase-group-intro">
+                Interactive modules built for learners; hosted externally where noted.
               </p>
-            </article>
-          </div>
-
-          <div class="subsection" id="ai-builds">
-            <h3 class="subsection-title">Built with AI agents &amp; tools</h3>
-            <p class="subsection-intro">
-              Prototypes and workflows I co-built with AI; reviewed before use. Apps
-              below are shown as screenshots, not live links.
-            </p>
-
-            <article class="app-showcase">
-              <div class="app-showcase-header">
-                <div class="project-meta">
-                  <span class="tag tag-ai">Claude</span>
-                  <span class="tag">Prototype</span>
-                  <span class="tag">Customer success</span>
-                </div>
-                <h4>Uptime Readiness Dashboard</h4>
-                <p>
-                  A customer-facing readiness monitor I prototyped to show how prepared
-                  a plant team is to troubleshoot our product when a line goes down.
-                  It rolls up training completion (in-person, eLearning, tutorials,
-                  quizzes), spare parts inventory, backup sync status, and trained
-                  assets; then surfaces remedial actions and improvement suggestions
-                  so leaders know where to focus before downtime happens.
-                </p>
-                <ul class="artifact-tools" aria-label="What it tracks">
-                  <li>Team readiness scores and certification status</li>
-                  <li>Spare parts audit and VueController backup verification</li>
-                  <li>Prioritized improvement actions with effort estimates</li>
-                </ul>
-              </div>
-
-              <div
-                class="carousel"
-                data-carousel
-                aria-roledescription="carousel"
-                tabindex="0"
-              >
-                <div class="carousel-viewport">
-                  <div class="carousel-track">
-                    <figure
-                      class="carousel-slide is-active"
-                      data-caption="Team Readiness: per-employee training, eLearning, quiz scores, and certificate status in one view."
-                    >
-                      <img
-                        src="assets/images/uptime-dashboard-team-readiness.png"
-                        alt="Uptime Readiness Dashboard team tracker showing employee readiness percentages, training completion, and certification status."
-                        width="1280"
-                        height="800"
-                      />
-                    </figure>
-                    <figure
-                      class="carousel-slide"
-                      data-caption="Spare Parts Audit: hardware inventory, backup sync status, and trained asset verification."
-                    >
-                      <img
-                        src="assets/images/uptime-dashboard-spare-parts-audit.png"
-                        alt="Spare parts audit screen listing VuePort camera, VueController, and backup file sync status."
-                        width="1280"
-                        height="800"
-                        loading="lazy"
-                      />
-                    </figure>
-                    <figure
-                      class="carousel-slide"
-                      data-caption="Improvement Actions: critical gaps and medium-priority fixes ranked for the customer team."
-                    >
-                      <img
-                        src="assets/images/uptime-dashboard-improvement-actions.png"
-                        alt="Improvement actions panel listing critical training gaps, spare parts issues, and quiz score remediation."
-                        width="1280"
-                        height="800"
-                        loading="lazy"
-                      />
-                    </figure>
+              <article class="showcase-card">
+                <div class="showcase-panel-header">
+                  <div class="project-meta">
+                    <span class="tag">Articulate Storyline</span>
+                    <span class="tag">~1 day build</span>
                   </div>
-                </div>
-                <button
-                  class="carousel-btn carousel-btn-prev"
-                  type="button"
-                  aria-label="Previous screenshot"
-                >
-                  &#8592;
-                </button>
-                <button
-                  class="carousel-btn carousel-btn-next"
-                  type="button"
-                  aria-label="Next screenshot"
-                >
-                  &#8594;
-                </button>
-                <div class="carousel-footer">
-                  <div class="carousel-dots" role="tablist" aria-label="Screenshots">
-                    <button
-                      class="carousel-dot is-active"
-                      type="button"
-                      role="tab"
-                      aria-selected="true"
-                      aria-label="Screenshot 1: Team Readiness"
-                    ></button>
-                    <button
-                      class="carousel-dot"
-                      type="button"
-                      role="tab"
-                      aria-selected="false"
-                      aria-label="Screenshot 2: Spare Parts Audit"
-                    ></button>
-                    <button
-                      class="carousel-dot"
-                      type="button"
-                      role="tab"
-                      aria-selected="false"
-                      aria-label="Screenshot 3: Improvement Actions"
-                    ></button>
-                  </div>
-                  <p class="carousel-caption" aria-live="polite">
-                    Team Readiness: per-employee training, eLearning, quiz scores, and
-                    certificate status in one view.
+                  <h5>D&amp;D fantasy races primer</h5>
+                  <p>
+                    A short module for a therapist friend who runs D&amp;D-based therapy
+                    campaigns. Introduces basic fantasy races so younger patients can
+                    choose a character with more confidence before session one.
                   </p>
+                  <div class="artifact-links">
+                    <a class="btn btn-primary" href="https://legendary-paprenjak-9b87fb.netlify.app/story.html" target="_blank" rel="noopener noreferrer">Launch full module</a>
+                  </div>
+                </div>
+                <div class="module-embed-wrap module-embed-wrap--compact">
+                  <iframe class="module-embed" src="https://legendary-paprenjak-9b87fb.netlify.app/story.html" title="D&amp;D fantasy races module" loading="lazy"></iframe>
+                </div>
+              </article>
+            </div>
+
+            <div class="showcase-group" id="showcase-agentic">
+              <h4 class="showcase-group-title">Agentic creations</h4>
+              <p class="showcase-group-intro">
+                Apps and prototypes I built with AI and LLM tools, then reviewed and
+                refined for real use. Pick a tab to explore.
+              </p>
+
+              <div class="showcase-shell" data-showcase-tabs>
+                <div class="showcase-tablist" role="tablist" aria-label="Agentic creations">
+                  <button class="showcase-tab is-active" type="button" role="tab" id="tab-dashboard" aria-selected="true" aria-controls="panel-dashboard">Readiness dashboard</button>
+                  <button class="showcase-tab" type="button" role="tab" id="tab-scorecard" aria-selected="false" aria-controls="panel-scorecard">Readiness scorecard</button>
+                  <button class="showcase-tab" type="button" role="tab" id="tab-lms" aria-selected="false" aria-controls="panel-lms">Training LMS</button>
+                  <button class="showcase-tab" type="button" role="tab" id="tab-planner" aria-selected="false" aria-controls="panel-planner">Training planner</button>
+                </div>
+
+                <div class="showcase-panel is-active" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard">
+                  <div class="showcase-panel-header">
+                    <div class="project-meta">
+                      <span class="tag">AI-assisted</span>
+                      <span class="tag">Prototype</span>
+                    </div>
+                    <h5>Uptime Readiness Dashboard</h5>
+                    <p>
+                      A customer-facing readiness monitor I prototyped to show how prepared
+                      a plant team is to troubleshoot our product when a line goes down.
+                      It rolls up training, spare parts, backups, and trained assets; then
+                      surfaces remedial actions before downtime happens.
+                    </p>
+                  </div>
+                  <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                    <div class="carousel-viewport">
+                      <div class="carousel-track">
+                        <figure class="carousel-slide is-active" data-caption="Team Readiness: per-employee training, eLearning, quiz scores, and certificate status.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-dashboard-team-readiness.png" data-alt="Uptime Readiness Dashboard team tracker.">
+                            <img src="assets/images/uptime-dashboard-team-readiness.png" alt="Uptime Readiness Dashboard team tracker." width="1024" height="872" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Spare Parts Audit: hardware inventory, backup sync, and trained asset verification.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-dashboard-spare-parts-audit.png" data-alt="Spare parts audit screen.">
+                            <img src="assets/images/uptime-dashboard-spare-parts-audit.png" alt="Spare parts audit screen." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Improvement Actions: critical gaps and prioritized fixes for the customer team.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-dashboard-improvement-actions.png" data-alt="Improvement actions panel.">
+                            <img src="assets/images/uptime-dashboard-improvement-actions.png" alt="Improvement actions panel." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                      </div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                    <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                    <div class="carousel-footer">
+                      <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                        <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 3"></button>
+                      </div>
+                      <p class="carousel-caption" aria-live="polite">Team Readiness: per-employee training, eLearning, quiz scores, and certificate status.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="showcase-panel" role="tabpanel" id="panel-scorecard" aria-labelledby="tab-scorecard" hidden>
+                  <div class="showcase-panel-header">
+                    <div class="project-meta">
+                      <span class="tag">AI-assisted</span>
+                      <span class="tag">Assessment</span>
+                      <span class="tag">Tradeshow</span>
+                    </div>
+                    <h5>Uptime Readiness Scorecard</h5>
+                    <p>
+                      An assessment quiz I built from our product manuals to gauge how
+                      prepared a customer&rsquo;s employees are to respond to faults and
+                      equipment downtime. This tradeshow version adds timed scoring, instant
+                      feedback, and a leaderboard so visitors could challenge each other on
+                      the show floor.
+                    </p>
+                  </div>
+                  <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                    <div class="carousel-viewport">
+                      <div class="carousel-track">
+                        <figure class="carousel-slide is-active" data-caption="Landing: score bands from Expert Ready to At Risk; begin assessment or view leaderboard.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-landing.png" data-alt="Uptime Readiness Scorecard landing page.">
+                            <img src="assets/images/uptime-scorecard-landing.png" alt="Staff uptime readiness assessment intro with score band definitions." width="1024" height="872" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Registration: optional name and company for the tradeshow leaderboard.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-registration.png" data-alt="Scorecard registration form.">
+                            <img src="assets/images/uptime-scorecard-registration.png" alt="Who is taking this assessment registration screen." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Quiz: timed multiple-choice questions drawn from product manual topics.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-question.png" data-alt="Scorecard quiz question screen.">
+                            <img src="assets/images/uptime-scorecard-question.png" alt="Calibration quiz question with four answer choices." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Feedback: immediate explanation after each answer before moving on.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-feedback.png" data-alt="Scorecard question with answer feedback.">
+                            <img src="assets/images/uptime-scorecard-feedback.png" alt="Quiz question showing correct answer and explanation." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Results: overall score, readiness band, and breakdown by category.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-results.png" data-alt="Uptime Readiness Scorecard results page.">
+                            <img src="assets/images/uptime-scorecard-results.png" alt="Assessment results with score, status, and category performance." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Leaderboard: ranked scores for the tradeshow challenge.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/uptime-scorecard-leaderboard.png" data-alt="Uptime Readiness Scorecard leaderboard.">
+                            <img src="assets/images/uptime-scorecard-leaderboard.png" alt="Tradeshow leaderboard with ranked scores and times." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                      </div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                    <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                    <div class="carousel-footer">
+                      <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                        <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 3"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 4"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 5"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 6"></button>
+                      </div>
+                      <p class="carousel-caption" aria-live="polite">Landing: score bands from Expert Ready to At Risk; begin assessment or view leaderboard.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="showcase-panel" role="tabpanel" id="panel-lms" aria-labelledby="tab-lms" hidden>
+                  <div class="showcase-panel-header">
+                    <div class="project-meta">
+                      <span class="tag">AI-assisted</span>
+                      <span class="tag">Low-code LMS</span>
+                    </div>
+                    <h5>Training scheduling LMS</h5>
+                    <p>
+                      A low-code LMS I built on a minimal budget to post and schedule
+                      training. Course templates, self-registration, participant tracking,
+                      CRM integration, and SOC 2-aligned audit logging.
+                    </p>
+                  </div>
+                  <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                    <div class="carousel-viewport">
+                      <div class="carousel-track">
+                        <figure class="carousel-slide is-active" data-caption="Training schedule: customers browse open sessions and register.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/lms-training-schedule.png" data-alt="Training schedule calendar.">
+                            <img src="assets/images/lms-training-schedule.png" alt="Training schedule calendar." width="1024" height="872" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Course detail: session info, takeaways, and register CTA.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/lms-course-detail.png" data-alt="Course detail page.">
+                            <img src="assets/images/lms-course-detail.png" alt="Course detail page." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Add session: admins create sessions from templates with pricing and capacity.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/lms-add-session.png" data-alt="Add training session modal.">
+                            <img src="assets/images/lms-add-session.png" alt="Add training session modal." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Course templates: reusable class definitions for registration.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/lms-course-templates.png" data-alt="Course templates admin view.">
+                            <img src="assets/images/lms-course-templates.png" alt="Course templates admin view." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                      </div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                    <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                    <div class="carousel-footer">
+                      <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                        <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 3"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 4"></button>
+                      </div>
+                      <p class="carousel-caption" aria-live="polite">Training schedule: customers browse open sessions and register.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="showcase-panel" role="tabpanel" id="panel-planner" aria-labelledby="tab-planner" hidden>
+                  <div class="showcase-panel-header">
+                    <div class="project-meta">
+                      <span class="tag">AI-assisted</span>
+                      <span class="tag">Instructional design</span>
+                    </div>
+                    <h5>Training Planner</h5>
+                    <p>
+                      An L&amp;D tool I built to help my team design new training courses.
+                      Storyboarding and planning in one place: workflow breakdowns, module
+                      design checklists, and module flow maps. The storyboard breaks each
+                      module into activities, content, quizzes, videos, and other screen types.
+                    </p>
+                    <ul class="artifact-tools" aria-label="What it includes">
+                      <li>Module storyboards by screen type (activity, content, quiz, video, and more)</li>
+                      <li>Planning views: design checklist, workflow breakdown, module flow</li>
+                      <li>Course and module setup with optional frameworks (e.g. LIFT)</li>
+                    </ul>
+                  </div>
+                  <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                    <div class="carousel-viewport">
+                      <div class="carousel-track">
+                        <figure class="carousel-slide is-active" data-caption="Storyboard: module screens tagged by type (title, scenario, content, activity, quiz, summary).">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/training-planner-storyboard.png" data-alt="Training Planner storyboard view for Module 1.">
+                            <img src="assets/images/training-planner-storyboard.png" alt="Training Planner storyboard with numbered module screens." width="1024" height="872" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Planning: module design checklist to track quality as the course takes shape.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/training-planner-planning-checklist.png" data-alt="Module design checklist in Training Planner.">
+                            <img src="assets/images/training-planner-planning-checklist.png" alt="Module design checklist with design elements and notes." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Workflow breakdown and module flow: map real tasks and Intro → Theory → Demo → Task → Wrap-up.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/training-planner-workflow-module-flow.png" data-alt="Workflow breakdown and module flow planning view.">
+                            <img src="assets/images/training-planner-workflow-module-flow.png" alt="Workflow breakdown stages and module flow cards." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                        <figure class="carousel-slide" data-caption="New course setup: name, audience, and optional framework or theme.">
+                          <button class="carousel-zoom" type="button" data-src="assets/images/training-planner-new-course.png" data-alt="New course dialog in Training Planner.">
+                            <img src="assets/images/training-planner-new-course.png" alt="New course modal with name, description, framework, and audience fields." width="1024" height="872" loading="lazy" />
+                            <span class="carousel-zoom-label">Click to enlarge</span>
+                          </button>
+                        </figure>
+                      </div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                    <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                    <div class="carousel-footer">
+                      <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                        <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 3"></button>
+                        <button class="carousel-dot" type="button" aria-label="Screenshot 4"></button>
+                      </div>
+                      <p class="carousel-caption" aria-live="polite">Storyboard: module screens tagged by type (title, scenario, content, activity, quiz, summary).</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <p class="app-showcase-note">
-                Concept prototype built with Claude; screenshots only (no public demo link).
-              </p>
-            </article>
+            </div>
 
-            <ul class="artifact-grid">
-              <li class="artifact">
-                <div class="artifact-meta">
-                  <span class="tag tag-ai">Cursor</span>
-                  <span class="tag">GitHub Pages</span>
+            <div class="showcase-group" id="showcase-selected">
+              <h4 class="showcase-group-title">Selected work</h4>
+              <p class="showcase-group-intro">
+                Classroom photos, workbooks, certification events, and additional case
+                materials. Pick a tab to explore.
+              </p>
+
+              <div class="showcase-shell" data-showcase-tabs>
+                <div class="showcase-tablist" role="tablist" aria-label="Selected work">
+                  <button class="showcase-tab is-active" type="button" role="tab" id="tab-workbooks" aria-selected="true" aria-controls="panel-workbooks">Workbooks</button>
                 </div>
-                <h4>This portfolio site</h4>
-                <p>
-                  Single-page site built with a Cursor coding agent: semantic HTML,
-                  responsive CSS, vanilla JS, no build step, deployed from
-                  <code>main</code> on GitHub Pages.
-                </p>
-                <ul class="artifact-tools" aria-label="Tools used">
-                  <li>Cursor agent + manual edit pass</li>
-                  <li>LucasRichardson-stack.github.io</li>
-                </ul>
-                <div class="artifact-links">
-                  <a
-                    href="https://github.com/LucasRichardson-stack/LucasRichardson-stack.github.io"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >View repo</a
-                  >
-                  <a href="#top">Live site</a>
+
+                <div class="showcase-panel is-active" role="tabpanel" id="panel-workbooks" aria-labelledby="tab-workbooks">
+                  <div class="showcase-shell showcase-shell--nested" data-showcase-tabs>
+                    <div class="showcase-tablist" role="tablist" aria-label="Workbooks">
+                      <button class="showcase-tab is-active" type="button" role="tab" id="tab-kawasaki-workbook" aria-selected="true" aria-controls="panel-kawasaki-workbook">K-ROSET lab manual</button>
+                      <button class="showcase-tab" type="button" role="tab" id="tab-apera-workbook" aria-selected="false" aria-controls="panel-apera-workbook">Basic training workbook</button>
+                    </div>
+
+                    <div class="showcase-panel is-active" role="tabpanel" id="panel-kawasaki-workbook" aria-labelledby="tab-kawasaki-workbook">
+                      <div class="showcase-panel-header">
+                        <div class="project-meta">
+                          <span class="tag">Kawasaki Robotics</span>
+                          <span class="tag">Lab manual</span>
+                          <span class="tag">K-ROSET simulation</span>
+                        </div>
+                        <h5>K-ROSET Operations and Programming Lab Manual</h5>
+                        <p>
+                          Lab manuals I designed at Kawasaki for K-ROSET simulation
+                          training: guided exercises, safety checks, and comprehension
+                          questions paired with hands-on robot programming labs.
+                        </p>
+                      </div>
+                      <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                        <div class="carousel-viewport">
+                          <div class="carousel-track">
+                            <figure class="carousel-slide is-active" data-caption="Safety lab: devices, lockout, electrical hazards, and warning symbols.">
+                              <button class="carousel-zoom" type="button" data-src="assets/images/kawasaki-workbook-example-1.png" data-alt="K-ROSET lab manual safety quiz page.">
+                                <img src="assets/images/kawasaki-workbook-example-1.png" alt="Safety quiz page from the K-ROSET Operations and Programming Lab Manual." width="850" height="1100" />
+                                <span class="carousel-zoom-label">Click to enlarge</span>
+                              </button>
+                            </figure>
+                            <figure class="carousel-slide" data-caption="Jogging lab: teach panel steps and button-function comprehension checks.">
+                              <button class="carousel-zoom" type="button" data-src="assets/images/kawasaki-workbook-example-2.png" data-alt="K-ROSET lab manual jogging exercise page.">
+                                <img src="assets/images/kawasaki-workbook-example-2.png" alt="Jogging exercise page from the K-ROSET lab manual." width="850" height="1100" loading="lazy" />
+                                <span class="carousel-zoom-label">Click to enlarge</span>
+                              </button>
+                            </figure>
+                          </div>
+                        </div>
+                        <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                        <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                        <div class="carousel-footer">
+                          <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                            <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                            <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                          </div>
+                          <p class="carousel-caption" aria-live="polite">Safety lab: devices, lockout, electrical hazards, and warning symbols.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="showcase-panel" role="tabpanel" id="panel-apera-workbook" aria-labelledby="tab-apera-workbook" hidden>
+                      <div class="showcase-panel-header">
+                        <div class="project-meta">
+                          <span class="tag">Apera AI</span>
+                          <span class="tag">Workbook</span>
+                          <span class="tag">Technical training</span>
+                        </div>
+                        <h5>Basic Training Workbook v1.1.0</h5>
+                        <p>
+                          A learner workbook I created at Apera AI for our technical
+                          training program: module guides with objectives, timed
+                          exercises, and optional stretch tasks across robotics,
+                          Forge simulation, and equipment installation.
+                        </p>
+                      </div>
+                      <div class="carousel" data-carousel tabindex="0" aria-roledescription="carousel">
+                        <div class="carousel-viewport">
+                          <div class="carousel-track">
+                            <figure class="carousel-slide is-active" data-caption="Module 2: CRX pick-and-place; setup, operation, and test exercises.">
+                              <button class="carousel-zoom" type="button" data-src="assets/images/apera-workbook-module-2-robotics.png" data-alt="Apera workbook page for Module 2 Robotics pick and place.">
+                                <img src="assets/images/apera-workbook-module-2-robotics.png" alt="Module 2 Robotics pick and place workbook page." width="850" height="1100" />
+                                <span class="carousel-zoom-label">Click to enlarge</span>
+                              </button>
+                            </figure>
+                            <figure class="carousel-slide" data-caption="Module 3: Forge simulation; objectives and guided workflow exercises.">
+                              <button class="carousel-zoom" type="button" data-src="assets/images/apera-workbook-module-3-forge.png" data-alt="Apera workbook page for Module 3 Forge.">
+                                <img src="assets/images/apera-workbook-module-3-forge.png" alt="Module 3 Forge workbook page." width="850" height="1100" loading="lazy" />
+                                <span class="carousel-zoom-label">Click to enlarge</span>
+                              </button>
+                            </figure>
+                            <figure class="carousel-slide" data-caption="Module 4: VuePort and VueController installation; setup through live-image test.">
+                              <button class="carousel-zoom" type="button" data-src="assets/images/apera-workbook-module-4-equipment.png" data-alt="Apera workbook page for Module 4 Equipment Installation.">
+                                <img src="assets/images/apera-workbook-module-4-equipment.png" alt="Module 4 Equipment Installation workbook page." width="850" height="1100" loading="lazy" />
+                                <span class="carousel-zoom-label">Click to enlarge</span>
+                              </button>
+                            </figure>
+                          </div>
+                        </div>
+                        <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous screenshot">&#8592;</button>
+                        <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next screenshot">&#8594;</button>
+                        <div class="carousel-footer">
+                          <div class="carousel-dots" role="tablist" aria-label="Screenshots">
+                            <button class="carousel-dot is-active" type="button" aria-label="Screenshot 1"></button>
+                            <button class="carousel-dot" type="button" aria-label="Screenshot 2"></button>
+                            <button class="carousel-dot" type="button" aria-label="Screenshot 3"></button>
+                          </div>
+                          <p class="carousel-caption" aria-live="polite">Module 2: CRX pick-and-place; setup, operation, and test exercises.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </li>
-              <li class="artifact">
-                <div class="artifact-meta">
-                  <span class="tag tag-ai">Claude</span>
-                  <span class="tag">LMS</span>
-                </div>
-                <h4>Lightweight course-scheduling LMS (Apera)</h4>
-                <p>
-                  I used Claude to build a simple LMS for scheduling courses and
-                  storing customer data when off-the-shelf systems did not match startup
-                  pace.
-                </p>
-                <ul class="artifact-tools" aria-label="Tools used">
-                  <li>Claude-assisted development</li>
-                  <li>Internal scheduling &amp; customer records</li>
-                </ul>
-              </li>
-              <li class="artifact">
-                <div class="artifact-meta">
-                  <span class="tag tag-ai">Custom agent</span>
-                  <span class="tag">Power BI</span>
-                </div>
-                <h4>Training analytics dashboard (Universal Robots)</h4>
-                <p>
-                  I built an AI agent to pull LMS data into Power BI, paired with R
-                  Studio analysis and executive-ready views to flag underperforming
-                  programs (8% reduction in ineffective offerings).
-                </p>
-                <ul class="artifact-tools" aria-label="Tools used">
-                  <li>LMS reporting · R Studio · Power BI</li>
-                </ul>
-              </li>
-              <li class="artifact">
-                <div class="artifact-meta">
-                  <span class="tag tag-ai">Copilot</span>
-                  <span class="tag tag-ai">AI evaluation</span>
-                </div>
-                <h4>Post-training quality &amp; sentiment analysis</h4>
-                <p>
-                  At UR, I used agents to evaluate participant recordings for concept
-                  checks and a Copilot agent on post-course surveys (response rate 23%
-                  to 90%). I championed first-line AI translation for global courses
-                  (~$15K annual savings versus outsourced translation).
-                </p>
-                <ul class="artifact-tools" aria-label="Tools used">
-                  <li>Microsoft Copilot · custom evaluation agents</li>
-                </ul>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
+
+
         </div>
       </section>
 
@@ -554,6 +724,19 @@
       </div>
     </footer>
 
-    <script src="script.js?v=7"></script>
+    <div class="lightbox" id="lightbox" hidden aria-hidden="true">
+      <div class="lightbox-backdrop" data-lightbox-close></div>
+      <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+        <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close enlarged image">&times;</button>
+        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">&#8592;</button>
+        <figure class="lightbox-figure">
+          <img class="lightbox-img" src="" alt="" />
+          <figcaption class="lightbox-caption" id="lightbox-caption"></figcaption>
+        </figure>
+        <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">&#8594;</button>
+      </div>
+    </div>
+
+    <script src="script.js?v=14"></script>
   </body>
 </html>
