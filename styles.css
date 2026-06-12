@@ -472,6 +472,18 @@ a:hover {
   font-size: 0.9375rem;
 }
 
+.project p + p {
+  margin-top: 0.75rem;
+}
+
+.project-link {
+  margin-top: 1rem;
+}
+
+.project-link a {
+  font-weight: 600;
+}
+
 /* Interactive module embed */
 
 .module-showcase {

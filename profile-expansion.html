@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — Global Expansion Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F4EC;
+    --paper-deep:#EFEADC;
+    --forest:#1F3A2E;
+    --forest-soft:#2F5141;
+    --ink:#242019;
+    --ink-soft:#5C564B;
+    --ochre:#C08A2D;
+    --line:#D9D2C2;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-0.01em;margin:0;}
+  .eyebrow{
+    font-family:"Inter",sans-serif;
+    font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--ochre);margin:0 0 14px;
+  }
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--forest);color:var(--paper);
+    padding:96px 0 80px;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-120px;bottom:-160px;width:520px;height:520px;
+    border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(192,138,45,0.22), transparent 60%);
+    pointer-events:none;
+  }
+  .hero .eyebrow{color:var(--ochre);}
+  .hero h1{font-size:clamp(44px,7vw,82px);font-weight:500;max-width:14ch;}
+  .hero .lede{
+    font-size:clamp(18px,2.2vw,22px);color:rgba(247,244,236,0.78);
+    max-width:46ch;margin:28px 0 0;line-height:1.5;
+  }
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:40px;margin-top:52px;
+    border-top:1px solid rgba(247,244,236,0.16);padding-top:28px;
+  }
+  .hero-meta div{min-width:120px;}
+  .hero-meta .k{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,244,236,0.55);margin-bottom:4px;}
+  .hero-meta .v{font-family:"Fraunces",serif;font-size:24px;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:84px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .section-head{max-width:60ch;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(30px,4vw,44px);}
+  .section-head p{color:var(--ink-soft);margin:18px 0 0;font-size:18px;}
+
+  /* ---------- SUMMARY CALLOUT ---------- */
+  .summary{
+    background:var(--paper-deep);border-left:3px solid var(--ochre);
+    padding:36px 40px;font-family:"Fraunces",serif;font-size:clamp(20px,2.6vw,27px);
+    line-height:1.4;font-weight:400;font-style:italic;color:var(--forest);
+    max-width:62ch;
+  }
+
+  /* ---------- VALUE PROP GRID ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .grid .cell{background:var(--paper);padding:32px 30px;}
+  .grid .cell h3{font-size:21px;margin-bottom:10px;color:var(--forest);}
+  .grid .cell p{margin:0;color:var(--ink-soft);font-size:15.5px;line-height:1.6;}
+  .grid .cell .n{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;color:var(--ochre);
+    letter-spacing:0.08em;display:block;margin-bottom:16px;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{margin-top:8px;}
+  .phase-bar{display:grid;grid-template-columns:3fr 3fr 5fr;gap:6px;margin-bottom:8px;}
+  .phase-bar .band{
+    padding:14px 18px;border-radius:4px;color:var(--paper);
+    font-family:"Fraunces",serif;font-size:22px;display:flex;align-items:baseline;gap:12px;
+  }
+  .band.ignite{background:var(--forest);}
+  .band.traction{background:var(--forest-soft);}
+  .band.embed{background:var(--ochre);color:#3a2a08;}
+  .band .span{font-family:"Inter",sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:0.75;}
+  .months{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;}
+  .month{
+    background:var(--paper-deep);border:1px solid var(--line);border-radius:4px;
+    padding:14px 12px;min-height:120px;display:flex;flex-direction:column;
+  }
+  .month .mlabel{font-size:11px;font-weight:600;letter-spacing:0.06em;color:var(--ochre);text-transform:uppercase;margin-bottom:8px;}
+  .month .mtext{font-size:12.5px;line-height:1.45;color:var(--ink-soft);}
+  .timeline-note{font-size:13px;color:var(--ink-soft);margin-top:18px;font-style:italic;}
+
+  /* ---------- PHASE DETAIL ---------- */
+  .phase-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;}
+  .pcard{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper);}
+  .pcard .ptop{padding:24px 26px 18px;border-bottom:1px solid var(--line);}
+  .pcard .ptop .ptag{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ochre);}
+  .pcard .ptop h3{font-size:24px;margin:8px 0 6px;color:var(--forest);}
+  .pcard .ptop .pbudget{font-size:13px;color:var(--ink-soft);}
+  .pcard ul{list-style:none;margin:0;padding:20px 26px 26px;}
+  .pcard li{position:relative;padding:0 0 14px 22px;font-size:15px;color:var(--ink);line-height:1.5;}
+  .pcard li:last-child{padding-bottom:0;}
+  .pcard li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--ochre);}
+
+  /* ---------- RISK ---------- */
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+  .risk{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:24px 26px;}
+  .risk h3{font-size:17px;color:var(--forest);margin-bottom:8px;}
+  .risk p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.55;}
+
+  /* ---------- BUDGET ---------- */
+  .budget-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+  table{width:100%;border-collapse:collapse;}
+  th,td{text-align:left;padding:13px 0;border-bottom:1px solid var(--line);font-size:15.5px;}
+  th{font-family:"Inter",sans-serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  td.amt{text-align:right;font-variant-numeric:tabular-nums;font-feature-settings:"tnum";}
+  tr.total td{border-bottom:none;border-top:2px solid var(--forest);font-weight:600;font-family:"Fraunces",serif;font-size:18px;padding-top:16px;}
+  .bars{display:flex;flex-direction:column;gap:14px;}
+  .barrow .blabel{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px;color:var(--ink);}
+  .barrow .blabel .bpct{color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .btrack{height:10px;background:var(--paper-deep);border-radius:5px;overflow:hidden;}
+  .bfill{height:100%;border-radius:5px;background:var(--forest);}
+  .bfill.alt{background:var(--ochre);}
+
+  /* ---------- IMPACT ---------- */
+  .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .impact{background:var(--forest);color:var(--paper);padding:34px 28px;}
+  .impact .num{font-family:"Fraunces",serif;font-size:40px;line-height:1;color:var(--ochre);margin-bottom:14px;}
+  .impact p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(247,244,236,0.82);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--forest);color:rgba(247,244,236,0.6);padding:48px 0;font-size:13.5px;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;}
+  footer strong{color:var(--paper);font-weight:500;}
+
+  @media (max-width:760px){
+    .budget-wrap{grid-template-columns:1fr;gap:36px;}
+    .phase-bar{grid-template-columns:1fr;}
+    .months{grid-template-columns:repeat(2,1fr);}
+    .hero{padding:72px 0 56px;}
+    section{padding:60px 0;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Strategy Case Study</p>
+    <h1>Global Expansion Strategy for Profile</h1>
+    <p class="lede">A 12-month plan to take an ESG-specialized Brazilian communications agency into the UK and US markets; structured to build credibility first, revenue second, and a durable local presence third.</p>
+    <div class="hero-meta">
+      <div><div class="k">Client</div><div class="v">Profile</div></div>
+      <div><div class="k">Markets</div><div class="v">UK &amp; US</div></div>
+      <div><div class="k">Horizon</div><div class="v">12 months</div></div>
+      <div><div class="k">Budget</div><div class="v">$200K</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Executive Summary</p>
+    <div class="summary">
+      Profile is the only Brazilian B-Corp agency specializing in ESG communications. This three-phase plan, Ignite, Traction, and Embed, sequences entry so the agency earns visibility before it spends on presence, leveraging a low-cost LATAM creative team and strong sustainability affiliations to win recurring revenue in two high-growth markets.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Positioning</p>
+      <h2>Why Profile wins abroad</h2>
+      <p>Five advantages that differentiate the agency in crowded UK and US ESG markets.</p>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <span class="n">01</span>
+        <h3>Certified B-Corp, ESG-native</h3>
+        <p>The only Brazilian agency that is both a certified B-Corp and a dedicated ESG communications specialist.</p>
+      </div>
+      <div class="cell">
+        <span class="n">02</span>
+        <h3>Narrative meets strategy</h3>
+        <p>Storytelling and ESG advisory delivered together, rather than as separate engagements.</p>
+      </div>
+      <div class="cell">
+        <span class="n">03</span>
+        <h3>Low-cost LATAM execution</h3>
+        <p>A talented Latin American creative team delivers high-quality work at a competitive cost base.</p>
+      </div>
+      <div class="cell">
+        <span class="n">04</span>
+        <h3>Credible affiliations</h3>
+        <p>Partnerships with TEDxAmazonia, WWF, and COP provide access to global sustainability networks.</p>
+      </div>
+      <div class="cell">
+        <span class="n">05</span>
+        <h3>Merged creative capacity</h3>
+        <p>The recent merger with Look'n Feel adds creative firepower to scale delivery in new markets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Twelve months, three phases</h2>
+      <p>Each phase has a distinct job: establish awareness, build pipeline, then embed locally.</p>
+    </div>
+    <div class="timeline">
+      <div class="phase-bar">
+        <div class="band ignite">Ignite <span class="span">Months 1–3</span></div>
+        <div class="band traction">Traction <span class="span">Months 4–6</span></div>
+        <div class="band embed">Embed <span class="span">Months 7–12</span></div>
+      </div>
+      <div class="months">
+        <div class="month"><span class="mlabel">M1</span><span class="mtext">Launch website, B-Corp registration, CRM &amp; LinkedIn setup</span></div>
+        <div class="month"><span class="mlabel">M2</span><span class="mtext">Website redesign, articles, case studies</span></div>
+        <div class="month"><span class="mlabel">M3</span><span class="mtext">Outreach campaign, virtual events, free webinars</span></div>
+        <div class="month"><span class="mlabel">M4</span><span class="mtext">Freelance recruiting, incentive program, plan workshops</span></div>
+        <div class="month"><span class="mlabel">M5</span><span class="mtext">Launch workshops, branding kits, local press</span></div>
+        <div class="month"><span class="mlabel">M6</span><span class="mtext">Land first clients, internal review, collaboration</span></div>
+        <div class="month"><span class="mlabel">M7</span><span class="mtext">Local work desks, BDMs, creative index</span></div>
+        <div class="month"><span class="mlabel">M8–9</span><span class="mtext">Content campaign, global case studies, joint projects</span></div>
+        <div class="month"><span class="mlabel">M10–11</span><span class="mtext">Follow-up projects, awards, local meetups</span></div>
+        <div class="month" style="grid-column:span 3;background:var(--forest);border-color:var(--forest);"><span class="mlabel" style="color:var(--ochre)">M12</span><span class="mtext" style="color:rgba(247,244,236,0.85)">Final review, evaluate ROI, performance report</span></div>
+      </div>
+      <p class="timeline-note">Planning artifact developed in 2024–25; campaign timing referenced the COP30 cycle.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Phase Detail</p>
+      <h2>What each phase delivers</h2>
+    </div>
+    <div class="phase-detail">
+      <div class="pcard">
+        <div class="ptop">
+          <span class="ptag">Phase 1</span>
+          <h3>Ignite</h3>
+          <div class="pbudget">Months 1–3 · ~$30K</div>
+        </div>
+        <ul>
+          <li>Localize website and portfolio to English for UK/US audiences</li>
+          <li>Publish ESG case studies featuring COP, TEDx, and WWF work</li>
+          <li>Join B-Corp networks in both markets for credibility</li>
+          <li>Run greenwashing-awareness webinars</li>
+          <li>Amplify ESG expertise through targeted LinkedIn outreach</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <div class="ptop">
+          <span class="ptag">Phase 2</span>
+          <h3>Traction</h3>
+          <div class="pbudget">Months 4–6 · ~$50–60K</div>
+        </div>
+        <ul>
+          <li>Hire one freelance rep each in the UK and US</li>
+          <li>Run ESG storytelling workshops with NGO/TED networks</li>
+          <li>Create a referral incentive for collaborators</li>
+          <li>Build COP30-themed marketing kits for export</li>
+          <li>Close the first one to two paying clients</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <div class="ptop">
+          <span class="ptag">Phase 3</span>
+          <h3>Embed</h3>
+          <div class="pbudget">Months 7–12 · ~$110–115K</div>
+        </div>
+        <ul>
+          <li>Formalize partnerships and white-label with UK/US firms</li>
+          <li>Release two new public case studies from international work</li>
+          <li>Launch the "Latin ESG Creative Index" content campaign</li>
+          <li>Convert reps to fractional Business Development managers</li>
+          <li>Rent desks in NYC and London impact-focused coworking hubs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Risk</p>
+      <h2>Anticipated risks &amp; mitigation</h2>
+    </div>
+    <div class="risk-grid">
+      <div class="risk"><h3>Greenwashing scrutiny</h3><p>Authenticity-first storytelling and transparent sourcing protect against accusations that follow ESG-adjacent work.</p></div>
+      <div class="risk"><h3>Legal &amp; cultural complexity</h3><p>Local reps and partner firms bridge regulatory and cultural gaps across two distinct markets.</p></div>
+      <div class="risk"><h3>Limited brand awareness</h3><p>Affiliations and case studies front-load credibility before sales spend begins.</p></div>
+      <div class="risk"><h3>Budget overshoot</h3><p>A $10K contingency and phased spend gates prevent early overcommitment.</p></div>
+      <div class="risk"><h3>Capital exposure</h3><p>Partner investment shares the cost of market entry and reduces single-party risk.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Budget</p>
+      <h2>$200K allocation</h2>
+      <p>Weighted toward people and presence in market, with a reserve held back for contingency.</p>
+    </div>
+    <div class="budget-wrap">
+      <table>
+        <thead><tr><th>Category</th><th class="amt">Budget</th></tr></thead>
+        <tbody>
+          <tr><td>Contractors / Reps</td><td class="amt">$70,000</td></tr>
+          <tr><td>Marketing &amp; Content</td><td class="amt">$30,000</td></tr>
+          <tr><td>Events &amp; Workshops</td><td class="amt">$25,000</td></tr>
+          <tr><td>Travel &amp; Legal</td><td class="amt">$15,000</td></tr>
+          <tr><td>Coworking Spaces</td><td class="amt">$15,000</td></tr>
+          <tr><td>CRM, Translation, Tools</td><td class="amt">$10,000</td></tr>
+          <tr><td>Contingency</td><td class="amt">$10,000</td></tr>
+          <tr class="total"><td>Total</td><td class="amt">$200,000</td></tr>
+        </tbody>
+      </table>
+      <div class="bars">
+        <div class="barrow"><div class="blabel"><span>Contractors / Reps</span><span class="bpct">35%</span></div><div class="btrack"><div class="bfill" style="width:35%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>Marketing &amp; Content</span><span class="bpct">15%</span></div><div class="btrack"><div class="bfill" style="width:15%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>Events &amp; Workshops</span><span class="bpct">12.5%</span></div><div class="btrack"><div class="bfill" style="width:12.5%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>Travel &amp; Legal</span><span class="bpct">7.5%</span></div><div class="btrack"><div class="bfill" style="width:7.5%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>Coworking Spaces</span><span class="bpct">7.5%</span></div><div class="btrack"><div class="bfill" style="width:7.5%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>CRM, Translation, Tools</span><span class="bpct">5%</span></div><div class="btrack"><div class="bfill" style="width:5%"></div></div></div>
+        <div class="barrow"><div class="blabel"><span>Contingency</span><span class="bpct">5%</span></div><div class="btrack"><div class="bfill alt" style="width:5%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Outcomes</p>
+      <h2>Expected impact by Month 12</h2>
+      <p>Projected results across the UK and US markets at the close of the plan.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact"><div class="num">4–6</div><p>Paid projects delivered for new-market clients</p></div>
+      <div class="impact"><div class="num">2</div><p>Long-term contracts or retainers driving recurring revenue</p></div>
+      <div class="impact"><div class="num">2+</div><p>Public case studies featuring global clients</p></div>
+      <div class="impact"><div class="num">↗</div><p>Brand awareness established in global ESG ecosystems</p></div>
+      <div class="impact"><div class="num">★</div><p>Award nominations or high-profile projects secured</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Profile: Global Expansion Strategy.</strong> Lucas Richardson · UIUC Gies MBA · 2025</span>
+    <span><a href="index.html" style="color:var(--ochre);text-decoration:none;">← Back to portfolio</a> · UK &amp; US · 12-month horizon · $200K</span>
+  </div>
+</footer>
+
+</body>
+</html>

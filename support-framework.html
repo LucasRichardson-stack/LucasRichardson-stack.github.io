@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Quality Framework | L&D Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EF;
+    --paper-deep:#ECE8DF;
+    --slate:#2B3A4A;
+    --slate-soft:#3E5366;
+    --ink:#23262B;
+    --ink-soft:#5A6068;
+    --clay:#C2683F;
+    --clay-soft:#D98C63;
+    --line:#DAD5C9;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-0.01em;margin:0;}
+  .eyebrow{font-family:"Inter",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--clay);margin:0 0 14px;}
+  a{color:inherit;}
+
+  /* HERO */
+  .hero{background:var(--slate);color:var(--paper);padding:96px 0 80px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;left:-140px;top:-140px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle at 60% 60%, rgba(194,104,63,0.20), transparent 62%);pointer-events:none;}
+  .hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:500;max-width:16ch;}
+  .hero .lede{font-size:clamp(18px,2.2vw,22px);color:rgba(246,244,239,0.78);max-width:50ch;margin:28px 0 0;line-height:1.5;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:40px;margin-top:52px;border-top:1px solid rgba(246,244,239,0.16);padding-top:28px;}
+  .hero-meta .k{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(246,244,239,0.55);margin-bottom:4px;}
+  .hero-meta .v{font-family:"Fraunces",serif;font-size:22px;}
+
+  section{padding:84px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .section-head{max-width:62ch;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(30px,4vw,44px);}
+  .section-head p{color:var(--ink-soft);margin:18px 0 0;font-size:18px;}
+
+  /* part divider label */
+  .part-label{display:flex;align-items:center;gap:18px;margin-bottom:8px;}
+  .part-label .pn{font-family:"Fraunces",serif;font-size:15px;color:var(--clay);font-weight:600;letter-spacing:0.06em;}
+  .part-label .pl{height:1px;background:var(--line);flex:1;}
+
+  /* CHALLENGE */
+  .challenge{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;}
+  .chal-card{border:1px solid var(--line);border-radius:6px;padding:32px 34px;background:var(--paper);}
+  .chal-card h3{font-size:20px;color:var(--slate);margin-bottom:16px;}
+  .chal-card ul{list-style:none;margin:0;padding:0;}
+  .chal-card li{position:relative;padding:0 0 12px 24px;font-size:15.5px;color:var(--ink);line-height:1.5;}
+  .chal-card li:last-child{padding-bottom:0;}
+  .chal-card.cause li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--slate-soft);}
+  .chal-card.effect li::before{content:"\2192";position:absolute;left:0;top:0;color:var(--clay);font-weight:600;}
+  .chal-card.effect{background:var(--paper-deep);}
+
+  /* AUDIENCE */
+  .aud-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .aud{background:var(--paper);padding:30px 28px;}
+  .aud .role{font-family:"Fraunces",serif;font-size:23px;color:var(--slate);margin-bottom:4px;}
+  .aud .mode{font-size:12px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--clay);margin-bottom:14px;}
+  .aud p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.55;}
+
+  /* TIMELINE */
+  .tl{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .tl-col{background:var(--paper);padding:26px 24px;}
+  .tl-col .ph{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--clay);margin-bottom:6px;}
+  .tl-col h3{font-size:18px;color:var(--slate);margin-bottom:14px;font-family:"Fraunces",serif;}
+  .tl-col ul{list-style:none;margin:0;padding:0;}
+  .tl-col li{font-size:13.5px;color:var(--ink-soft);line-height:1.45;padding:0 0 8px 16px;position:relative;}
+  .tl-col li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--clay-soft);}
+
+  /* FRAMEWORK SUMMARY (compact) */
+  .fw-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .fw-cell{background:var(--paper);padding:26px 24px;}
+  .fw-cell .fn{font-family:"Fraunces",serif;font-size:13px;color:var(--clay);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;}
+  .fw-cell h3{font-size:19px;color:var(--slate);margin-bottom:8px;}
+  .fw-cell p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.5;}
+  .fw-flow{text-align:center;color:var(--clay);font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;margin:22px 0 0;}
+
+  /* MEASUREMENT CHART */
+  .chart-wrap{border:1px solid var(--line);border-radius:8px;padding:34px 36px;background:var(--paper);}
+  .chart-legend{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px;font-size:13.5px;}
+  .chart-legend span{display:flex;align-items:center;gap:8px;color:var(--ink-soft);}
+  .chart-legend i{width:13px;height:13px;border-radius:3px;display:inline-block;}
+  .chart{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;align-items:end;height:240px;padding-bottom:30px;border-bottom:1px solid var(--line);position:relative;}
+  .qbar{display:flex;gap:8px;align-items:end;justify-content:center;height:100%;}
+  .bar{width:22px;border-radius:4px 4px 0 0;position:relative;}
+  .bar span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .qlabels{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:12px;}
+  .qlabels div{text-align:center;font-size:13px;font-weight:600;color:var(--slate);}
+  .chart-note{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin-top:18px;}
+
+  /* SCALE */
+  .scale-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;}
+  .scard{border-left:3px solid var(--clay);padding:6px 0 6px 22px;}
+  .scard h3{font-size:18px;color:var(--slate);margin-bottom:8px;}
+  .scard p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.55;}
+
+  /* ============ INTERACTIVE LESSON ============ */
+  .lesson-section{background:var(--slate);color:var(--paper);}
+  .lesson-section .eyebrow{color:var(--clay-soft);}
+  .lesson-section .section-head h2{color:var(--paper);}
+  .lesson-section .section-head p{color:rgba(246,244,239,0.72);}
+  .module{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.14);border-radius:12px;overflow:hidden;}
+  .module-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-bottom:1px solid rgba(255,255,255,0.12);gap:16px;flex-wrap:wrap;}
+  .module-bar .mtitle{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay-soft);font-weight:600;}
+  .progress{display:flex;gap:6px;align-items:center;flex:1;justify-content:center;min-width:160px;}
+  .pdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.22);transition:background .25s,transform .25s;}
+  .pdot.active{background:var(--clay);transform:scale(1.4);}
+  .pdot.done{background:var(--clay-soft);}
+  .pcount{font-size:12px;color:rgba(246,244,239,0.6);font-variant-numeric:tabular-nums;min-width:42px;text-align:right;}
+  .stage-track{min-height:420px;padding:44px 48px;position:relative;}
+  .slide{display:none;animation:fade .35s ease;}
+  .slide.show{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .slide .skicker{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--clay-soft);font-weight:600;margin-bottom:14px;}
+  .slide h3{font-size:clamp(26px,3.5vw,38px);color:var(--paper);margin-bottom:20px;max-width:20ch;}
+  .slide .lead{font-size:18px;color:rgba(246,244,239,0.82);max-width:54ch;line-height:1.55;margin:0 0 24px;}
+  .slide ul{list-style:none;margin:0;padding:0;max-width:60ch;}
+  .slide li{position:relative;padding:0 0 16px 26px;font-size:15.5px;color:rgba(246,244,239,0.88);line-height:1.55;}
+  .slide li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--clay);}
+  .slide li strong{color:var(--paper);font-weight:600;}
+  .qset{display:grid;gap:12px;max-width:60ch;}
+  .qset .q{background:rgba(255,255,255,0.05);border-left:2px solid var(--clay);padding:14px 18px;font-size:15px;color:rgba(246,244,239,0.9);border-radius:0 6px 6px 0;}
+  .objgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:600px;}
+  .obj{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:18px 20px;}
+  .obj .on{font-family:"Fraunces",serif;font-size:20px;color:var(--clay-soft);}
+  .obj p{margin:6px 0 0;font-size:14px;color:rgba(246,244,239,0.82);line-height:1.45;}
+  .reflect-note{font-size:13.5px;color:rgba(246,244,239,0.55);font-style:italic;margin-top:22px;max-width:54ch;}
+  .crit{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:24px 26px;max-width:60ch;margin-top:8px;}
+  .crit .cl{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--clay-soft);font-weight:600;margin-bottom:8px;}
+  .crit p{margin:0;font-size:15px;color:rgba(246,244,239,0.88);line-height:1.55;}
+  /* bookend module-overview slide (intro + exit, identical) */
+  .ovr-head{margin-bottom:28px;}
+  .ovr-head .skicker{margin-bottom:10px;}
+  .ovr-head h3{margin-bottom:6px;}
+  .ovr-head .osub{font-size:16px;color:rgba(246,244,239,0.7);margin:0;}
+  .ovr-rows{display:grid;gap:1px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.12);border-radius:8px;overflow:hidden;}
+  .ovr-row{display:grid;grid-template-columns:170px 1fr;background:var(--slate);}
+  .ovr-row .ok{padding:22px 28px;font-family:"Fraunces",serif;font-size:19px;color:var(--clay-soft);}
+  .ovr-row .ov{padding:22px 28px;font-size:15px;color:rgba(246,244,239,0.9);line-height:1.55;}
+  .ovr-row .ov .pills{display:flex;flex-wrap:wrap;gap:8px;}
+  .ovr-row .ov .pill{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:5px 14px;font-size:13px;color:var(--paper);font-weight:500;}
+  .exit-only{display:none;}
+  .slide.is-exit .exit-only{display:block;}
+  .exit-banner{background:rgba(194,104,63,0.16);border:1px solid rgba(194,104,63,0.4);border-radius:8px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+  .exit-banner .eb-check{font-family:"Fraunces",serif;font-size:24px;color:var(--clay-soft);line-height:1;}
+  .exit-banner p{margin:0;font-size:15px;color:var(--paper);}
+  .exit-feedback{font-size:13.5px;color:rgba(246,244,239,0.6);font-style:italic;margin-top:22px;max-width:56ch;}
+  .closing{text-align:center;padding:20px 0;}
+  .closing .ci{font-family:"Fraunces",serif;font-size:44px;color:var(--clay-soft);margin-bottom:10px;}
+
+  /* click-to-reveal */
+  .reveal-prompt{font-size:14px;color:var(--clay-soft);font-weight:600;letter-spacing:0.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .reveal-all{font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:5px;border:1px solid rgba(255,255,255,0.22);background:transparent;color:var(--paper);cursor:pointer;transition:background .2s;}
+  .reveal-all:hover{background:rgba(255,255,255,0.08);}
+  .reveal-all:focus-visible{outline:2px solid var(--clay-soft);outline-offset:2px;}
+  ul.reveal-list{max-width:60ch;}
+  ul.reveal-list li{cursor:pointer;border-radius:6px;transition:background .18s;padding:12px 14px 12px 30px;margin-bottom:4px;}
+  ul.reveal-list li::before{left:12px;top:21px;background:rgba(255,255,255,0.3);}
+  ul.reveal-list li:hover{background:rgba(255,255,255,0.05);}
+  ul.reveal-list li .answer{color:var(--clay-soft);font-weight:500;visibility:hidden;}
+  ul.reveal-list li .placeholder{color:rgba(246,244,239,0.45);font-style:italic;}
+  ul.reveal-list li.revealed{cursor:default;background:rgba(194,104,63,0.1);}
+  ul.reveal-list li.revealed::before{background:var(--clay);}
+  ul.reveal-list li.revealed .answer{visibility:visible;}
+  ul.reveal-list li.revealed .placeholder{display:none;}
+  ul.reveal-list li:focus-visible{outline:2px solid var(--clay-soft);outline-offset:2px;}
+
+  /* scenario MCQ */
+  .scenario{background:rgba(255,255,255,0.05);border-left:2px solid var(--clay);padding:18px 22px;border-radius:0 6px 6px 0;font-size:16px;color:rgba(246,244,239,0.92);line-height:1.55;max-width:62ch;margin-bottom:24px;}
+  .scenario strong{color:var(--paper);}
+  .mcq{display:grid;gap:12px;max-width:62ch;}
+  .opt{text-align:left;font-family:"Inter",sans-serif;font-size:15px;color:rgba(246,244,239,0.92);line-height:1.5;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.16);border-radius:8px;padding:16px 20px;cursor:pointer;transition:background .18s,border-color .18s;display:flex;gap:14px;align-items:flex-start;}
+  .opt:hover{background:rgba(255,255,255,0.08);}
+  .opt:focus-visible{outline:2px solid var(--clay-soft);outline-offset:2px;}
+  .opt .ol{font-family:"Fraunces",serif;font-size:16px;color:var(--clay-soft);min-width:18px;}
+  .opt .ofb{display:none;margin-top:10px;font-size:13.5px;line-height:1.5;color:rgba(246,244,239,0.78);}
+  .opt.chosen .ofb{display:block;}
+  .opt.correct{border-color:var(--clay);background:rgba(194,104,63,0.14);}
+  .opt.correct .ol{color:var(--clay);}
+  .opt.incorrect{border-color:rgba(255,255,255,0.28);opacity:0.72;}
+  .mcq.answered .opt{cursor:default;}
+  .mcq-tag{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;}
+  .opt.correct .mcq-tag{color:var(--clay);}
+  .opt.incorrect .mcq-tag{color:rgba(246,244,239,0.5);}
+  .module-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-top:1px solid rgba(255,255,255,0.12);}
+  .navbtn{font-family:"Inter",sans-serif;font-size:14px;font-weight:600;letter-spacing:0.02em;padding:11px 22px;border-radius:6px;border:1px solid rgba(255,255,255,0.22);background:transparent;color:var(--paper);cursor:pointer;transition:background .2s,border-color .2s,opacity .2s;}
+  .navbtn:hover{background:rgba(255,255,255,0.08);}
+  .navbtn.primary{background:var(--clay);border-color:var(--clay);}
+  .navbtn.primary:hover{background:var(--clay-soft);border-color:var(--clay-soft);}
+  .navbtn:disabled{opacity:0.32;cursor:not-allowed;}
+  .navbtn:focus-visible{outline:2px solid var(--clay-soft);outline-offset:2px;}
+  .stage-name{font-size:13px;color:rgba(246,244,239,0.6);letter-spacing:0.04em;}
+
+  footer{background:var(--slate);color:rgba(246,244,239,0.6);padding:48px 0;font-size:13.5px;border-top:1px solid rgba(255,255,255,0.12);}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;}
+  footer strong{color:var(--paper);font-weight:500;}
+
+  @media (max-width:820px){
+    .challenge{grid-template-columns:1fr;}
+    .tl,.fw-summary{grid-template-columns:1fr 1fr;}
+    .chart{gap:14px;}.qlabels{gap:14px;}
+    .objgrid{grid-template-columns:1fr;}
+    .stage-track{padding:34px 28px;}
+  }
+  @media (max-width:560px){
+    .tl,.fw-summary{grid-template-columns:1fr;}
+    .hero{padding:72px 0 56px;}section{padding:60px 0;}
+    .module-nav{flex-wrap:wrap;gap:12px;}
+    .stage-name{order:3;width:100%;text-align:center;}
+    .ovr-row{grid-template-columns:1fr;}
+    .ovr-row .ok{padding-bottom:0;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.slide{animation:none;}.pdot{transition:none;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Learning &amp; Development Case Study</p>
+    <h1>Modernizing the Support Response</h1>
+    <p class="lede">A training framework that equips support specialists to own urgent customer cases end-to-end, from problem diagnosis through post-ticket audit; built for a payroll/HR SaaS platform and designed to scale to a 1,000-person organization.</p>
+    <div class="hero-meta">
+      <div><div class="k">Discipline</div><div class="v">Support Enablement</div></div>
+      <div><div class="k">Audience</div><div class="v">Specialists &amp; Managers</div></div>
+      <div><div class="k">Rollout</div><div class="v">Train-the-trainer</div></div>
+      <div><div class="k">Scale target</div><div class="v">1,000 people</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="part-label"><span class="pn">Part 1</span><span class="pl"></span></div>
+    <p class="eyebrow">The Challenge</p>
+    <div class="section-head" style="margin-bottom:36px;">
+      <h2>Agents struggle in urgent cases</h2>
+      <p>In high-stakes payroll situations, inconsistent handling drove measurable downstream cost. The gap was behavioral, not technical; the fix is training, not tooling.</p>
+    </div>
+    <div class="challenge">
+      <div class="chal-card cause">
+        <h3>Where it breaks down</h3>
+        <ul>
+          <li>Incomplete problem diagnosis at first contact</li>
+          <li>Vague, non-committal resolution paths</li>
+          <li>Weak ownership when cases escalate</li>
+        </ul>
+      </div>
+      <div class="chal-card effect">
+        <h3>What it costs</h3>
+        <ul>
+          <li>Longer ticket resolution times</li>
+          <li>Lower CSAT on urgent cases</li>
+          <li>Avoidable escalations to management</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Audience Analysis</p>
+      <h2>Three audiences, three learning modes</h2>
+      <p>The framework is delivered through a train-the-trainer model; each tier learns differently and carries a distinct responsibility in the rollout.</p>
+    </div>
+    <div class="aud-grid">
+      <div class="aud">
+        <div class="role">Specialists</div>
+        <div class="mode">Learn by doing</div>
+        <p>Apply the framework live with customers. Reinforced through post-training simulations, single-point lessons, FAQs, and direct coaching from team leads.</p>
+      </div>
+      <div class="aud">
+        <div class="role">Supervisors</div>
+        <div class="mode">Coaching &amp; first-line monitoring</div>
+        <p>Trained first via train-the-trainer, then own QA, monitoring and review, and coaching for specialists, while still supporting customers themselves.</p>
+      </div>
+      <div class="aud">
+        <div class="role">Managers</div>
+        <div class="mode">Program health &amp; consistency</div>
+        <p>Use data dashboards, coaching audits, and supervisor training to safeguard the overall health and consistency of the program.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Implementation</p>
+      <h2>Rollout timeline</h2>
+      <p>Four stages from framework design to a self-sustaining recertification cadence.</p>
+    </div>
+    <div class="tl">
+      <div class="tl-col">
+        <div class="ph">Weeks 1&ndash;2</div>
+        <h3>Design</h3>
+        <ul><li>Fine-tune the framework</li><li>Designate stakeholders and trainers</li><li>Line up subject-matter experts</li></ul>
+      </div>
+      <div class="tl-col">
+        <div class="ph">Weeks 3&ndash;4</div>
+        <h3>Build</h3>
+        <ul><li>Create curriculum, record modules</li><li>Playbooks and macros</li><li>QA scorecard updates</li></ul>
+      </div>
+      <div class="tl-col">
+        <div class="ph">Months 1&ndash;2</div>
+        <h3>Roll out</h3>
+        <ul><li>Train the supervisors</li><li>Supervisors roll out to teams</li><li>Pre-rollout data, weekly touch-points, ticket audits</li></ul>
+      </div>
+      <div class="tl-col">
+        <div class="ph">Ongoing</div>
+        <h3>Sustain</h3>
+        <ul><li>CSAT trend and comparison dashboards</li><li>Bi-annual recertification</li><li>New-hire onboarding</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The Framework</p>
+      <h2>The support interaction playbook</h2>
+      <p>A four-stage model that takes a specialist from first contact to full ownership. The full teaching content is delivered in the mock lesson below; this is the shape of it.</p>
+    </div>
+    <div class="fw-summary">
+      <div class="fw-cell"><div class="fn">Stage 01</div><h3>Identify</h3><p>Diagnose the real problem through open, clarifying questions.</p></div>
+      <div class="fw-cell"><div class="fn">Stage 02</div><h3>Impact</h3><p>Size urgency and exposure: who and how much is at risk.</p></div>
+      <div class="fw-cell"><div class="fn">Stage 03</div><h3>Resolve</h3><p>Transparent timelines, clear responsibilities, escalation triggers.</p></div>
+      <div class="fw-cell"><div class="fn">Stage 04</div><h3>Own</h3><p>Stay engaged through resolution; document, hand off, escalate with context.</p></div>
+    </div>
+    <p class="fw-flow">Identify &rsaquo; Impact &rsaquo; Resolve &rsaquo; Own</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Measurement</p>
+      <h2>Validating the framework</h2>
+      <p>Three metrics track whether the training is working: CSAT on urgent payroll cases should rise as escalation rate and time-to-resolution fall.</p>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-legend">
+        <span><i style="background:var(--slate)"></i>CSAT, urgent payroll (target: up)</span>
+        <span><i style="background:var(--clay)"></i>Escalation rate (target: down)</span>
+        <span><i style="background:var(--clay-soft)"></i>Time to resolution (target: down)</span>
+      </div>
+      <div class="chart">
+        <div class="qbar"><div class="bar" style="height:62%;background:var(--slate)"><span>62</span></div><div class="bar" style="height:48%;background:var(--clay)"><span>48</span></div><div class="bar" style="height:70%;background:var(--clay-soft)"><span>70</span></div></div>
+        <div class="qbar"><div class="bar" style="height:71%;background:var(--slate)"><span>71</span></div><div class="bar" style="height:39%;background:var(--clay)"><span>39</span></div><div class="bar" style="height:58%;background:var(--clay-soft)"><span>58</span></div></div>
+        <div class="qbar"><div class="bar" style="height:80%;background:var(--slate)"><span>80</span></div><div class="bar" style="height:30%;background:var(--clay)"><span>30</span></div><div class="bar" style="height:46%;background:var(--clay-soft)"><span>46</span></div></div>
+        <div class="qbar"><div class="bar" style="height:88%;background:var(--slate)"><span>88</span></div><div class="bar" style="height:22%;background:var(--clay)"><span>22</span></div><div class="bar" style="height:37%;background:var(--clay-soft)"><span>37</span></div></div>
+      </div>
+      <div class="qlabels"><div>Q1</div><div>Q2</div><div>Q3</div><div>Q4</div></div>
+      <p class="chart-note">Illustrative sample data shown to demonstrate the measurement model; not actual program results.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Scaling</p>
+      <h2>Built to reach 1,000 people</h2>
+      <p>The framework is designed so consistency holds as headcount grows.</p>
+    </div>
+    <div class="scale-grid">
+      <div class="scard"><h3>Scalable processes</h3><p>Documented workflows keep service delivery consistent and efficient as the organization grows.</p></div>
+      <div class="scard"><h3>Robust knowledge sharing</h3><p>Internal wiki, discussion forums, and cross-training programs keep specialists equipped.</p></div>
+      <div class="scard"><h3>LMS &amp; certification</h3><p>An LMS handles training and certification, with gamification to drive engagement and skill growth.</p></div>
+      <div class="scard"><h3>Pod leaders</h3><p>Dedicated pod leaders mentor smaller teams with coaching, guidance, and feedback.</p></div>
+      <div class="scard"><h3>Regular reporting</h3><p>A consistent reporting cadence surfaces key metrics, improvement areas, and recognition for top performers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="wrap">
+    <div class="part-label"><span class="pn">Part 2</span><span class="pl" style="background:rgba(255,255,255,0.18)"></span></div>
+    <div class="section-head">
+      <p class="eyebrow">Mock Lesson</p>
+      <h2>Walk the module: Payroll Blockers</h2>
+      <p>This is the lesson as a participant experiences it. Step through to see how the framework is taught, from the opening reflection to the post-ticket assessment.</p>
+    </div>
+
+    <div class="module" id="module">
+      <div class="module-bar">
+        <span class="mtitle">Update Module &middot; Payroll Blockers</span>
+        <div class="progress" id="progress" aria-hidden="true"></div>
+        <span class="pcount" id="pcount">1 / 9</span>
+      </div>
+
+      <div class="stage-track" id="track">
+        <!-- 1: module overview (intro bookend) -->
+        <div class="slide show" data-stage="Module overview">
+          <div class="ovr-head">
+            <div class="skicker">Update Module</div>
+            <h3>Payroll Blockers</h3>
+            <p class="osub">Intro to the new support interaction playbook</p>
+          </div>
+          <div class="ovr-rows">
+            <div class="ovr-row">
+              <div class="ok">Lesson</div>
+              <div class="ov"><div class="pills"><span class="pill">Problem Identification</span><span class="pill">Customer Impact</span><span class="pill">Resolution Steps</span><span class="pill">Ownership</span></div></div>
+            </div>
+            <div class="ovr-row">
+              <div class="ok">Activity</div>
+              <div class="ov">Participants simulate an urgent payroll customer support interaction.</div>
+            </div>
+            <div class="ovr-row">
+              <div class="ok">Success Criteria</div>
+              <div class="ov">Participants demonstrate proper questioning and response tactics to gauge customer sentiment and needs, then follow the appropriate resolution steps; owning the resolution from initial contact through post-ticket audit.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2: reflection -->
+        <div class="slide" data-stage="Opening reflection">
+          <div class="skicker">Opening reflection</div>
+          <h3>Before we start, think back</h3>
+          <p class="lead">Take a minute on these on your own; we will share a few as a group.</p>
+          <div class="qset">
+            <div class="q">Recall your most difficult customer interaction. What made it hard?</div>
+            <div class="q">How did you respond, and what would you change now?</div>
+            <div class="q">What do you think the customer was feeling in that moment?</div>
+          </div>
+          <p class="reflect-note">Purpose: surface real experience and customer empathy before introducing the framework, so the playbook attaches to something the specialist has actually lived.</p>
+        </div>
+
+        <!-- 3: identify (reveal) -->
+        <div class="slide" data-stage="Stage 01 of 04">
+          <div class="skicker">Stage 01 &middot; Identify the Problem</div>
+          <h3>Diagnose before you act</h3>
+          <p class="lead">Ask open-ended, clarifying questions to steer the customer toward describing the real issue. What would you ask first?</p>
+          <p class="reveal-prompt">Think of your own, then reveal the expert set to compare.<button class="reveal-all" data-target="id-list">Reveal all</button></p>
+          <ul class="reveal-list" id="id-list" role="list">
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal a clarifying question</span><span class="answer">When did it start?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal a clarifying question</span><span class="answer">Was that AM or PM?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal a clarifying question</span><span class="answer">What exactly are you seeing?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal a clarifying question</span><span class="answer">What were you doing right before the issue occurred?</span></li>
+          </ul>
+        </div>
+
+        <!-- 4: impact (reveal) -->
+        <div class="slide" data-stage="Stage 02 of 04">
+          <div class="skicker">Stage 02 &middot; Assess Customer Impact</div>
+          <h3>Size the urgency</h3>
+          <p class="lead">Before you can prioritize, you need to know what is actually at stake. What would you check to gauge impact?</p>
+          <p class="reveal-prompt">Propose your own, then reveal to compare.<button class="reveal-all" data-target="im-list">Reveal all</button></p>
+          <ul class="reveal-list" id="im-list" role="list">
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal an impact question</span><span class="answer">How many employees were affected?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal an impact question</span><span class="answer">What is the payroll amount at risk?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal an impact question</span><span class="answer">Are there any regulatory or union implications?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal an impact question</span><span class="answer">What are the customer's business hours?</span></li>
+            <li tabindex="0" role="button" aria-expanded="false"><span class="placeholder">Click to reveal an impact question</span><span class="answer">How visible is this issue inside their organization?</span></li>
+          </ul>
+        </div>
+
+        <!-- 5: knowledge check (MCQ) -->
+        <div class="slide" data-stage="Knowledge check">
+          <div class="skicker">Knowledge Check</div>
+          <h3>Pick the strongest first move</h3>
+          <div class="scenario"><strong>Scenario:</strong> A customer calls in a panic. Payroll runs in two hours and several employees are showing incorrect pay. You have just gathered the basic facts. What do you do first?</div>
+          <div class="mcq" id="mcq1" role="group" aria-label="Knowledge check options">
+            <button class="opt" data-correct="false">
+              <span class="ol">A</span>
+              <span><span class="otext">Tell the customer you think it is probably a tax-table glitch and start fixing that.</span><span class="ofb"><span class="mcq-tag">Not yet</span>Stating a likely cause before you have confirmed it is speculation; it can send you down the wrong path and erode trust if you are wrong.</span></span>
+            </button>
+            <button class="opt" data-correct="true">
+              <span class="ol">B</span>
+              <span><span class="otext">Give a transparent timeline for the next update and sort the ticket by urgency and impact.</span><span class="ofb"><span class="mcq-tag">Strongest move</span>With payroll imminent, the customer needs to know when they will hear from you. Setting expectations and triaging by impact stabilizes the situation before you diagnose.</span></span>
+            </button>
+            <button class="opt" data-correct="false">
+              <span class="ol">C</span>
+              <span><span class="otext">Escalate to a manager immediately so it is off your plate.</span><span class="ofb"><span class="mcq-tag">Premature</span>Escalating before you have scoped the issue or set expectations skips ownership. Escalation comes with full context once you have established escalation triggers are met.</span></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5: resolve -->
+        <div class="slide" data-stage="Stage 03 of 04">
+          <div class="skicker">Stage 03 &middot; Resolution Steps</div>
+          <h3>Be clear and accurate</h3>
+          <ul>
+            <li><strong>Provide timelines.</strong> Give a transparent estimate for each step of the resolution process.</li>
+            <li><strong>State the likely cause range.</strong> Offer a realistic assessment based on the data gathered, without speculating.</li>
+            <li><strong>Split the work.</strong> Delineate what you will do versus what the customer needs to do, and walk through immediate stabilization steps.</li>
+            <li><strong>Flag escalation triggers.</strong> Proactively name the conditions that would require escalating to a supervisor or manager.</li>
+          </ul>
+        </div>
+
+        <!-- 6: own -->
+        <div class="slide" data-stage="Stage 04 of 04">
+          <div class="skicker">Stage 04 &middot; Own the Ticket</div>
+          <h3>Stay with it to resolution</h3>
+          <ul>
+            <li><strong>Set proactive check-ins.</strong> Keep a regular cadence with the customer, even when there is no change to report.</li>
+            <li><strong>Coordinate internal teams.</strong> Drive collaboration across every department needed to resolve the case.</li>
+            <li><strong>Document actively.</strong> Update the ticket after every customer interaction, or at minimum at the end of each day.</li>
+            <li><strong>Hand off and escalate with full context.</strong> On transfer or escalation, provide a complete summary of the problem, actions taken, and customer needs; check back in when timing makes sense.</li>
+          </ul>
+        </div>
+
+        <!-- 7: activity + criteria -->
+        <div class="slide" data-stage="Practice &amp; assessment">
+          <div class="skicker">Activity &amp; Success Criteria</div>
+          <h3>Run the simulation</h3>
+          <p class="lead"><strong>Activity:</strong> participants simulate an urgent payroll customer support interaction with a partner playing the customer.</p>
+          <div class="crit">
+            <div class="cl">Success Criteria</div>
+            <p>Participants demonstrate proper questioning and response tactics to gauge customer sentiment and needs, then follow the appropriate resolution steps; owning the resolution from initial contact through post-ticket audit.</p>
+          </div>
+        </div>
+
+        <!-- 8: module overview (exit bookend, identical to slide 1) -->
+        <div class="slide is-exit" data-stage="Module recap">
+          <div class="exit-only">
+            <div class="exit-banner">
+              <span class="eb-check">&#10003;</span>
+              <p>Module complete. Here is the same map you started with; you now own every part of it.</p>
+            </div>
+          </div>
+          <div class="ovr-head">
+            <div class="skicker">Update Module</div>
+            <h3>Payroll Blockers</h3>
+            <p class="osub">Intro to the new support interaction playbook</p>
+          </div>
+          <div class="ovr-rows">
+            <div class="ovr-row">
+              <div class="ok">Lesson</div>
+              <div class="ov"><div class="pills"><span class="pill">Problem Identification</span><span class="pill">Customer Impact</span><span class="pill">Resolution Steps</span><span class="pill">Ownership</span></div></div>
+            </div>
+            <div class="ovr-row">
+              <div class="ok">Activity</div>
+              <div class="ov">Participants simulate an urgent payroll customer support interaction.</div>
+            </div>
+            <div class="ovr-row">
+              <div class="ok">Success Criteria</div>
+              <div class="ov">Participants demonstrate proper questioning and response tactics to gauge customer sentiment and needs, then follow the appropriate resolution steps; owning the resolution from initial contact through post-ticket audit.</div>
+            </div>
+          </div>
+          <p class="exit-feedback">Close: in a live session participants scan a feedback code here, so each cohort sharpens the next.</p>
+        </div>
+      </div>
+
+      <div class="module-nav">
+        <button class="navbtn" id="prevBtn" disabled>Back</button>
+        <span class="stage-name" id="stageName">Module overview</span>
+        <button class="navbtn primary" id="nextBtn">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Customer Quality Framework.</strong> Lucas Richardson · L&amp;D case study</span>
+    <span><a href="index.html" style="color:var(--clay-soft);text-decoration:none;">← Back to portfolio</a> · Support enablement · Train-the-trainer</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('#track .slide'));
+  var total = slides.length;
+  var i = 0;
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var pcount = document.getElementById('pcount');
+  var stageName = document.getElementById('stageName');
+  var progress = document.getElementById('progress');
+
+  for (var d=0; d<total; d++){
+    var dot = document.createElement('span');
+    dot.className = 'pdot';
+    progress.appendChild(dot);
+  }
+  var dots = Array.prototype.slice.call(progress.children);
+
+  function render(){
+    slides.forEach(function(s, idx){ s.classList.toggle('show', idx === i); });
+    dots.forEach(function(dot, idx){
+      dot.classList.toggle('active', idx === i);
+      dot.classList.toggle('done', idx < i);
+    });
+    pcount.textContent = (i+1) + ' / ' + total;
+    stageName.textContent = slides[i].getAttribute('data-stage');
+    prevBtn.disabled = (i === 0);
+    nextBtn.textContent = (i === total-1) ? 'Restart' : 'Next';
+  }
+  function go(n){
+    if (n < 0) n = 0;
+    if (n > total-1){ n = 0; }
+    i = n;
+    render();
+  }
+  nextBtn.addEventListener('click', function(){ go(i === total-1 ? 0 : i+1); });
+  prevBtn.addEventListener('click', function(){ go(i-1); });
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if (t && (t.classList.contains('reveal-list') || t.closest && (t.closest('.reveal-list') || t.closest('.mcq') || t.closest('.reveal-prompt')))) return;
+    if (e.key === 'ArrowRight'){ go(i === total-1 ? i : i+1); }
+    if (e.key === 'ArrowLeft'){ go(i-1); }
+  });
+  render();
+
+  /* click-to-reveal */
+  function revealItem(li){
+    if (li.classList.contains('revealed')) return;
+    li.classList.add('revealed');
+    li.setAttribute('aria-expanded','true');
+  }
+  document.querySelectorAll('ul.reveal-list li').forEach(function(li){
+    li.addEventListener('click', function(){ revealItem(li); });
+    li.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); revealItem(li); }
+    });
+  });
+  document.querySelectorAll('.reveal-all').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var list = document.getElementById(btn.getAttribute('data-target'));
+      if (list) list.querySelectorAll('li').forEach(revealItem);
+    });
+  });
+
+  /* scenario MCQ */
+  document.querySelectorAll('.mcq').forEach(function(mcq){
+    var opts = Array.prototype.slice.call(mcq.querySelectorAll('.opt'));
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if (mcq.classList.contains('answered')) return;
+        mcq.classList.add('answered');
+        opts.forEach(function(o){
+          var right = o.getAttribute('data-correct') === 'true';
+          o.classList.add(right ? 'correct' : 'incorrect');
+          if (o === opt) o.classList.add('chosen');
+          if (right) o.classList.add('chosen'); // always show why the right answer is right
+        });
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
