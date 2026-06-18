@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instructional Design Spec | L&D Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blueprint:#0E2A47;
+    --blueprint-2:#123356;
+    --grid:rgba(120,180,230,0.045);
+    --grid-major:rgba(120,180,230,0.08);
+    --ink:#E8F1FA;
+    --ink-soft:#9FBBD6;
+    --ink-dim:#5E83A6;
+    --cyan:#5FD0E8;
+    --cyan-soft:#8FE0F0;
+    --amber:#F0A93B;
+    --line:rgba(120,180,230,0.28);
+    --line-soft:rgba(120,180,230,0.16);
+    --panel:rgba(255,255,255,0.025);
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;
+    background-color:var(--blueprint);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+      linear-gradient(var(--grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+    background-size:28px 28px,28px 28px,140px 140px,140px 140px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Space Grotesk",sans-serif;font-weight:600;line-height:1.08;letter-spacing:-0.01em;margin:0;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .ref{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);}
+  a{color:var(--cyan);}
+
+  /* TITLEBLOCK HERO */
+  .sheet{border:1px solid var(--line);margin:28px auto;max-width:var(--maxw);background:rgba(14,42,71,0.55);}
+  .hero{padding:56px 40px 0;}
+  .author-bar{margin:0 0 16px;font-size:13px;color:var(--ink-dim);}
+  .author-bar a{color:var(--cyan);text-decoration:none;}
+  .author-bar a:hover{text-decoration:underline;}
+  .author-bar strong{color:var(--ink-soft);font-weight:600;}
+  .hero .doc-line{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);border-bottom:1px solid var(--line-soft);padding-bottom:14px;margin-bottom:34px;}
+  .hero h1{font-size:clamp(34px,5.4vw,62px);max-width:20ch;font-weight:700;letter-spacing:-0.02em;}
+  .hero h1 .amber{color:var(--amber);}
+  .hero .lede{font-size:clamp(17px,2vw,20px);color:var(--ink-soft);max-width:62ch;margin:24px 0 40px;line-height:1.5;}
+  /* titleblock grid like an engineering drawing */
+  .titleblock{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);}
+  .tb-cell{padding:16px 20px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+  .tb-cell:nth-child(4n){border-right:none;}
+  .tb-cell .tbk{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:5px;}
+  .tb-cell .tbv{font-family:"Space Grotesk",sans-serif;font-size:17px;color:var(--ink);font-weight:500;}
+
+  section{padding:64px 0;position:relative;}
+  section + section{border-top:1px solid var(--line-soft);}
+  /* solid reading surface: grid shows in page margins, not behind text */
+  .content-surface{background:rgba(13,38,64,0.85);border-left:1px solid var(--line-soft);border-right:1px solid var(--line-soft);padding:0 44px;}
+  @media (max-width:560px){.content-surface{padding:0 22px;}}
+  .sec-ref{display:flex;align-items:baseline;gap:16px;margin-bottom:14px;}
+  .sec-ref .num{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--amber);letter-spacing:0.08em;}
+  .sec-ref .rule{height:1px;background:var(--line-soft);flex:1;align-self:center;}
+  .section-head{max-width:66ch;margin-bottom:40px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);font-weight:600;}
+  .section-head p{color:var(--ink-soft);margin:14px 0 0;font-size:17px;}
+
+  /* dimension-line motif divider */
+  .dim{display:flex;align-items:center;gap:0;margin:6px 0 30px;color:var(--cyan);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.1em;}
+  .dim::before,.dim::after{content:"";height:1px;background:var(--cyan);opacity:0.4;flex:1;}
+  .dim span{padding:0 14px;white-space:nowrap;color:var(--ink-dim);}
+
+  /* spec rows (replaces cards) */
+  .spec-rows{border:1px solid var(--line);}
+  .spec-row{display:grid;grid-template-columns:64px 1fr;border-bottom:1px solid var(--line-soft);}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .sr-id{padding:22px 0 22px 20px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--cyan);border-right:1px solid var(--line-soft);}
+  .spec-row .sr-body{padding:22px 24px;}
+  .spec-row h3{font-family:"Space Grotesk",sans-serif;font-size:18px;color:var(--ink);margin-bottom:6px;font-weight:600;}
+  .spec-row p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.55;}
+
+  /* ROI readout */
+  .roi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border:1px solid var(--line);}
+  .roi{padding:28px 24px;border-right:1px solid var(--line-soft);}
+  .roi:last-child{border-right:none;}
+  .roi .num{font-family:"Space Grotesk",sans-serif;font-size:40px;line-height:1;color:var(--cyan);margin-bottom:10px;font-weight:700;}
+  .roi p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  .annot{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);font-style:normal;margin-top:16px;max-width:72ch;border-left:2px solid var(--amber);padding-left:14px;}
+
+  .benefit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border:1px solid var(--line);border-top:none;}
+  .benefit{padding:22px 24px;border-right:1px solid var(--line-soft);border-top:1px solid var(--line-soft);}
+  .benefit h3{font-family:"Space Grotesk",sans-serif;font-size:15px;color:var(--cyan-soft);margin-bottom:7px;font-weight:600;}
+  .benefit p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.5;}
+
+  /* LAFF */
+  .laff{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);}
+  .laff-cell{padding:28px 22px;border-right:1px solid var(--line-soft);}
+  .laff-cell:last-child{border-right:none;}
+  .laff-cell .ll{font-family:"Space Grotesk",sans-serif;font-size:46px;font-weight:700;color:var(--amber);line-height:0.9;}
+  .laff-cell h3{font-size:18px;color:var(--ink);margin:12px 0 8px;font-weight:600;}
+  .laff-cell p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  .laff-foot{font-size:14px;color:var(--ink-soft);margin-top:22px;max-width:76ch;}
+
+  /* TABLES */
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--line);}
+  table{width:100%;border-collapse:collapse;min-width:680px;}
+  table th,table td{text-align:left;padding:14px 20px;border-bottom:1px solid var(--line-soft);}
+  table thead th{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);font-weight:500;border-bottom:1px solid var(--line);background:rgba(255,255,255,0.02);}
+  table tbody tr:last-child td{border-bottom:none;}
+  .tt{font-family:"Space Grotesk",sans-serif;font-weight:500;color:var(--ink);font-size:15px;}
+  .hrs{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink-soft);}
+  .ai-col{font-family:"IBM Plex Mono",monospace;color:var(--amber);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .note{font-size:13px;color:var(--ink-dim);}
+  .tbl-foot{font-size:12.5px;color:var(--ink-dim);margin-top:14px;line-height:1.55;font-family:"IBM Plex Mono",monospace;}
+  .tbl-foot strong{color:var(--ink-soft);font-weight:600;}
+
+  /* AI SECTION - inverted panel */
+  .ai-section{position:relative;}
+  .ai-panel{border:1px solid var(--cyan);background:rgba(95,208,232,0.04);}
+  .ai-panel-head{padding:30px 32px;border-bottom:1px solid var(--line-soft);}
+  .ai-grid{display:grid;grid-template-columns:repeat(3,1fr);}
+  @media (max-width:760px){.ai-grid{grid-template-columns:1fr;}}
+  .ai-card{padding:26px 28px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+  .ai-card .ai-tag{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
+  .ai-card h3{font-size:18px;color:var(--ink);margin-bottom:10px;font-weight:600;}
+  .ai-card p{margin:0 0 14px;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .ai-saving{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--amber);border-top:1px solid var(--line-soft);padding-top:12px;}
+  .ai-foot{font-size:12.5px;color:var(--ink-dim);margin-top:22px;max-width:76ch;font-family:"IBM Plex Mono",monospace;line-height:1.6;}
+
+  /* BUILD STEPS */
+  .build-steps{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);}
+  .bstep{padding:22px 18px;border-right:1px solid var(--line-soft);}
+  .bstep:last-child{border-right:none;}
+  .bstep .bn{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--amber);}
+  .bstep h3{font-size:15px;color:var(--ink);margin:8px 0 7px;font-weight:600;}
+  .bstep p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.45;}
+
+  /* CONCEPT CHECK */
+  .ccheck{border:1px solid var(--line);padding:30px 32px;margin-top:28px;background:var(--panel);}
+  .ccheck .ct{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+  .ccheck h3{font-size:20px;color:var(--ink);margin-bottom:8px;font-weight:600;}
+  .ccheck .cq{font-size:15.5px;color:var(--ink-soft);margin-bottom:20px;max-width:64ch;}
+  .obj-reveal{display:grid;gap:10px;max-width:66ch;}
+  .objr{border:1px solid var(--line-soft);}
+  .objr-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s;}
+  .objr-head:hover{background:rgba(255,255,255,0.03);}
+  .objr-head:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px;}
+  .objr-head .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;font-weight:600;}
+  .objr-head .tag.weak{background:rgba(240,169,59,0.16);color:var(--amber);}
+  .objr-head .tag.strong{background:var(--cyan);color:var(--blueprint);}
+  .objr-head .objr-label{font-size:14px;color:var(--ink);}
+  .objr-head .caret{margin-left:auto;color:var(--ink-dim);font-size:11px;transition:transform .2s;font-family:"IBM Plex Mono",monospace;}
+  .objr.open .caret{transform:rotate(90deg);}
+  .objr-body{display:none;padding:0 18px 16px;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .objr.open .objr-body{display:block;}
+  .objr-body .ex{display:block;background:rgba(95,208,232,0.06);border-left:2px solid var(--cyan);padding:10px 14px;margin-top:8px;color:var(--cyan-soft);font-size:13.5px;font-family:"IBM Plex Mono",monospace;}
+
+  /* MCQ */
+  .mcq{display:grid;gap:10px;max-width:64ch;margin-top:6px;}
+  .opt{text-align:left;font-family:"Inter",sans-serif;font-size:14.5px;color:var(--ink);line-height:1.5;background:var(--panel);border:1px solid var(--line-soft);padding:15px 18px;cursor:pointer;transition:background .15s,border-color .15s;display:flex;gap:13px;align-items:flex-start;}
+  .opt:hover{background:rgba(255,255,255,0.04);}
+  .opt:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+  .opt .ol{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--cyan);min-width:18px;font-weight:600;}
+  .opt .ofb{display:none;margin-top:9px;font-size:13px;line-height:1.5;color:var(--ink-soft);}
+  .opt.chosen .ofb{display:block;}
+  .opt.correct{border-color:var(--cyan);background:rgba(95,208,232,0.07);}
+  .opt.correct .ol{color:var(--cyan-soft);}
+  .opt.incorrect{opacity:0.6;}
+  .mcq.answered .opt{cursor:default;}
+  .mcq-tag{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:4px;}
+  .opt.correct .mcq-tag{color:var(--cyan-soft);}
+  .opt.incorrect .mcq-tag{color:var(--ink-dim);}
+
+  /* WORKFLOW */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);}
+  .fstep{padding:22px 20px;border-right:1px solid var(--line-soft);}
+  .fstep:last-child{border-right:none;}
+  .fstep .fn{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--amber);}
+  .fstep h3{font-size:15px;color:var(--ink);margin:8px 0 7px;font-weight:600;}
+  .fstep p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.45;}
+  .fstep .eg{display:block;margin-top:10px;font-size:12px;color:var(--ink-dim);font-family:"IBM Plex Mono",monospace;}
+
+  /* EVAL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);}
+  .ec{padding:24px 26px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+  .ec:nth-child(2n){border-right:none;}
+  .ec:nth-last-child(-n+2){border-bottom:none;}
+  .ec h3{font-size:17px;color:var(--ink);margin-bottom:8px;font-weight:600;}
+  .ec p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .ec .ph{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.07em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;}
+
+  /* CHECKLIST */
+  .check-list{border:1px solid var(--line);}
+  .citem{display:flex;align-items:flex-start;gap:14px;padding:14px 20px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--line-soft);}
+  .citem:last-child{border-bottom:none;}
+  .citem:hover{background:rgba(255,255,255,0.03);}
+  .citem:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px;}
+  .citem .box{width:18px;height:18px;border:1.5px solid var(--ink-dim);flex-shrink:0;margin-top:2px;transition:all .15s;position:relative;}
+  .citem.checked .box{background:var(--cyan);border-color:var(--cyan);}
+  .citem.checked .box::after{content:"\2713";position:absolute;color:var(--blueprint);font-size:12px;font-weight:700;top:-2px;left:2px;}
+  .citem .ctext{font-size:14.5px;color:var(--ink);line-height:1.45;}
+  .citem.checked .ctext{color:var(--ink-dim);text-decoration:line-through;text-decoration-color:var(--line);}
+  .check-progress{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--amber);margin-top:16px;}
+
+  /* BUDGET */
+  table.budget td.amt{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink-soft);}
+  table.budget tr.total td{border-top:1px solid var(--cyan);border-bottom:none;font-family:"Space Grotesk",sans-serif;font-weight:600;color:var(--cyan-soft);padding-top:15px;}
+  .budget-foot{font-size:12.5px;color:var(--ink-dim);margin-top:14px;max-width:76ch;font-family:"IBM Plex Mono",monospace;line-height:1.6;}
+
+  footer{border-top:1px solid var(--line);padding:36px 0;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);letter-spacing:0.06em;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center;}
+  footer strong{color:var(--ink-soft);font-weight:500;}
+
+  @media (max-width:860px){
+    .laff,.build-steps,.flow,.titleblock{grid-template-columns:1fr 1fr;}
+    .tb-cell:nth-child(4n){border-right:1px solid var(--line-soft);}
+    .tb-cell:nth-child(2n){border-right:none;}
+  }
+  @media (max-width:560px){
+    .laff,.build-steps,.flow,.roi-grid,.two-col,.titleblock{grid-template-columns:1fr;}
+    .ec,.tb-cell{border-right:none;}
+    .hero{padding:44px 22px 0;}.wrap{padding:0 22px;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.caret{transition:none;}}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <header class="hero">
+    <p class="author-bar">Created by <strong>Lucas Richardson</strong> · <a href="index.html">Portfolio</a></p>
+    <div class="doc-line">
+      <span>Doc: ID-SPEC-01</span><span>Discipline: Learning &amp; Development</span><span>Rev. 2026.06</span><span>Sheet 1 of 1</span>
+    </div>
+    <h1>Instructional Design &amp; Adult Education <span class="amber">Essentials</span></h1>
+    <p class="lede">A working specification for training that changes what people can do, not just what they know. Learner-centric, workflow-aligned design, with the development economics and AI leverage that make quality programs feasible to produce.</p>
+    <div class="titleblock">
+      <div class="tb-cell"><div class="tbk">Framework</div><div class="tbv">LAFF + ADDIE</div></div>
+      <div class="tb-cell"><div class="tbk">Domain</div><div class="tbv">Industrial robotics</div></div>
+      <div class="tb-cell"><div class="tbk">Design goal</div><div class="tbv">Performance, not recall</div></div>
+      <div class="tb-cell"><div class="tbk">Lens</div><div class="tbv">Build economics</div></div>
+    </div>
+  </header>
+</div>
+
+<div class="wrap content-surface">
+
+<section>
+  <div class="sec-ref"><span class="num">§ 01</span><span class="ref">Business Case</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>Why quality training pays</h2>
+    <p>Training is often treated as a cost center. Done well, against a real workflow and continuously evaluated, it returns measurably in product sales, support load, and adoption.</p>
+  </div>
+  <div class="roi-grid">
+    <div class="roi"><div class="num">+20%</div><p>robot sales tied to customers who completed e-learning</p></div>
+    <div class="roi"><div class="num">+36%</div><p>repeat sales from customers who attended in-person training</p></div>
+    <div class="roi"><div class="num">&minus;50%</div><p>support calls and warranty needs from trained customers</p></div>
+  </div>
+  <p class="annot">SOURCE: Figures reported by Universal Robots from internal training and CRM analysis. Cited as an industry reference point, not results from this program.</p>
+  <div class="benefit-grid">
+    <div class="benefit"><h3>Broad support signal</h3><p>Customers notice and reward companies that offer clearly defined, consistent support and education.</p></div>
+    <div class="benefit"><h3>Advocacy</h3><p>Customers who understand a product become champions for it, even as they change roles and companies.</p></div>
+    <div class="benefit"><h3>Education revenue</h3><p>Selling into schools and workforce-development programs becomes a stable, grant-supported channel.</p></div>
+    <div class="benefit"><h3>Table stakes</h3><p>Mass-produced quality training is the common thread among established robotics and vision players.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 02</span><span class="ref">Methodology</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>LAFF: four principles for adult training</h2>
+    <p>A design lens specific to adult learners, who arrive with experience, need relevance, and learn by doing rather than being told.</p>
+  </div>
+  <div class="laff">
+    <div class="laff-cell"><div class="ll">L</div><h3>Learner-centric</h3><p>Start from the learner's needs, background, and experience; design and react to the actual classroom in front of you.</p></div>
+    <div class="laff-cell"><div class="ll">A</div><h3>Applicable activities</h3><p>Hands-on, experiential practice tied directly to real job tasks, so knowledge transfers to the workflow.</p></div>
+    <div class="laff-cell"><div class="ll">F</div><h3>Facilitation</h3><p>Facilitate, don't lecture: encourage discussion, collaboration, and active problem-solving.</p></div>
+    <div class="laff-cell"><div class="ll">F</div><h3>Flow</h3><p>Structure the training in a logical sequence where each lesson builds on the last.</p></div>
+  </div>
+  <p class="laff-foot">LAFF complements established models rather than replacing them: ADDIE for process, Backward Design for starting from outcomes, Bloom's Taxonomy for pitching objectives at the right cognitive level, and Rapid Prototyping for iterating quickly. Underneath all of them sit the seven andragogical assumptions of adult learning: a need to know, self-direction, drawing on experience, readiness, problem-orientation, internal motivation, and relevance.</p>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 03</span><span class="ref">Build Economics</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>What a course actually costs to build</h2>
+    <p>Development time is the single biggest constraint in L&amp;D. Honest estimates protect timelines and set stakeholder expectations. Figures below assume a quality build that applies the principles above; a rushed build skips the design work and shows it.</p>
+  </div>
+  <div class="dim"><span>DEVELOPMENT HOURS PER DELIVERABLE</span></div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Training type</th><th>Quality build (hrs)</th><th>With AI leverage</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="tt">20&ndash;30 min interactive e-learning</td><td class="hrs">40&ndash;120</td><td class="ai-col">28&ndash;90</td><td class="note">Varies with media richness, interactivity, narration, review</td></tr>
+        <tr><td class="tt">10&ndash;15 min non-interactive / webinar</td><td class="hrs">15&ndash;40</td><td class="ai-col">10&ndash;30</td><td class="note">Lower end for simple slide + voiceover</td></tr>
+        <tr><td class="tt">1 hr training (virtual or classroom)</td><td class="hrs">40&ndash;80</td><td class="ai-col">28&ndash;60</td><td class="note">Includes facilitator guide, workbook, exercises</td></tr>
+        <tr><td class="tt">Half-day (~3&ndash;4 hrs)</td><td class="hrs">120&ndash;240</td><td class="ai-col">85&ndash;180</td><td class="note">Multiple modules, exercises, instructor prep</td></tr>
+        <tr><td class="tt">1-day course</td><td class="hrs">200&ndash;400</td><td class="ai-col">140&ndash;300</td><td class="note">Deck, activities, job aids, pre/post-assessments</td></tr>
+        <tr><td class="tt">2-day course</td><td class="hrs">350&ndash;700</td><td class="ai-col">245&ndash;525</td><td class="note">Multiple facilitators, hands-on practice, manual</td></tr>
+        <tr><td class="tt">4.5-day course</td><td class="hrs">800&ndash;1,500</td><td class="ai-col">560&ndash;1,125</td><td class="note">Full curriculum: materials, demos, labs, assessments</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-foot"><strong>BENCHMARK:</strong> Chapman Alliance + Kapp &amp; Defelice / ATD research, the most-cited development-time studies in the field (~34&ndash;217 hrs per finished hour by interactivity). <strong>AI COLUMN:</strong> conservative 25&ndash;30% reduction, consistent with practitioner estimates; see § 04 for where the savings originate.</p>
+</section>
+
+<section class="ai-section">
+  <div class="sec-ref"><span class="num">§ 04</span><span class="ref">AI in the Workflow</span><span class="rule"></span></div>
+  <div class="ai-panel">
+    <div class="ai-panel-head">
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Where AI cuts development time</h2>
+        <p>AI does not replace instructional-design judgment; it compresses the mechanical first drafts so the designer spends limited time on the parts that need expertise. Savings concentrate in three early-stage tasks.</p>
+      </div>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card">
+        <div class="ai-tag">Task 01</div>
+        <h3>Workflow mapping</h3>
+        <p>Feed AI a use case and a reference document set; get a first-pass breakdown of stages and tasks to structure the course. The designer edits and validates rather than starting from a blank page.</p>
+        <div class="ai-saving">Drafting: hours &rarr; minutes</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-tag">Task 02</div>
+        <h3>Storyboarding</h3>
+        <p>Generate draft slide-by-slide storyboards, speaker-note scaffolds, and timing estimates from an approved outline. Storyboarding is roughly 11% of build time; a strong first draft removes much of it.</p>
+        <div class="ai-saving">First-draft storyboard in one pass</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-tag">Task 03</div>
+        <h3>Learning objectives</h3>
+        <p>Turn a task list into draft action-oriented objectives at the right Bloom's level, then refine for observability. AI is fast at the verbs; the designer owns alignment to performance.</p>
+        <div class="ai-saving">Draft objectives per task, instantly</div>
+      </div>
+    </div>
+  </div>
+  <p class="ai-foot">NET EFFECT: a conservative 25&ndash;30% reduction in development hours, concentrated in analysis and design. Production and review still take human time, and the design decisions, what to teach, in what order, assessed how, remain the designer's. AI accelerates the draft; it does not own the judgment.</p>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 05</span><span class="ref">Module Design</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>The build pattern</h2>
+    <p>Every hands-on module follows the same arc, so learners always know where they are and each lesson reinforces the workflow.</p>
+  </div>
+  <div class="build-steps">
+    <div class="bstep"><div class="bn">01</div><h3>Short intro</h3><p>Explain why this module matters in the context of the real use case.</p></div>
+    <div class="bstep"><div class="bn">02</div><h3>Relevant theory</h3><p>Technical explanation with diagrams and renderings, limited to what the task uses.</p></div>
+    <div class="bstep"><div class="bn">03</div><h3>Live demo</h3><p>Demonstrate exactly the task the learner is about to perform.</p></div>
+    <div class="bstep"><div class="bn">04</div><h3>Hands-on task</h3><p>A relevant, challenging task that puts the theory into practice.</p></div>
+    <div class="bstep"><div class="bn">05</div><h3>Wrap-up</h3><p>Reflect, discuss, and address questions to consolidate the learning.</p></div>
+  </div>
+
+  <div class="ccheck">
+    <div class="ct">Concept Check / Try it</div>
+    <h3>Write a performance objective</h3>
+    <p class="cq">A module teaches a technician to set up a vision system's coordinate frame. Which objective is written correctly? Reveal each to see why.</p>
+    <div class="obj-reveal" id="objReveal">
+      <div class="objr">
+        <div class="objr-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="tag weak">Weak</span><span class="objr-label">"Understand how the coordinate frame works."</span><span class="caret">&#9654;</span>
+        </div>
+        <div class="objr-body">"Understand" is not observable; you cannot watch someone understand, and you cannot assess it directly. Knowledge verbs hide whether the learner can actually do the task.<span class="ex">Rewrite as a demonstrable action.</span></div>
+      </div>
+      <div class="objr">
+        <div class="objr-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="tag strong">Strong</span><span class="objr-label">"Configure the coordinate frame so the robot reaches all part positions with clearance."</span><span class="caret">&#9654;</span>
+        </div>
+        <div class="objr-body">Action-oriented ("Configure"), observable, and tied to a real performance standard (reach + clearance). A trainer can watch it happen and assess it against a clear criterion.<span class="ex">A verb you can see, a standard you can measure.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ccheck">
+    <div class="ct">Knowledge Check</div>
+    <h3>Pick the design that fits the principle</h3>
+    <p class="cq">You are teaching a hands-on robotics setup task. Applying the "applicable activities" principle, what should the module's core activity be?</p>
+    <div class="mcq" id="mcq1" role="group" aria-label="Knowledge check">
+      <button class="opt" data-correct="false"><span class="ol">A</span><span><span class="otext">A multiple-choice quiz on the names of the robot's components.</span><span class="ofb"><span class="mcq-tag">Recall, not application</span>Tests naming, not doing. Adult learners need to apply skills to real tasks; a terminology quiz does not transfer to the workflow.</span></span></button>
+      <button class="opt" data-correct="true"><span class="ol">B</span><span><span class="otext">A simulated setup where the learner configures the system to meet a real-world spec.</span><span class="ofb"><span class="mcq-tag">Applicable activity</span>Hands-on practice in a realistic scenario, directly mirroring the job task. The activity is the work, so the learning transfers.</span></span></button>
+      <button class="opt" data-correct="false"><span class="ol">C</span><span><span class="otext">A lecture walking through every software feature, then a summary slide.</span><span class="ofb"><span class="mcq-tag">Passive</span>Comprehensive but passive. Coverage is not learning; without application the learner cannot perform the task afterward.</span></span></button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 06</span><span class="ref">Structuring Content</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>Map the workflow, then teach it</h2>
+    <p>Training mirrors the real or ideal use case. The workflow becomes the course; its stages become modules; its tasks become lessons with objectives.</p>
+  </div>
+  <div class="flow">
+    <div class="fstep"><div class="fn">Step 01</div><h3>Identify the use case</h3><p>Define a common, relevant scenario containing the key skills.</p><span class="eg">e.g. "Install a vision system"</span></div>
+    <div class="fstep"><div class="fn">Step 02</div><h3>Break into stages</h3><p>Map the use case into its main stages; these form the course.</p><span class="eg">e.g. "Do a reach study"</span></div>
+    <div class="fstep"><div class="fn">Step 03</div><h3>Identify tasks</h3><p>Break each stage into tasks; these become modules or lessons.</p><span class="eg">e.g. "Confirm part is in line of sight"</span></div>
+    <div class="fstep"><div class="fn">Step 04</div><h3>Write objectives</h3><p>Write an action-oriented, observable objective per task.</p><span class="eg">e.g. "Mount to reach all parts w/ clearance"</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 07</span><span class="ref">Evaluation</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>Measure performance, then improve</h2>
+    <p>Evaluation closes the loop: assess against the performance goals, gather feedback, and iterate on the next version.</p>
+  </div>
+  <div class="two-col">
+    <div class="ec"><div class="ph">During</div><h3>Formative assessment</h3><p>Ongoing checks throughout the training measure progress toward goals and let the facilitator adjust content and delivery in real time.</p></div>
+    <div class="ec"><div class="ph">After</div><h3>Summative assessment</h3><p>End-of-training assessment evaluates whether performance goals were met and how effective the program was overall.</p></div>
+    <div class="ec"><div class="ph">Qualitative</div><h3>Gathering feedback</h3><p>Collect participant input on relevance, engagement, and value to surface what to improve.</p></div>
+    <div class="ec"><div class="ph">Loop</div><h3>Continuous improvement</h3><p>Analyze results and feedback to iterate on content, delivery, and design for future cohorts.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 08</span><span class="ref">Quality Gate</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>Module design checklist</h2>
+    <p>Before a module ships, it should clear every item below. Tap to check them off; this is the working QA list, not decoration.</p>
+  </div>
+  <div class="check-list" id="checkList">
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Real-life use case identified; training reflects actual job tasks.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Workflow broken into clear stages.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Tasks defined within each stage.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Action-oriented, observable performance goals written per task.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Each module has intro, theory, demo, hands-on task, and wrap-up.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Theory is relevant, visualized, and limited to what the task uses.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Speaker notes and timing estimates on each slide.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Demo aligns exactly with the hands-on task.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Hands-on task is realistic, challenging, and aligned to the objective.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Links to relevant documentation for each task.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Wrap-up includes reflection and discussion.</span></div>
+    <div class="citem" tabindex="0" role="checkbox" aria-checked="false"><span class="box"></span><span class="ctext">Success criteria defined so the task is assessable.</span></div>
+  </div>
+  <p class="check-progress" id="checkProgress">0 of 12 complete</p>
+</section>
+
+<section>
+  <div class="sec-ref"><span class="num">§ 09</span><span class="ref">Tooling &amp; Budget</span><span class="rule"></span></div>
+  <div class="section-head">
+    <h2>What it takes to stand this up</h2>
+    <p>An indicative year-one toolchain for a single instructional designer building a robotics training program.</p>
+  </div>
+  <div class="tbl-scroll">
+    <table class="budget">
+      <thead><tr><th>Tool</th><th>Purpose</th><th>Priority</th><th class="amt">Cost (USD/yr)</th></tr></thead>
+      <tbody>
+        <tr><td class="tt">Articulate 360</td><td class="note">E-learning authoring (Storyline, Rise)</td><td class="note">Medium</td><td class="amt">$1,749</td></tr>
+        <tr><td class="tt">Camtasia</td><td class="note">Screen recording, training video</td><td class="note">High</td><td class="amt">$249 (one-time)</td></tr>
+        <tr><td class="tt">Canva Pro</td><td class="note">Graphics, presentation design</td><td class="note">High</td><td class="amt">$120</td></tr>
+        <tr><td class="tt">Envato Elements</td><td class="note">Stock asset library</td><td class="note">Low</td><td class="amt">$198</td></tr>
+        <tr><td class="tt">ThingLink</td><td class="note">Interactive images and diagrams</td><td class="note">Low</td><td class="amt">$300</td></tr>
+        <tr><td class="tt">Vyond</td><td class="note">Animated explainer video</td><td class="note">Low</td><td class="amt">$588</td></tr>
+        <tr><td class="tt">LMS (e.g. LearnUpon)</td><td class="note">Delivery, user management, reporting</td><td class="note">High</td><td class="amt">Custom quote</td></tr>
+        <tr class="total"><td>Tooling subtotal</td><td></td><td></td><td class="amt">~$3,200 + LMS</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="budget-foot">Indicative pricing as of mid-2026; SaaS pricing changes frequently and should be re-quoted. LMS cost is custom-quoted and scales by active users (see companion LMS-selection case study); a 150&ndash;300 learner deployment typically runs five figures annually, which dominates the toolchain cost.</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Instructional Design Spec.</strong> Lucas Richardson · L&amp;D case study</span>
+    <span><a href="index.html" style="color:var(--cyan);text-decoration:none;">← Back to portfolio</a> · LAFF / PERFORMANCE-FIRST</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.querySelectorAll('#objReveal .objr-head').forEach(function(head){
+    function toggle(){
+      var card = head.parentElement;
+      card.classList.toggle('open');
+      head.setAttribute('aria-expanded', card.classList.contains('open') ? 'true' : 'false');
+    }
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+
+  document.querySelectorAll('.mcq').forEach(function(mcq){
+    var opts = Array.prototype.slice.call(mcq.querySelectorAll('.opt'));
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if (mcq.classList.contains('answered')) return;
+        mcq.classList.add('answered');
+        opts.forEach(function(o){
+          var right = o.getAttribute('data-correct') === 'true';
+          o.classList.add(right ? 'correct' : 'incorrect');
+          if (o === opt || right) o.classList.add('chosen');
+        });
+      });
+    });
+  });
+
+  var items = Array.prototype.slice.call(document.querySelectorAll('#checkList .citem'));
+  var prog = document.getElementById('checkProgress');
+  function updateProg(){
+    var done = items.filter(function(i){ return i.classList.contains('checked'); }).length;
+    prog.textContent = done + ' of ' + items.length + ' complete';
+  }
+  items.forEach(function(item){
+    function toggle(){
+      item.classList.toggle('checked');
+      item.setAttribute('aria-checked', item.classList.contains('checked') ? 'true':'false');
+      updateProg();
+    }
+    item.addEventListener('click', toggle);
+    item.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+})();
+</script>
+
+</body>
+</html>

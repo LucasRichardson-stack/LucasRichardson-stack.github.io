@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apera AI Training Roadmap | L&D Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F3EE;
+    --paper-deep:#EEE7DD;
+    --ink:#26211E;
+    --ink-soft:#645C55;
+    --ink-dim:#9A8F85;
+    --apera:#CC2936;
+    --apera-deep:#A11F2A;
+    --apera-soft:#E08A91;
+    --charcoal:#2B2724;
+    --line:#DCD3C6;
+    --line-soft:#E6DED3;
+    --paper-card:#FCFAF6;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;font-weight:500;line-height:1.1;letter-spacing:-0.01em;margin:0;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--apera);margin:0 0 16px;}
+  a{color:var(--apera-deep);}
+  .author-bar{margin:0 0 18px;font-size:13px;color:rgba(247,243,238,0.65);}
+  .author-bar a{color:var(--apera-soft);text-decoration:none;}
+  .author-bar a:hover{text-decoration:underline;}
+  .author-bar strong{color:rgba(247,243,238,0.92);font-weight:600;}
+
+  /* HERO */
+  .hero{background:var(--charcoal);color:var(--paper);padding:88px 0 72px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;left:50%;bottom:-2px;width:100%;height:3px;background:linear-gradient(90deg,var(--apera) 0%,var(--apera) 25%,transparent 25%,transparent 100%);transform:translateX(-50%);opacity:0.9;}
+  .hero .eyebrow{color:var(--apera-soft);}
+  .hero h1{font-size:clamp(38px,6vw,72px);max-width:16ch;font-weight:500;}
+  .hero .lede{font-size:clamp(18px,2.1vw,21px);color:rgba(247,243,238,0.8);max-width:58ch;margin:24px 0 0;line-height:1.5;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:38px;margin-top:46px;border-top:1px solid rgba(247,243,238,0.16);padding-top:26px;}
+  .hero-meta .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,243,238,0.5);margin-bottom:5px;}
+  .hero-meta .v{font-family:"Source Serif 4",serif;font-size:21px;}
+
+  section{padding:76px 0;}
+  section + section{border-top:1px solid var(--line-soft);}
+  .section-head{max-width:64ch;margin-bottom:44px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,42px);}
+  .section-head p{color:var(--ink-soft);margin:16px 0 0;font-size:18px;}
+
+  /* CONTEXT / mandate */
+  .mandate{background:var(--paper-deep);border-left:3px solid var(--apera);padding:34px 38px;max-width:70ch;}
+  .mandate p{margin:0;font-family:"Source Serif 4",serif;font-size:clamp(19px,2.4vw,25px);line-height:1.4;color:var(--charcoal);font-style:italic;font-weight:400;}
+
+  /* PHASE SPINE */
+  .phases{position:relative;}
+  .phase-nav{display:flex;gap:8px;margin-bottom:36px;flex-wrap:wrap;}
+  .pbtn{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:500;letter-spacing:0.04em;color:var(--ink-soft);background:var(--paper-card);border:1px solid var(--line);border-radius:30px;padding:10px 20px;cursor:pointer;transition:all .18s;}
+  .pbtn:hover{border-color:var(--apera-soft);color:var(--charcoal);}
+  .pbtn.active{background:var(--apera);border-color:var(--apera);color:#fff;}
+  .pbtn:focus-visible{outline:2px solid var(--apera);outline-offset:2px;}
+
+  .phase{display:none;animation:fade .3s ease;}
+  .phase.show{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .phase-banner{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--charcoal);padding-bottom:16px;margin-bottom:30px;}
+  .phase-banner .ptime{font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--apera);}
+  .phase-banner h3{font-size:clamp(24px,3.2vw,34px);color:var(--charcoal);}
+  .phase-banner .pgoal{font-size:15px;color:var(--ink-soft);margin-left:auto;font-style:italic;}
+
+  .workstreams{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .ws{background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:26px 26px;border-top:3px solid var(--apera);}
+  .ws h4{font-family:"Source Serif 4",serif;font-size:20px;color:var(--charcoal);margin:0 0 14px;font-weight:500;}
+  .ws ul{list-style:none;margin:0;padding:0;}
+  .ws li{position:relative;padding:0 0 12px 22px;font-size:14.5px;color:var(--ink-soft);line-height:1.5;}
+  .ws li:last-child{padding-bottom:0;}
+  .ws li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--apera-soft);}
+  .ws li strong{color:var(--charcoal);font-weight:600;}
+
+  /* timeline rail */
+  .rail{display:flex;align-items:center;margin:0 0 50px;padding:0;}
+  .rail .seg{flex:1;text-align:center;position:relative;padding-top:30px;}
+  .rail .seg::before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:var(--line);}
+  .rail .seg:first-child::before{left:50%;}
+  .rail .seg:last-child::before{right:50%;}
+  .rail .dot{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-dim);transition:all .2s;}
+  .rail .seg.on .dot{background:var(--apera);border-color:var(--apera);}
+  .rail .seg .rl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-dim);}
+  .rail .seg.on .rl{color:var(--apera);font-weight:600;}
+  .rail .seg .rt{font-family:"Source Serif 4",serif;font-size:15px;color:var(--ink-soft);margin-top:3px;}
+  .rail .seg.on .rt{color:var(--charcoal);}
+
+  /* INFRASTRUCTURE */
+  .infra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}
+  .infra{background:var(--paper-card);border:1px solid var(--line);border-radius:10px;padding:24px 24px;}
+  .infra h3{font-size:17px;color:var(--apera-deep);margin-bottom:8px;font-weight:600;font-family:"Inter",sans-serif;}
+  .infra p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.5;}
+
+  /* OUTCOMES */
+  .out-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .out{background:var(--charcoal);color:var(--paper);padding:30px 26px;}
+  .out .oi{font-family:"Source Serif 4",serif;font-size:34px;color:var(--apera-soft);line-height:1;margin-bottom:12px;}
+  .out p{margin:0;font-size:14px;color:rgba(247,243,238,0.82);line-height:1.5;}
+
+  footer{background:var(--charcoal);color:rgba(247,243,238,0.6);padding:46px 0;font-size:13px;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center;}
+  footer strong{color:var(--paper);font-weight:500;}
+
+  @media (max-width:820px){
+    .workstreams{grid-template-columns:1fr;}
+    .phase-banner .pgoal{margin-left:0;width:100%;}
+    .rail .seg .rt{font-size:13px;}
+  }
+  @media (max-width:560px){
+    .hero{padding:64px 0 50px;}section{padding:56px 0;}
+    .rail{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.phase{animation:none;}.rail .dot{transition:none;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="author-bar">Created by <strong>Lucas Richardson</strong> · <a href="index.html">Portfolio</a></p>
+    <p class="eyebrow">L&amp;D Case Study / Strategic Roadmap</p>
+    <h1>Apera AI Training Roadmap</h1>
+    <p class="lede">A 12-month plan to build a training function from the ground up at an AI-driven robotic vision company, delivered as Training Lead within the first weeks in the role. The mandate: stand up a credible, scalable program where none existed.</p>
+    <div class="hero-meta">
+      <div><div class="k">Role</div><div class="v">Training Lead</div></div>
+      <div><div class="k">Mandate</div><div class="v">Build from zero</div></div>
+      <div><div class="k">Horizon</div><div class="v">12 months</div></div>
+      <div><div class="k">Products</div><div class="v">Vue &amp; Forge</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">The Mandate</p>
+    <div class="mandate">
+      <p>The company had no training function. This roadmap, delivered in my first weeks, sequences the first year: earn credibility and standardize onboarding quickly, then scale curriculum and embed training cross-functionally, then institutionalize it as a global, certified, strategic differentiator.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The Plan</p>
+      <h2>Three phases over twelve months</h2>
+      <p>Each phase has a distinct objective and three workstreams. Front-load credibility and quick wins; scale in the middle; institutionalize at the end.</p>
+    </div>
+
+    <div class="rail" aria-hidden="true">
+      <div class="seg on" data-seg="0"><span class="dot"></span><div class="rl">0&ndash;3 mo</div><div class="rt">Foundation</div></div>
+      <div class="seg" data-seg="1"><span class="dot"></span><div class="rl">3&ndash;6 mo</div><div class="rt">Scale &amp; Integrate</div></div>
+      <div class="seg" data-seg="2"><span class="dot"></span><div class="rl">6&ndash;12 mo</div><div class="rt">Global &amp; Innovate</div></div>
+    </div>
+
+    <div class="phases">
+      <div class="phase-nav" id="phaseNav">
+        <button class="pbtn active" data-phase="0">0&ndash;3 mo &middot; Foundation</button>
+        <button class="pbtn" data-phase="1">3&ndash;6 mo &middot; Scale &amp; Integrate</button>
+        <button class="pbtn" data-phase="2">6&ndash;12 mo &middot; Global &amp; Innovate</button>
+      </div>
+
+      <!-- PHASE 0 -->
+      <div class="phase show" data-phase="0">
+        <div class="phase-banner">
+          <span class="ptime">0&ndash;3 Months</span>
+          <h3>Foundation &amp; Quick Wins</h3>
+          <span class="pgoal">Earn credibility; standardize onboarding</span>
+        </div>
+        <div class="workstreams">
+          <div class="ws">
+            <h4>Assess &amp; Audit</h4>
+            <ul>
+              <li><strong>Map current materials.</strong> Inventory existing training, delivery methods, and gaps for the two flagship products.</li>
+              <li><strong>Benchmark competitors.</strong> Compare training programs from leading machine-vision vendors.</li>
+              <li><strong>Identify gaps.</strong> Pinpoint where current offerings fail customers, integrators, and partners.</li>
+              <li><strong>Evaluate delivery.</strong> Analyze in-person, webinar, and online methods in use today.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Build Credibility</h4>
+            <ul>
+              <li><strong>Deliver an executive session.</strong> Demonstrate the ROI link between training and business outcomes to secure leadership buy-in.</li>
+              <li><strong>Shadow the work.</strong> Sit with integrators and operators on live projects to capture real needs and pain points.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Standardize Onboarding</h4>
+            <ul>
+              <li><strong>Starter curriculum.</strong> Core safety, troubleshooting, and best practices for operators and integrators.</li>
+              <li><strong>Train-the-trainer pilot.</strong> Establish a scalable model with the existing trainers, grounded in adult-learning principles.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 1 -->
+      <div class="phase" data-phase="1">
+        <div class="phase-banner">
+          <span class="ptime">3&ndash;6 Months</span>
+          <h3>Scale &amp; Integrate</h3>
+          <span class="pgoal">Expand curriculum; embed cross-functionally</span>
+        </div>
+        <div class="workstreams">
+          <div class="ws">
+            <h4>Curriculum Expansion</h4>
+            <ul>
+              <li><strong>Tailored tracks.</strong> Distinct paths for operators, integrators, and sales/leadership, each addressing its own needs.</li>
+              <li><strong>E-learning for scale.</strong> On-demand video, interactive simulations, and self-paced courses for 24/7 global access.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Cross-Functional Integration</h4>
+            <ul>
+              <li><strong>Embed in the lifecycle.</strong> Work with Sales and CS on pre-sales demos and post-implementation coaching.</li>
+              <li><strong>Partner with Engineering.</strong> Build training into product releases via documentation and release webinars.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Measurement &amp; Feedback</h4>
+            <ul>
+              <li><strong>Adopt an evaluation standard.</strong> Implement the Kirkpatrick four-level model (reaction, learning, behavior, results).</li>
+              <li><strong>Build dashboards.</strong> Link training adoption to customer-success metrics: fewer troubleshooting calls, faster deployment.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase" data-phase="2">
+        <div class="phase-banner">
+          <span class="ptime">6&ndash;12 Months</span>
+          <h3>Global Impact &amp; Innovation</h3>
+          <span class="pgoal">Institutionalize; scale globally</span>
+        </div>
+        <div class="workstreams">
+          <div class="ws">
+            <h4>Global Reach</h4>
+            <ul>
+              <li><strong>Certification program.</strong> Validate integrator expertise to ensure consistent, quality deployments worldwide.</li>
+              <li><strong>Regional expansion.</strong> Localized delivery across North America, Europe, and Asia-Pacific.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Innovation in Delivery</h4>
+            <ul>
+              <li><strong>VR/AR &amp; simulation.</strong> Immersive training for complex tasks like bin picking, sorting, and assembly.</li>
+              <li><strong>Community knowledge hub.</strong> A central home for training videos, troubleshooting guides, and best practices.</li>
+            </ul>
+          </div>
+          <div class="ws">
+            <h4>Institutionalize &amp; Scale</h4>
+            <ul>
+              <li><strong>Formalize metrics.</strong> Adoption rates, customer ROI, reduced downtime as standing KPIs.</li>
+              <li><strong>Training as a differentiator.</strong> Embed it in the sales cycle as a competitive advantage.</li>
+              <li><strong>Career pathways.</strong> Build progression for the training team to retain top talent.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Enabling Infrastructure</p>
+      <h2>What the function needs to run</h2>
+      <p>A program is only as good as the infrastructure behind it. These are the standing investments the roadmap depends on.</p>
+    </div>
+    <div class="infra-grid">
+      <div class="infra"><h3>LMS &amp; website integration</h3><p>A central platform for hosting, delivering, and tracking all training, integrated with the company website.</p></div>
+      <div class="infra"><h3>Instructional designer</h3><p>Dedicated e-learning capability to build engaging video, simulations, and assessments for global, on-demand access.</p></div>
+      <div class="infra"><h3>Trainers</h3><p>A team of SMEs and experienced trainers to deliver hands-on, in-person sessions on safety, troubleshooting, and best practices.</p></div>
+      <div class="infra"><h3>Travel training kits</h3><p>Portable demo units, tools, and accessories for on-site training with customers and partners worldwide.</p></div>
+      <div class="infra"><h3>Third-party certification</h3><p>Work with external bodies (e.g. SACA, NIMS) to validate the program for school and workforce-development use.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Why It Matters</p>
+      <h2>Training as a business lever</h2>
+      <p>The roadmap ties every phase back to outcomes leadership cares about, so training reads as an investment, not overhead.</p>
+    </div>
+    <div class="out-grid">
+      <div class="out"><div class="oi">&darr;</div><p>Fewer troubleshooting and warranty calls from trained customers</p></div>
+      <div class="out"><div class="oi">&uarr;</div><p>Faster deployment and time-to-value for new integrations</p></div>
+      <div class="out"><div class="oi">&#9733;</div><p>A certified integrator network ensuring consistent global quality</p></div>
+      <div class="out"><div class="oi">&rarr;</div><p>Training positioned as a differentiator inside the sales cycle</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Apera AI Training Roadmap.</strong> Lucas Richardson · L&amp;D case study</span>
+    <span><a href="index.html" style="color:var(--apera-soft);text-decoration:none;">← Back to portfolio</a> · Training Lead · first 90 days · build-from-zero</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var phases = Array.prototype.slice.call(document.querySelectorAll('.phase[data-phase]'));
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#phaseNav .pbtn'));
+  var segs = Array.prototype.slice.call(document.querySelectorAll('.rail .seg'));
+  function show(n){
+    phases.forEach(function(p){ p.classList.toggle('show', p.getAttribute('data-phase') == n); });
+    btns.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-phase') == n); });
+    segs.forEach(function(s){ s.classList.toggle('on', parseInt(s.getAttribute('data-seg'),10) <= n); });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ show(b.getAttribute('data-phase')); }); });
+  segs.forEach(function(s){
+    s.style.cursor='pointer';
+    s.addEventListener('click', function(){ show(s.getAttribute('data-seg')); });
+  });
+})();
+</script>
+
+</body>
+</html>

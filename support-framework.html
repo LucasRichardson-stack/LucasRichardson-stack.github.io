@@ -6,7 +6,7 @@
 <title>Customer Quality Framework | L&D Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#F6F4EF;
@@ -28,7 +28,7 @@
     -webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
-  h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-0.01em;margin:0;}
+  h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-0.01em;margin:0;}
   .eyebrow{font-family:"Inter",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--clay);margin:0 0 14px;}
   a{color:inherit;}
 
@@ -36,10 +36,14 @@
   .hero{background:var(--slate);color:var(--paper);padding:96px 0 80px;position:relative;overflow:hidden;}
   .hero::after{content:"";position:absolute;left:-140px;top:-140px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle at 60% 60%, rgba(194,104,63,0.20), transparent 62%);pointer-events:none;}
   .hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:500;max-width:16ch;}
+  .author-bar{margin:0 0 18px;font-size:13px;color:rgba(246,244,239,0.62);}
+  .author-bar a{color:var(--clay-soft);text-decoration:none;}
+  .author-bar a:hover{text-decoration:underline;}
+  .author-bar strong{color:rgba(246,244,239,0.92);font-weight:600;}
   .hero .lede{font-size:clamp(18px,2.2vw,22px);color:rgba(246,244,239,0.78);max-width:50ch;margin:28px 0 0;line-height:1.5;}
   .hero-meta{display:flex;flex-wrap:wrap;gap:40px;margin-top:52px;border-top:1px solid rgba(246,244,239,0.16);padding-top:28px;}
   .hero-meta .k{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(246,244,239,0.55);margin-bottom:4px;}
-  .hero-meta .v{font-family:"Fraunces",serif;font-size:22px;}
+  .hero-meta .v{font-family:"Source Serif 4",serif;font-size:22px;}
 
   section{padding:84px 0;}
   section + section{border-top:1px solid var(--line);}
@@ -49,7 +53,7 @@
 
   /* part divider label */
   .part-label{display:flex;align-items:center;gap:18px;margin-bottom:8px;}
-  .part-label .pn{font-family:"Fraunces",serif;font-size:15px;color:var(--clay);font-weight:600;letter-spacing:0.06em;}
+  .part-label .pn{font-family:"Source Serif 4",serif;font-size:15px;color:var(--clay);font-weight:600;letter-spacing:0.06em;}
   .part-label .pl{height:1px;background:var(--line);flex:1;}
 
   /* CHALLENGE */
@@ -66,7 +70,7 @@
   /* AUDIENCE */
   .aud-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
   .aud{background:var(--paper);padding:30px 28px;}
-  .aud .role{font-family:"Fraunces",serif;font-size:23px;color:var(--slate);margin-bottom:4px;}
+  .aud .role{font-family:"Source Serif 4",serif;font-size:23px;color:var(--slate);margin-bottom:4px;}
   .aud .mode{font-size:12px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--clay);margin-bottom:14px;}
   .aud p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.55;}
 
@@ -74,7 +78,7 @@
   .tl{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
   .tl-col{background:var(--paper);padding:26px 24px;}
   .tl-col .ph{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--clay);margin-bottom:6px;}
-  .tl-col h3{font-size:18px;color:var(--slate);margin-bottom:14px;font-family:"Fraunces",serif;}
+  .tl-col h3{font-size:18px;color:var(--slate);margin-bottom:14px;font-family:"Source Serif 4",serif;}
   .tl-col ul{list-style:none;margin:0;padding:0;}
   .tl-col li{font-size:13.5px;color:var(--ink-soft);line-height:1.45;padding:0 0 8px 16px;position:relative;}
   .tl-col li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--clay-soft);}
@@ -82,7 +86,7 @@
   /* FRAMEWORK SUMMARY (compact) */
   .fw-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
   .fw-cell{background:var(--paper);padding:26px 24px;}
-  .fw-cell .fn{font-family:"Fraunces",serif;font-size:13px;color:var(--clay);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;}
+  .fw-cell .fn{font-family:"Source Serif 4",serif;font-size:13px;color:var(--clay);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;}
   .fw-cell h3{font-size:19px;color:var(--slate);margin-bottom:8px;}
   .fw-cell p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.5;}
   .fw-flow{text-align:center;color:var(--clay);font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;margin:22px 0 0;}
@@ -134,7 +138,7 @@
   .qset .q{background:rgba(255,255,255,0.05);border-left:2px solid var(--clay);padding:14px 18px;font-size:15px;color:rgba(246,244,239,0.9);border-radius:0 6px 6px 0;}
   .objgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:600px;}
   .obj{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:18px 20px;}
-  .obj .on{font-family:"Fraunces",serif;font-size:20px;color:var(--clay-soft);}
+  .obj .on{font-family:"Source Serif 4",serif;font-size:20px;color:var(--clay-soft);}
   .obj p{margin:6px 0 0;font-size:14px;color:rgba(246,244,239,0.82);line-height:1.45;}
   .reflect-note{font-size:13.5px;color:rgba(246,244,239,0.55);font-style:italic;margin-top:22px;max-width:54ch;}
   .crit{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:24px 26px;max-width:60ch;margin-top:8px;}
@@ -147,18 +151,18 @@
   .ovr-head .osub{font-size:16px;color:rgba(246,244,239,0.7);margin:0;}
   .ovr-rows{display:grid;gap:1px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.12);border-radius:8px;overflow:hidden;}
   .ovr-row{display:grid;grid-template-columns:170px 1fr;background:var(--slate);}
-  .ovr-row .ok{padding:22px 28px;font-family:"Fraunces",serif;font-size:19px;color:var(--clay-soft);}
+  .ovr-row .ok{padding:22px 28px;font-family:"Source Serif 4",serif;font-size:19px;color:var(--clay-soft);}
   .ovr-row .ov{padding:22px 28px;font-size:15px;color:rgba(246,244,239,0.9);line-height:1.55;}
   .ovr-row .ov .pills{display:flex;flex-wrap:wrap;gap:8px;}
   .ovr-row .ov .pill{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:5px 14px;font-size:13px;color:var(--paper);font-weight:500;}
   .exit-only{display:none;}
   .slide.is-exit .exit-only{display:block;}
   .exit-banner{background:rgba(194,104,63,0.16);border:1px solid rgba(194,104,63,0.4);border-radius:8px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
-  .exit-banner .eb-check{font-family:"Fraunces",serif;font-size:24px;color:var(--clay-soft);line-height:1;}
+  .exit-banner .eb-check{font-family:"Source Serif 4",serif;font-size:24px;color:var(--clay-soft);line-height:1;}
   .exit-banner p{margin:0;font-size:15px;color:var(--paper);}
   .exit-feedback{font-size:13.5px;color:rgba(246,244,239,0.6);font-style:italic;margin-top:22px;max-width:56ch;}
   .closing{text-align:center;padding:20px 0;}
-  .closing .ci{font-family:"Fraunces",serif;font-size:44px;color:var(--clay-soft);margin-bottom:10px;}
+  .closing .ci{font-family:"Source Serif 4",serif;font-size:44px;color:var(--clay-soft);margin-bottom:10px;}
 
   /* click-to-reveal */
   .reveal-prompt{font-size:14px;color:var(--clay-soft);font-weight:600;letter-spacing:0.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
@@ -184,7 +188,7 @@
   .opt{text-align:left;font-family:"Inter",sans-serif;font-size:15px;color:rgba(246,244,239,0.92);line-height:1.5;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.16);border-radius:8px;padding:16px 20px;cursor:pointer;transition:background .18s,border-color .18s;display:flex;gap:14px;align-items:flex-start;}
   .opt:hover{background:rgba(255,255,255,0.08);}
   .opt:focus-visible{outline:2px solid var(--clay-soft);outline-offset:2px;}
-  .opt .ol{font-family:"Fraunces",serif;font-size:16px;color:var(--clay-soft);min-width:18px;}
+  .opt .ol{font-family:"Source Serif 4",serif;font-size:16px;color:var(--clay-soft);min-width:18px;}
   .opt .ofb{display:none;margin-top:10px;font-size:13.5px;line-height:1.5;color:rgba(246,244,239,0.78);}
   .opt.chosen .ofb{display:block;}
   .opt.correct{border-color:var(--clay);background:rgba(194,104,63,0.14);}
@@ -229,6 +233,7 @@
 
 <header class="hero">
   <div class="wrap">
+    <p class="author-bar">Created by <strong>Lucas Richardson</strong> · <a href="index.html">Portfolio</a></p>
     <p class="eyebrow">Learning &amp; Development Case Study</p>
     <h1>Modernizing the Support Response</h1>
     <p class="lede">A training framework that equips support specialists to own urgent customer cases end-to-end, from problem diagnosis through post-ticket audit; built for a payroll/HR SaaS platform and designed to scale to a 1,000-person organization.</p>
