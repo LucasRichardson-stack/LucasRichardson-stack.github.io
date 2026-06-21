@@ -22,6 +22,81 @@
     });
   }
 
+  /* Hero photo rotator */
+  document.querySelectorAll("[data-hero-rotator]").forEach(function (rotator) {
+    const slides = rotator.querySelectorAll(".hero-rotator-slide");
+    const prevBtn = rotator.querySelector(".hero-rotator-btn-prev");
+    const nextBtn = rotator.querySelector(".hero-rotator-btn-next");
+    const captionEl = rotator.parentElement
+      ? rotator.parentElement.querySelector(".hero-rotator-caption")
+      : null;
+    let index = 0;
+    let timer = null;
+    const intervalMs = 3000;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function showSlide(nextIndex) {
+      index = (nextIndex + slides.length) % slides.length;
+
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle("is-active", i === index);
+      });
+
+      if (captionEl && slides[index]) {
+        captionEl.textContent =
+          slides[index].getAttribute("data-caption") || "";
+      }
+    }
+
+    function startTimer() {
+      if (reduceMotion || slides.length < 2) return;
+      stopTimer();
+      timer = window.setInterval(function () {
+        showSlide(index + 1);
+      }, intervalMs);
+    }
+
+    function stopTimer() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        showSlide(index - 1);
+        startTimer();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        showSlide(index + 1);
+        startTimer();
+      });
+    }
+
+    rotator.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showSlide(index - 1);
+        startTimer();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showSlide(index + 1);
+        startTimer();
+      }
+    });
+
+    rotator.addEventListener("mouseenter", stopTimer);
+    rotator.addEventListener("mouseleave", startTimer);
+    rotator.addEventListener("focusin", stopTimer);
+    rotator.addEventListener("focusout", startTimer);
+
+    startTimer();
+  });
+
   /* Showcase tabs */
   document.querySelectorAll("[data-showcase-tabs]").forEach(function (root) {
     const tablist = root.querySelector(":scope > .showcase-tablist");

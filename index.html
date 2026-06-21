@@ -17,7 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=26" />
+    <link rel="stylesheet" href="styles.css?v=30" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -68,13 +68,49 @@
             <p class="hero-mark-role">Technical training &amp; L&amp;D</p>
           </div>
           <figure class="hero-photo">
-            <img
-              src="assets/images/kawasaki-duaro-training.jpg"
-              alt="Hands-on robotics training session with a Kawasaki duAro collaborative robot."
-              width="1200"
-              height="900"
-            />
-            <figcaption>Hands-on technical training in the lab</figcaption>
+            <div
+              class="hero-rotator"
+              data-hero-rotator
+              tabindex="0"
+              aria-roledescription="carousel"
+              aria-label="Training photos"
+            >
+              <div class="hero-rotator-slides">
+                <img
+                  class="hero-rotator-slide is-active"
+                  src="assets/images/kawasaki-duaro-training.jpg"
+                  alt="Hands-on robotics training session with a Kawasaki duAro collaborative robot."
+                  width="1200"
+                  height="900"
+                  data-caption="Hands-on technical training in the lab"
+                />
+                <img
+                  class="hero-rotator-slide"
+                  src="assets/images/ur-tradeshow.jpg"
+                  alt="Universal Robots tradeshow demo with a cobot and teach pendant."
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                  data-caption="Universal Robots tradeshow demo"
+                />
+                <img
+                  class="hero-rotator-slide"
+                  src="assets/images/ur-classroom.jpg"
+                  alt="Universal Robots classroom training with learners at robot workstations."
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                  data-caption="Universal Robots classroom training"
+                />
+              </div>
+              <button class="hero-rotator-btn hero-rotator-btn-prev" type="button" aria-label="Previous photo">
+                <span aria-hidden="true">&#8592;</span>
+              </button>
+              <button class="hero-rotator-btn hero-rotator-btn-next" type="button" aria-label="Next photo">
+                <span aria-hidden="true">&#8594;</span>
+              </button>
+            </div>
+            <figcaption class="hero-rotator-caption">Hands-on technical training in the lab</figcaption>
           </figure>
         </div>
         <div class="container hero-glance" aria-label="At a glance">
@@ -174,35 +210,134 @@
         <div class="container">
           <h2>Showcase</h2>
           <p class="section-intro">
-            E-learning, apps, case studies, and workbook samples. Expand a section
+            Projects, apps, case studies, and workbook samples. Expand a section
             to explore; click screenshots in Agentic creations to enlarge.
           </p>
 
-            <details class="showcase-fold" id="showcase-elearning">
+            <details class="showcase-fold" id="showcase-projects">
               <summary class="showcase-fold-summary">
-                <span class="showcase-fold-title">E-learning</span>
-                <span class="showcase-fold-desc">Interactive module sample</span>
+                <span class="showcase-fold-title">Projects</span>
+                <span class="showcase-fold-desc">Blended training builds and interactive modules</span>
               </summary>
               <div class="showcase-fold-body">
-              <article class="showcase-card showcase-card--embed">
-                <div class="showcase-panel-header">
-                  <div class="project-meta">
-                    <span class="tag">Articulate Storyline</span>
-                    <span class="tag">1-day build</span>
-                  </div>
-                  <h5>D&amp;D fantasy races primer</h5>
-                  <p>
-                    A short module for a therapist who runs D&amp;D-based therapy
-                    campaigns; helps younger patients with little experience in the game pick a character before session one. My goal is to continue expanding on it as I have more time.
-                  </p>
-                  <div class="artifact-links">
-                    <a class="btn btn-primary" href="https://legendary-paprenjak-9b87fb.netlify.app/story.html" target="_blank" rel="noopener noreferrer">Launch full module</a>
-                  </div>
+              <div class="showcase-shell" data-showcase-tabs>
+                <div class="showcase-tablist" role="tablist" aria-label="Projects">
+                  <button class="showcase-tab is-active" type="button" role="tab" id="tab-dd-primer" aria-selected="true" aria-controls="panel-dd-primer">D&amp;D races primer</button>
+                  <button class="showcase-tab" type="button" role="tab" id="tab-beyond-robot" aria-selected="false" aria-controls="panel-beyond-robot">Beyond the Robot</button>
                 </div>
-                <div class="module-embed-wrap module-embed-wrap--compact">
-                  <iframe class="module-embed" src="https://legendary-paprenjak-9b87fb.netlify.app/story.html" title="D&amp;D fantasy races module" loading="lazy"></iframe>
+
+                <div class="showcase-panel is-active" role="tabpanel" id="panel-dd-primer" aria-labelledby="tab-dd-primer">
+                  <article class="showcase-card showcase-card--embed">
+                    <div class="showcase-panel-header">
+                      <div class="project-meta">
+                        <span class="tag">Articulate Storyline</span>
+                        <span class="tag">1-day build</span>
+                      </div>
+                      <h5>D&amp;D fantasy races primer</h5>
+                      <p>
+                        A short module for a therapist who runs D&amp;D-based therapy
+                        campaigns; helps younger patients with little experience in the game pick a character before session one. My goal is to continue expanding on it as I have more time.
+                      </p>
+                      <div class="artifact-links">
+                        <a class="btn btn-primary" href="https://legendary-paprenjak-9b87fb.netlify.app/story.html" target="_blank" rel="noopener noreferrer">Launch full module</a>
+                      </div>
+                    </div>
+                    <div class="module-embed-wrap module-embed-wrap--compact">
+                      <iframe class="module-embed" src="https://legendary-paprenjak-9b87fb.netlify.app/story.html" title="D&amp;D fantasy races module" loading="lazy"></iframe>
+                    </div>
+                  </article>
                 </div>
-              </article>
+
+                <div class="showcase-panel" role="tabpanel" id="panel-beyond-robot" aria-labelledby="tab-beyond-robot" hidden>
+                  <article class="showcase-card showcase-card--embed">
+                    <div class="showcase-panel-header">
+                      <div class="project-meta">
+                        <span class="tag">Instructor-led</span>
+                        <span class="tag">Challenger / Solution selling</span>
+                        <span class="tag">Post-training quiz</span>
+                      </div>
+                      <h5>Beyond the Robot — Challenger sales training</h5>
+                      <p>
+                        A 45-minute instructor-led session on Challenger and Solution
+                        selling for industrial automation sales teams, paired with this
+                        post-training interactive simulation. Learners practice reframing
+                        price-first requests, diagnosing the full automation system,
+                        quantifying value, and advancing the deal.
+                      </p>
+                      <div class="artifact-links">
+                        <a class="btn btn-primary" href="beyond-the-robot.html">Launch simulation</a>
+                      </div>
+
+                    </div>
+
+                  <div class="carousel carousel--deck" data-carousel tabindex="0" aria-roledescription="carousel" aria-label="Training deck slides">
+                    <div class="carousel-viewport"><div class="carousel-track">
+                        <figure class="carousel-slide is-active" data-caption="Training deck slide 1 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-01.png" alt="Beyond the Robot training deck slide 1." width="1280" height="720" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 2 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-02.png" alt="Beyond the Robot training deck slide 2." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 3 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-03.png" alt="Beyond the Robot training deck slide 3." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 4 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-04.png" alt="Beyond the Robot training deck slide 4." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 5 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-05.png" alt="Beyond the Robot training deck slide 5." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 6 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-06.png" alt="Beyond the Robot training deck slide 6." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 7 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-07.png" alt="Beyond the Robot training deck slide 7." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 8 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-08.png" alt="Beyond the Robot training deck slide 8." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 9 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-09.png" alt="Beyond the Robot training deck slide 9." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 10 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-10.png" alt="Beyond the Robot training deck slide 10." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 11 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-11.png" alt="Beyond the Robot training deck slide 11." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 12 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-12.png" alt="Beyond the Robot training deck slide 12." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 13 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-13.png" alt="Beyond the Robot training deck slide 13." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 14 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-14.png" alt="Beyond the Robot training deck slide 14." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 15 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-15.png" alt="Beyond the Robot training deck slide 15." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 16 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-16.png" alt="Beyond the Robot training deck slide 16." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 17 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-17.png" alt="Beyond the Robot training deck slide 17." width="1280" height="720" loading="lazy" />
+                        </figure>
+                        <figure class="carousel-slide" data-caption="Training deck slide 18 of 18">
+                          <img src="assets/images/beyond-the-robot/slide-18.png" alt="Beyond the Robot training deck slide 18." width="1280" height="720" loading="lazy" />
+                        </figure>
+</div></div>
+                    <button class="carousel-btn carousel-btn-prev" type="button" aria-label="Previous slide">&#8592;</button>
+                    <button class="carousel-btn carousel-btn-next" type="button" aria-label="Next slide">&#8594;</button>
+                    <div class="carousel-footer"><p class="carousel-caption" aria-live="polite">Training deck slide 1 of 18</p></div>
+                  </div>
+
+                    <div class="module-embed-wrap module-embed-wrap--compact">
+                      <iframe class="module-embed" src="beyond-the-robot.html" title="Beyond the Robot sales simulation" loading="lazy"></iframe>
+                    </div>
+                  </article>
+                </div>
+              </div>
               </div>
             </details>
 
@@ -433,7 +568,7 @@
                             <span class="carousel-zoom-label">Click to enlarge</span>
                           </button>
                         </figure>
-                        <figure class="carousel-slide" data-caption="Workflow breakdown and module flow: map real tasks and Intro → Theory → Demo → Task → Wrap-up.">
+                        <figure class="carousel-slide" data-caption="Workflow breakdown and module flow: map real tasks and Intro â†’ Theory â†’ Demo â†’ Task â†’ Wrap-up.">
                           <button class="carousel-zoom" type="button" data-src="assets/images/training-planner-workflow-module-flow.png" data-alt="Workflow breakdown and module flow planning view.">
                             <img src="assets/images/training-planner-workflow-module-flow.png" alt="Workflow breakdown stages and module flow cards." width="1024" height="872" loading="lazy" />
                             <span class="carousel-zoom-label">Click to enlarge</span>
@@ -749,6 +884,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=14"></script>
+    <script src="script.js?v=18"></script>
   </body>
 </html>

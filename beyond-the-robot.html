@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Interactive sales simulation for selling industrial automation as a business outcome." />
+  <title>Beyond the Robot | Interactive Sales Simulation</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --slate: #475569;
+      --muted: #64748b;
+      --line: #d7dde5;
+      --panel: #f6f7f9;
+      --white: #ffffff;
+      --accent: #e9781f;
+      --accent-dark: #b9510c;
+      --good: #147d64;
+      --good-bg: #eaf7f3;
+      --warn: #9a5b00;
+      --warn-bg: #fff6df;
+      --bad: #a33a36;
+      --bad-bg: #fff0ef;
+      --shadow: 0 14px 34px rgba(15, 23, 42, 0.10);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(233, 120, 31, 0.08), transparent 28rem),
+        #eef1f5;
+      min-height: 100vh;
+    }
+
+
+    .author-bar { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+    .author-bar a { color: var(--accent-dark); text-decoration: none; }
+    .author-bar a:hover { text-decoration: underline; }
+    .author-bar strong { color: var(--ink); font-weight: 600; }
+    .portfolio-footer {
+      margin-top: 18px; padding-top: 16px; font-size: 13px; color: var(--muted);
+      border-top: 1px solid var(--line); display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px; align-items: center;
+    }
+    .portfolio-footer strong { color: var(--ink); font-weight: 600; }
+    .portfolio-footer a { color: var(--accent-dark); text-decoration: none; }
+    .portfolio-footer a:hover { text-decoration: underline; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+      outline: 3px solid rgba(233, 120, 31, 0.38);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      background: rgba(17, 24, 39, 0.97);
+      color: white;
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+    }
+    .brand h1 { margin: 0; font-size: 1.05rem; line-height: 1.2; }
+    .brand p { margin: 3px 0 0; color: #cbd5e1; font-size: .84rem; }
+
+    .progress-wrap { min-width: 250px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: .78rem; color: #dbe2ea; margin-bottom: 7px; }
+    .progress-track { height: 8px; background: #334155; border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width .35s ease; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 22px;
+      align-items: start;
+      margin-top: 22px;
+    }
+
+    .course-card, .score-card {
+      background: var(--white);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .course-card { padding: clamp(22px, 4vw, 42px); min-height: 690px; }
+    .score-card { padding: 20px; position: sticky; top: 106px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 10px;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 4px; border-radius: 99px; background: var(--accent); }
+
+    h2 { margin: 0 0 12px; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.05; }
+    h3 { margin: 0 0 10px; font-size: 1.15rem; }
+    p { line-height: 1.6; color: var(--slate); }
+    .lead { font-size: 1.05rem; max-width: 760px; }
+
+    .scenario-card {
+      margin: 24px 0;
+      padding: 20px;
+      border-radius: 14px;
+      background: #111827;
+      color: #fff;
+    }
+    .scenario-card p { color: #e2e8f0; margin: 6px 0; }
+    .scenario-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef1f4;
+      color: #334155;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .scenario-card .chip { background: #253247; color: #e5edf7; }
+
+    .option-grid { display: grid; gap: 12px; margin: 22px 0; }
+    .option {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px 17px;
+      color: var(--ink);
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .option:hover:not(:disabled) { transform: translateY(-2px); border-color: #9aa7b7; box-shadow: 0 8px 18px rgba(15,23,42,.07); }
+    .option strong { display: block; margin-bottom: 5px; }
+    .option span { color: var(--slate); line-height: 1.45; }
+    .option.selected { border: 2px solid var(--accent); background: #fff8f2; }
+    .option.correct { border: 2px solid var(--good); background: var(--good-bg); }
+    .option.incorrect { border: 2px solid var(--bad); background: var(--bad-bg); }
+    .option:disabled { cursor: default; opacity: .96; }
+
+    .feedback {
+      border-left: 5px solid var(--line);
+      border-radius: 12px;
+      padding: 15px 16px;
+      margin: 18px 0;
+      background: var(--panel);
+    }
+    .feedback.good { border-left-color: var(--good); background: var(--good-bg); }
+    .feedback.warn { border-left-color: var(--warn); background: var(--warn-bg); }
+    .feedback.bad { border-left-color: var(--bad); background: var(--bad-bg); }
+    .feedback h3 { margin-bottom: 4px; }
+    .feedback p { margin: 0; color: #334155; }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 18px;
+      font-weight: 800;
+      min-height: 46px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #cf6516; }
+    .btn-secondary { background: #e8edf2; color: var(--ink); }
+    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    .score-card h3 { font-size: 1rem; }
+    .score-card > p { font-size: .86rem; margin-top: 4px; }
+    .meter { margin: 18px 0; }
+    .meter-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: .86rem; font-weight: 800; margin-bottom: 7px; }
+    .meter-track { height: 9px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+    .meter-fill { height: 100%; width: 0%; background: #334155; transition: width .35s ease; }
+    .meter small { display: block; margin-top: 5px; color: var(--muted); line-height: 1.35; }
+
+    .knowledge-note {
+      margin-top: 20px;
+      padding: 13px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: .82rem;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    .ecosystem {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+    }
+    .eco-choice { position: relative; }
+    .eco-choice input { position: absolute; opacity: 0; pointer-events: none; }
+    .eco-choice label {
+      display: block;
+      min-height: 118px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .eco-choice label strong { display: block; margin-bottom: 7px; }
+    .eco-choice label span { color: var(--slate); font-size: .9rem; line-height: 1.4; }
+    .eco-choice input:checked + label { border: 2px solid var(--accent); background: #fff8f2; }
+    .eco-choice input:focus-visible + label { outline: 3px solid rgba(233,120,31,.35); outline-offset: 3px; }
+
+    .order-list { display: grid; gap: 10px; margin: 20px 0; }
+    .order-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 11px 12px;
+    }
+    .order-num { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: #eef1f4; font-weight: 900; }
+    .order-item p { margin: 0; color: #1f2937; line-height: 1.4; }
+    .order-controls { display: flex; gap: 6px; }
+    .icon-btn { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--line); background: #fff; font-weight: 900; }
+    .icon-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    .evidence-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+    .evidence { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; text-align: center; }
+    .evidence strong { display: block; font-size: 1.55rem; }
+    .evidence span { color: var(--slate); font-size: .86rem; }
+
+    .stakeholder-grid { display: grid; gap: 13px; margin: 20px 0; }
+    .stakeholder-row {
+      display: grid;
+      grid-template-columns: minmax(170px, .8fr) minmax(0, 1.6fr);
+      gap: 12px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 14px;
+    }
+    .stakeholder-row label { font-weight: 800; }
+    .stakeholder-row select { width: 100%; min-height: 44px; border: 1px solid #aeb9c6; border-radius: 10px; padding: 9px 11px; background: #fff; color: var(--ink); }
+
+    .quote-box {
+      border-left: 5px solid var(--accent);
+      background: #fff8f2;
+      padding: 18px 20px;
+      border-radius: 12px;
+      margin: 22px 0;
+      color: #273244;
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 24px 0; }
+    .result-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--panel); }
+    .result-card strong { display: block; font-size: 1.55rem; margin: 4px 0; }
+    .profile-card { padding: 22px; border-radius: 16px; background: #111827; color: white; margin: 20px 0; }
+    .profile-card p { color: #dbe5ef; }
+
+    .screen { display: none; animation: fade .25s ease; }
+    .screen.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .score-card { position: static; order: -1; }
+      .score-card .meters { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 18px; }
+      .topbar { position: static; grid-template-columns: 1fr; }
+      .progress-wrap { min-width: 0; }
+      .ecosystem { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .evidence-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 18px, 1180px); padding-top: 10px; }
+      .course-card { padding: 22px 18px; min-height: 0; }
+      .score-card .meters { grid-template-columns: 1fr; }
+      .ecosystem, .results-grid { grid-template-columns: 1fr; }
+      .stakeholder-row { grid-template-columns: 1fr; }
+      .order-item { grid-template-columns: 34px minmax(0, 1fr); }
+      .order-controls { grid-column: 2; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar, .score-card, .actions { display: none !important; }
+      .layout { display: block; }
+      .course-card { box-shadow: none; border: 0; }
+      .screen { display: none !important; }
+      #results.active { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <p class="author-bar">Created by <strong>Lucas Richardson</strong> · <a href="index.html">Portfolio</a></p>
+    <header class="topbar" aria-label="Course header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">BR</div>
+        <div>
+          <h1>Beyond the Robot</h1>
+          <p>Interactive automation sales simulation</p>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span id="progressText">Welcome</span><span id="progressPercent">0%</span></div>
+        <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="course-card" id="courseCard" aria-live="polite">
+        <div class="screen active" id="intro">
+          <div class="eyebrow">Post-training knowledge check</div>
+          <h2>Can you move the conversation beyond the robot?</h2>
+          <p class="lead">Northstar Components has asked for a cobot quote. Your choices will determine whether the customer compares robot prices—or sees you as an automation advisor.</p>
+
+          <div class="scenario-card">
+            <h3>Northstar Components</h3>
+            <p>Three CNC machines. Two shifts. Six part variants. Rising overtime. Limited floor space. A required payback below 24 months.</p>
+            <p><strong>Customer request:</strong> “Please send us a budgetary quote for a cobot to load and unload the machines.”</p>
+            <div class="scenario-meta">
+              <span class="chip">Scenario-based</span>
+              <span class="chip">Immediate feedback</span>
+              <span class="chip">Four skill scores</span>
+            </div>
+          </div>
+
+          <p>This is not a product-specification quiz. It measures how well you can <strong>reframe, diagnose, quantify, tailor, and advance</strong> an industrial automation opportunity.</p>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="startCourse()">Start the simulation</button>
+          </div>
+        </div>
+
+        <div class="screen" id="q1"></div>
+        <div class="screen" id="q2"></div>
+        <div class="screen" id="q3"></div>
+        <div class="screen" id="q4"></div>
+        <div class="screen" id="q5"></div>
+        <div class="screen" id="q6"></div>
+        <div class="screen" id="q7"></div>
+        <div class="screen" id="q8"></div>
+        <div class="screen" id="q9"></div>
+        <div class="screen" id="results"></div>
+      </section>
+
+      <aside class="score-card" aria-label="Performance scorecard">
+        <h3>Automation Advisor score</h3>
+        <p>Your choices build four separate skills. Scores appear after the first decision.</p>
+        <div class="meters">
+          <div class="meter">
+            <div class="meter-head"><span>Insight</span><span id="scoreInsight">—</span></div>
+            <div class="meter-track"><div class="meter-fill" id="fillInsight"></div></div>
+            <small>Teach a useful decision risk.</small>
+          </div>
+          <div class="meter">
+            <div class="meter-head"><span>Discovery</span><span id="scoreDiscovery">—</span></div>
+            <div class="meter-track"><div class="meter-fill" id="fillDiscovery"></div></div>
+            <small>Investigate causes, constraints, and criteria.</small>
+          </div>
+          <div class="meter">
+            <div class="meter-head"><span>Value</span><span id="scoreValue">—</span></div>
+            <div class="meter-track"><div class="meter-fill" id="fillValue"></div></div>
+            <small>Connect evidence to defensible impact.</small>
+          </div>
+          <div class="meter">
+            <div class="meter-head"><span>Momentum</span><span id="scoreMomentum">—</span></div>
+            <div class="meter-track"><div class="meter-fill" id="fillMomentum"></div></div>
+            <small>Guide the buyer to the right next step.</small>
+          </div>
+        </div>
+        <div class="knowledge-note">
+          <strong>Design note:</strong> Answer order is randomized. Orange indicates the current action or selection—not a stage or category.
+        </div>
+      </aside>
+    </main>
+    <footer class="portfolio-footer">
+      <span><strong>Beyond the Robot.</strong> Lucas Richardson · L&amp;D project</span>
+      <span><a href="index.html">← Back to portfolio</a></span>
+    </footer>
+  </div>
+
+  <script>
+    const state = {
+      current: 0,
+      skills: {
+        insight: { earned: 0, possible: 0 },
+        discovery: { earned: 0, possible: 0 },
+        value: { earned: 0, possible: 0 },
+        momentum: { earned: 0, possible: 0 }
+      },
+      answered: {},
+      order: [0,1,2,3,4]
+    };
+
+    const totalChallenges = 9;
+
+    function skillPct(key) {
+      const s = state.skills[key];
+      return s.possible ? Math.round((s.earned / s.possible) * 100) : 0;
+    }
+
+    function award(points) {
+      Object.entries(points).forEach(([key, vals]) => {
+        state.skills[key].earned += vals[0];
+        state.skills[key].possible += vals[1];
+      });
+      updateMeters();
+    }
+
+    function updateMeters() {
+      ["insight","discovery","value","momentum"].forEach(key => {
+        const pct = skillPct(key);
+        const cap = key.charAt(0).toUpperCase() + key.slice(1);
+        document.getElementById(`score${cap}`).textContent = state.skills[key].possible ? `${pct}%` : "—";
+        document.getElementById(`fill${cap}`).style.width = `${pct}%`;
+      });
+    }
+
+    function setProgress(step, label) {
+      const pct = Math.round((step / totalChallenges) * 100);
+      document.getElementById("progressFill").style.width = `${pct}%`;
+      document.getElementById("progressPercent").textContent = `${pct}%`;
+      document.getElementById("progressText").textContent = label;
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      const target = document.getElementById(id);
+      target.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const heading = target.querySelector("h2");
+      if (heading) {
+        heading.setAttribute("tabindex", "-1");
+        setTimeout(() => heading.focus({ preventScroll: true }), 150);
+      }
+    }
+
+    function next(id, step, label) {
+      showScreen(id);
+      setProgress(step, label);
+    }
+
+    function startCourse() {
+      renderQ1();
+      next("q1", 1, "Challenge 1 of 9");
+    }
+
+    function optionMarkup(index, title, text) {
+      return `<button class="option" type="button" data-index="${index}"><strong>${title}</strong><span>${text}</span></button>`;
+    }
+
+    function shuffleArray(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function optionSetMarkup(options) {
+      return shuffleArray(options.map((option, index) => ({ ...option, index })))
+        .map(option => optionMarkup(option.index, option.title, option.text))
+        .join("");
+    }
+
+    function bindSingle(questionId, config) {
+      const root = document.getElementById(questionId);
+      root.querySelectorAll(".option").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (state.answered[questionId]) return;
+          state.answered[questionId] = true;
+          const selected = Number(btn.dataset.index);
+          root.querySelectorAll(".option").forEach(b => b.disabled = true);
+          btn.classList.add(selected === config.correct ? "correct" : "incorrect");
+          if (selected !== config.correct) root.querySelector(`[data-index="${config.correct}"]`).classList.add("correct");
+          const outcome = config.outcomes[selected];
+          award(outcome.points);
+          const feedback = root.querySelector(".feedback-slot");
+          feedback.innerHTML = `<div class="feedback ${outcome.tone}"><h3>${outcome.heading}</h3><p>${outcome.text}</p></div>`;
+          root.querySelector(".next-btn").disabled = false;
+        });
+      });
+    }
+
+    function renderQ1() {
+      const root = document.getElementById("q1");
+      root.innerHTML = `
+        <div class="eyebrow">Opening decision</div>
+        <h2>The customer asks for a cobot quote. What do you do first?</h2>
+        <div class="scenario-card">
+          <p><strong>Email:</strong> “We are looking for a cobot to load and unload three CNC machines. Please send us a budgetary quote.”</p>
+          <p>Three competitors have already sent pricing.</p>
+        </div>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "Send a preliminary range now", text: "Give the buyer a number with assumptions and exclusions, then offer to refine it later." },
+            { title: "Request application specifications", text: "Ask for payload, reach, cycle time, and preferred brand so you can identify a likely model." },
+            { title: "Schedule a short discovery call", text: "Clarify the production constraint, decision criteria, and project risks before discussing equipment." }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderQ2(); next('q2',2,'Challenge 2 of 9')">Continue</button></div>`;
+
+      bindSingle("q1", {
+        correct: 2,
+        outcomes: [
+          { tone: "bad", heading: "You made the sale about price", text: "A fast quote feels responsive, but it turns the opportunity into a comparison of arm price, lead time, and specifications before the business problem is understood.", points: { discovery:[0,20], momentum:[4,10] } },
+          { tone: "warn", heading: "Useful—but still product-first", text: "Payload and reach may matter later. Starting there accepts the customer's equipment frame instead of testing whether a cobot is the right answer.", points: { discovery:[10,20], momentum:[5,10] } },
+          { tone: "good", heading: "You protected the decision", text: "Discovery keeps the conversation focused on the operational constraint, success criteria, and total automation system before product selection.", points: { discovery:[20,20], momentum:[10,10] } }
+        ]
+      });
+    }
+
+    function renderQ2() {
+      const root = document.getElementById("q2");
+      root.innerHTML = `
+        <div class="eyebrow">Reframe</div>
+        <h2>Which opening teaches the customer something useful?</h2>
+        <p class="lead">A strong reframe introduces a credible decision risk without dismissing the customer's expertise.</p>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "“Our cobot is easier to program, faster to deploy, and supported by a broad integration ecosystem.”", text: "Differentiate the product around ease of use, deployment, and support." },
+            { title: "“Before choosing a cobot, we should compare collaborative and traditional automation for this application.”", text: "Question the proposed technology and reopen equipment selection." },
+            { title: "“A cobot may fit, but choosing the arm before validating cycle time, part mix, tooling, and safety could put the business case at risk.”", text: "Introduce a hidden decision risk and invite discovery." }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderQ3(); next('q3',3,'Challenge 3 of 9')">Continue</button></div>`;
+
+      bindSingle("q2", {
+        correct: 2,
+        outcomes: [
+          { tone:"warn", heading:"A feature is not yet an insight", text:"Ease of programming may matter, but it does not change how the customer thinks about the decision or reveal hidden business risk.", points:{ insight:[6,20] } },
+          { tone:"bad", heading:"Tension without credibility", text:"Challenging the customer is not the same as contradicting them. A useful reframe respects their expertise and introduces evidence or a plausible risk.", points:{ insight:[2,20] } },
+          { tone:"good", heading:"Credible commercial teaching", text:"This response widens the decision from robot selection to system performance, creates constructive tension, and opens a natural path into discovery.", points:{ insight:[20,20] } }
+        ]
+      });
+    }
+
+    function renderQ3() {
+      const root = document.getElementById("q3");
+      const choices = [
+        ["Robot selection", "Payload, reach, speed, and controller compatibility"],
+        ["Tooling", "Retention, changeover, part variation, and maintenance"],
+        ["Safety", "Hazards, operating modes, safeguards, and validation"],
+        ["Integration", "Machine interfaces, controls, access, and commissioning"],
+        ["Workforce readiness", "Training, troubleshooting, ownership, and support"],
+        ["Commercial terms", "Price, lead time, warranty, and payment terms"],
+      ];
+      const displayedChoices = shuffleArray(choices.map((choice, index) => ({ choice, index })));
+      root.innerHTML = `
+        <div class="eyebrow">System thinking</div>
+        <h2>What should be explored before the buyer compares robot prices?</h2>
+        <p>Select the <strong>four areas</strong> most likely to change total cell economics and project risk for Northstar.</p>
+        <div class="ecosystem">
+          ${displayedChoices.map((item,position)=>`<div class="eco-choice"><input type="checkbox" id="eco${position}" value="${item.index}"><label for="eco${position}"><strong>${item.choice[0]}</strong><span>${item.choice[1]}</span></label></div>`).join("")}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions">
+          <button class="btn btn-primary" id="checkEco" type="button">Check selection</button>
+          <button class="btn btn-primary next-btn" disabled onclick="renderQ4(); next('q4',4,'Challenge 4 of 9')">Continue</button>
+        </div>`;
+
+      root.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener("change", () => {
+        const checked = root.querySelectorAll('input[type="checkbox"]:checked');
+        if (checked.length > 4) cb.checked = false;
+      }));
+
+      root.querySelector("#checkEco").addEventListener("click", () => {
+        if (state.answered.q3) return;
+        const selected = [...root.querySelectorAll('input[type="checkbox"]:checked')].map(x=>Number(x.value));
+        if (selected.length !== 4) {
+          root.querySelector(".feedback-slot").innerHTML = `<div class="feedback warn"><h3>Select four areas</h3><p>Prioritize the areas most likely to affect the total system—not every item that could appear on a quote.</p></div>`;
+          return;
+        }
+        state.answered.q3 = true;
+        root.querySelectorAll('input[type="checkbox"]').forEach(x=>x.disabled=true);
+        root.querySelector("#checkEco").disabled = true;
+        const correct = [1,2,3,4];
+        const hits = selected.filter(x=>correct.includes(x)).length;
+        const pts = Math.round((hits/4)*20);
+        award({ insight:[pts,20], discovery:[pts,20] });
+        const tone = hits===4 ? "good" : hits>=3 ? "warn" : "bad";
+        root.querySelector(".feedback-slot").innerHTML = `<div class="feedback ${tone}"><h3>${hits===4 ? "You widened the decision" : "The robot is only one part of the system"}</h3><p>Tooling, safety, integration, and training/support can change cycle time, implementation cost, risk, uptime, and adoption. The arm and purchase price matter—but evaluating them first can hide larger cost drivers.</p></div>`;
+        root.querySelector(".next-btn").disabled = false;
+      });
+    }
+
+    function renderQ4() {
+      const root = document.getElementById("q4");
+      root.innerHTML = `
+        <div class="eyebrow">Teach through tooling</div>
+        <h2>The customer says, “Just use the cheapest gripper.” What is the best response?</h2>
+        <p class="lead">Northstar handles ferrous machined parts with frequent part changes. A magnet may be faster and simpler; fingers may provide more precise control but add motion, setup, and tooling complexity.</p>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "Recommend a magnet after confirming the parts are ferrous", text: "Prioritize faster handling and simpler mechanics, then validate retention during commissioning." },
+            { title: "Recommend adjustable finger tooling for all six variants", text: "Prioritize grip control and flexibility, then optimize motion and changeover after installation." },
+            { title: "Compare both tools through a structured part test", text: "Measure retention, cycle time, changeover, part condition, failure modes, and support needs before selecting." }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderQ5(); next('q5',5,'Challenge 5 of 9')">Continue</button></div>`;
+
+      bindSingle("q4", {
+        correct: 2,
+        outcomes: [
+          { tone:"warn", heading:"A plausible option is not a validated solution", text:"A magnet may improve cycle time and reduce mechanical complexity, but material, residual magnetism, surface condition, retention, and failure modes must be tested.", points:{ insight:[8,20], value:[6,10] } },
+          { tone:"warn", heading:"Precision alone does not define value", text:"Finger tooling may improve control, but additional motion, setup, maintenance, and changeover could undermine the business case.", points:{ insight:[8,20], value:[6,10] } },
+          { tone:"good", heading:"You taught the customer how tooling changes economics", text:"The correct lesson is not that one tool is always better. Tool choice changes cycle time, complexity, quality risk, maintenance, and downstream cost—so it should be validated with the application.", points:{ insight:[20,20], value:[10,10] } }
+        ]
+      });
+    }
+
+    const discoveryQuestions = [
+      "What prevents the area from hitting target output?",
+      "When do the machines wait for operators?",
+      "How often do part families change?",
+      "What payback period will finance require?",
+      "Who will support the system after launch?"
+    ];
+
+    function renderOrderList() {
+      const list = document.getElementById("orderList");
+      if (!list) return;
+      list.innerHTML = state.order.map((questionIndex, position) => `
+        <div class="order-item">
+          <div class="order-num">${position+1}</div>
+          <p>${discoveryQuestions[questionIndex]}</p>
+          <div class="order-controls" aria-label="Reorder item ${position+1}">
+            <button class="icon-btn" type="button" aria-label="Move up" onclick="moveOrder(${position},-1)" ${position===0?'disabled':''}>↑</button>
+            <button class="icon-btn" type="button" aria-label="Move down" onclick="moveOrder(${position},1)" ${position===state.order.length-1?'disabled':''}>↓</button>
+          </div>
+        </div>`).join("");
+    }
+
+    function moveOrder(position, direction) {
+      if (state.answered.q5) return;
+      const target = position + direction;
+      if (target < 0 || target >= state.order.length) return;
+      [state.order[position], state.order[target]] = [state.order[target], state.order[position]];
+      renderOrderList();
+    }
+
+    function renderQ5() {
+      const root = document.getElementById("q5");
+      state.order = [2,0,4,1,3];
+      root.innerHTML = `
+        <div class="eyebrow">Diagnose</div>
+        <h2>Sequence the discovery conversation</h2>
+        <p>Move the questions into an order that narrows from the business constraint to implementation and decision risk.</p>
+        <div class="order-list" id="orderList"></div>
+        <div class="feedback-slot"></div>
+        <div class="actions">
+          <button class="btn btn-primary" id="checkOrder" type="button">Check sequence</button>
+          <button class="btn btn-primary next-btn" disabled onclick="renderQ6(); next('q6',6,'Challenge 6 of 9')">Continue</button>
+        </div>`;
+      renderOrderList();
+      root.querySelector("#checkOrder").addEventListener("click", () => {
+        if (state.answered.q5) return;
+        state.answered.q5 = true;
+        const correct = [0,1,2,3,4];
+        const distance = state.order.reduce((sum,val,pos)=>sum+Math.abs(correct.indexOf(val)-pos),0);
+        const pct = Math.max(0, 1 - distance/12);
+        const pts = Math.round(pct*30);
+        award({ discovery:[pts,30] });
+        root.querySelectorAll(".icon-btn").forEach(b=>b.disabled=true);
+        root.querySelector("#checkOrder").disabled=true;
+        const exact = distance===0;
+        root.querySelector(".feedback-slot").innerHTML = `<div class="feedback ${exact?'good':distance<=4?'warn':'bad'}"><h3>${exact?'Strong diagnostic flow':'Use a narrowing investigation'}</h3><p>The recommended logic is: start with the missed target, locate when and why performance breaks down, test variability, surface decision economics, and then expose support or adoption risk.</p></div>`;
+        root.querySelector(".next-btn").disabled=false;
+      });
+    }
+
+    function renderQ6() {
+      const root = document.getElementById("q6");
+      root.innerHTML = `
+        <div class="eyebrow">Quantify</div>
+        <h2>Which value statement is most defensible?</h2>
+        <div class="evidence-grid" aria-label="Northstar evidence">
+          <div class="evidence"><strong>21.5s</strong><span>actual cycle time</span></div>
+          <div class="evidence"><strong>18s</strong><span>target cycle time</span></div>
+          <div class="evidence"><strong>12h</strong><span>weekly overtime</span></div>
+          <div class="evidence"><strong>24mo</strong><span>payback threshold</span></div>
+        </div>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "Use the 12 weekly overtime hours as the primary benefit and model the full amount as recurring labor savings.", text: "Build the case around the clearest known operating cost." },
+            { title: "Use the 3.5-second cycle gap to calculate added output and compare that gain directly with project cost.", text: "Build the case around the clearest known performance gap." },
+            { title: "Validate which waiting, overtime, rework, and capacity losses are recoverable, then model a range against total cost.", text: "Build the case around multiple evidence-based value drivers." }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderQ7(); next('q7',7,'Challenge 7 of 9')">Continue</button></div>`;
+
+      bindSingle("q6", {
+        correct: 2,
+        outcomes: [
+          { tone:"bad", heading:"Overtime is evidence—not guaranteed savings", text:"Some overtime may persist, be caused by other processes, or be redeployed. Treat it as a hypothesis to validate rather than a guaranteed benefit.", points:{ value:[3,25] } },
+          { tone:"bad", heading:"Cycle time alone is incomplete", text:"The business case may also depend on waiting during breaks, changeover, availability, rework, supportability, and the full implementation cost.", points:{ value:[5,25] } },
+          { tone:"good", heading:"Responsible value quantification", text:"This approach connects evidence to impact without inventing precision. It also makes uncertainty visible to finance and operations.", points:{ value:[25,25] } }
+        ]
+      });
+    }
+
+    function renderQ7() {
+      const root = document.getElementById("q7");
+      const messageOptions = shuffleArray([
+        { value: 1, label: "Recoverable capacity, delivery confidence, and implementation risk" },
+        { value: 2, label: "Testing, simulation, cycle time, and application fit" },
+        { value: 3, label: "Diagnostics, training, standard parts, and troubleshooting" },
+        { value: 4, label: "Validated assumptions, ranges, milestones, and payback uncertainty" }
+      ]);
+      const options = [{ value: 0, label: "Select a message…" }, ...messageOptions];
+      root.innerHTML = `
+        <div class="eyebrow">Tailor</div>
+        <h2>Match the value story to the stakeholder</h2>
+        <p>The underlying facts stay the same. The message should reflect what each stakeholder is accountable for.</p>
+        <div class="stakeholder-grid">
+          ${[
+            ["Plant manager","plant"],
+            ["Manufacturing engineer","eng"],
+            ["Maintenance","maint"],
+            ["Finance","finance"]
+          ].map(([label,id])=>`<div class="stakeholder-row"><label for="${id}">${label}</label><select id="${id}">${options.map(o=>`<option value="${o.value}">${o.label}</option>`).join("")}</select></div>`).join("")}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions">
+          <button class="btn btn-primary" id="checkTailor" type="button">Check matches</button>
+          <button class="btn btn-primary next-btn" disabled onclick="renderQ8(); next('q8',8,'Challenge 8 of 9')">Continue</button>
+        </div>`;
+      root.querySelector("#checkTailor").addEventListener("click",()=>{
+        if(state.answered.q7) return;
+        const actual = [root.querySelector('#plant').value,root.querySelector('#eng').value,root.querySelector('#maint').value,root.querySelector('#finance').value].map(Number);
+        if(actual.some(x=>x===0)) {
+          root.querySelector('.feedback-slot').innerHTML=`<div class="feedback warn"><h3>Complete each match</h3><p>Choose one value story for every stakeholder.</p></div>`;
+          return;
+        }
+        state.answered.q7=true;
+        root.querySelectorAll('select').forEach(s=>s.disabled=true);
+        root.querySelector('#checkTailor').disabled=true;
+        const expected=[1,2,3,4];
+        const hits=actual.filter((v,i)=>v===expected[i]).length;
+        const pts=hits*5;
+        award({ discovery:[pts,20], value:[pts,20] });
+        root.querySelector('.feedback-slot').innerHTML=`<div class="feedback ${hits===4?'good':hits>=3?'warn':'bad'}"><h3>${hits===4?'The message fits the audience':`${hits} of 4 matched`}</h3><p>Plant leaders focus on output and risk; engineers on feasibility; maintenance on supportability; and finance on assumptions, uncertainty, and milestones.</p></div>`;
+        root.querySelector('.next-btn').disabled=false;
+      });
+    }
+
+    function renderQ8() {
+      const root=document.getElementById('q8');
+      root.innerHTML=`
+        <div class="eyebrow">Advance</div>
+        <h2>The buyer says, “Just send a rough number and we’ll get back to you.”</h2>
+        <p class="lead">Which response takes control without becoming pushy?</p>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "Send a preliminary range with assumptions, exclusions, and a note that final pricing depends on application details.", text: "Preserve speed and let the buyer decide whether to continue." },
+            { title: "Ask Northstar to complete a detailed specification before discussing price or recommending any equipment.", text: "Protect scope by requiring the customer to define the application." },
+            { title: "Provide a conditional range and schedule a 90-minute review with manufacturing, maintenance, and safety.", text: "Balance responsiveness with a specific validation step." }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderQ9(); next('q9',9,'Final challenge')">Continue</button></div>`;
+      bindSingle('q8',{
+        correct:2,
+        outcomes:[
+          {tone:'warn',heading:'Responsive, but easy to commoditize',text:'A rough estimate without agreed assumptions may create scope churn, discount pressure, and a misleading anchor.',points:{momentum:[8,25],value:[4,10]}},
+          {tone:'bad',heading:'Control became friction',text:'The seller should lead the process, but not by making the customer do all of the diagnostic work alone.',points:{momentum:[3,25],value:[2,10]}},
+          {tone:'good',heading:'You guided the next useful decision',text:'A range can preserve responsiveness, while the scheduled review creates shared assumptions and a path to technical validation.',points:{momentum:[25,25],value:[10,10]}}
+        ]
+      });
+    }
+
+    function renderQ9() {
+      const root=document.getElementById('q9');
+      root.innerHTML=`
+        <div class="eyebrow">Integrated response</div>
+        <h2>Which complete response best applies the lesson?</h2>
+        <div class="option-grid">
+          ${optionSetMarkup([
+            { title: "Product-led response", text: "“Based on the request, we can recommend two cobot models. Send payload, reach, cycle time, and preferred brand, and we’ll prepare a budgetary quote with options.”" },
+            { title: "Consultative response", text: "“Several application details could affect the recommendation. Please send process data, part drawings, and safety requirements, and our team will review them before proposing next steps.”" },
+            { title: "Insight-to-Impact response", text: "“A cobot may fit, but choosing the arm first could put cycle time and payback at risk. Let’s identify where capacity is lost, confirm decision criteria, and test representative parts before we quote.”" }
+          ])}
+        </div>
+        <div class="feedback-slot"></div>
+        <div class="actions"><button class="btn btn-primary next-btn" disabled onclick="renderResults(); next('results',9,'Complete')">View results</button></div>`;
+      bindSingle('q9',{
+        correct:2,
+        outcomes:[
+          {tone:'bad',heading:'Product knowledge without business diagnosis',text:'This response earns specifications before earning the business problem. The buyer will compare models and price.',points:{insight:[2,15],discovery:[3,15],value:[0,15],momentum:[4,15]}},
+          {tone:'warn',heading:'Helpful, but not directive',text:'The seller asks for more information but does not teach, prioritize, or guide the buyer to a concrete validation step.',points:{insight:[5,15],discovery:[9,15],value:[5,15],momentum:[5,15]}},
+          {tone:'good',heading:'Automation Advisor response',text:'This response teaches a decision risk, prioritizes discovery, identifies a value criterion, and advances to technical validation.',points:{insight:[15,15],discovery:[15,15],value:[15,15],momentum:[15,15]}}
+        ]
+      });
+    }
+
+    function getProfile(scores) {
+      const avg=(scores.insight+scores.discovery+scores.value+scores.momentum)/4;
+      if(avg>=80 && Math.min(...Object.values(scores))>=65) return ["Automation Advisor","You balance insight, diagnosis, evidence, and forward momentum. You protect the customer from premature product selection while guiding a practical buying process."];
+      if(scores.insight>=70 && scores.discovery<55) return ["Aggressive Challenger","You are willing to challenge assumptions, but your reframes need more diagnosis and customer evidence to remain credible."];
+      if(scores.discovery>=70 && scores.momentum<55) return ["Helpful Consultant","You uncover useful information, but you need to be more explicit about the next decision and who must participate."];
+      if(scores.value<55) return ["Product-Centered Seller","Your answers tend to return to equipment and features before the business impact is validated."];
+      return ["Developing Automation Advisor","You show several strong behaviors. Focus on the lowest-scoring skill to make your sales process more consistent."];
+    }
+
+    function renderResults() {
+      const root=document.getElementById('results');
+      const scores={insight:skillPct('insight'),discovery:skillPct('discovery'),value:skillPct('value'),momentum:skillPct('momentum')};
+      const [profile,description]=getProfile(scores);
+      const lowest=Object.entries(scores).sort((a,b)=>a[1]-b[1])[0][0];
+      const coaching={
+        insight:'Practice turning features into customer-centered decision risks. Teach before you pitch.',
+        discovery:'Start with the missed business target, then narrow toward causes, criteria, stakeholders, and support risk.',
+        value:'Use ranges, total implementation cost, and validated assumptions instead of guaranteed savings.',
+        momentum:'End discovery with a specific validation step, participants, purpose, and timing.'
+      };
+      root.innerHTML=`
+        <div class="eyebrow">Simulation complete</div>
+        <h2>Your Automation Advisor profile</h2>
+        <div class="profile-card"><h3>${profile}</h3><p>${description}</p></div>
+        <div class="results-grid">
+          ${Object.entries(scores).map(([k,v])=>`<div class="result-card"><span>${k.charAt(0).toUpperCase()+k.slice(1)}</span><strong>${v}%</strong><p>${v>=75?'Consistent strength':v>=55?'Developing':'Priority practice area'}</p></div>`).join('')}
+        </div>
+        <div class="feedback ${scores[lowest]>=75?'good':'warn'}"><h3>Recommended focus: ${lowest.charAt(0).toUpperCase()+lowest.slice(1)}</h3><p>${coaching[lowest]}</p></div>
+        <div class="quote-box"><strong>Model response</strong><br>“A cobot may be the right answer, but selecting the arm before validating cycle time, part mix, changeover, tooling, and safety could create a system that works technically but misses the business case. Before we quote, I recommend a 90-minute application review with manufacturing, maintenance, and safety. We should confirm where machine time is being lost, what changeover frequency the cell must support, and what payback threshold finance will use. From there, we can test the parts and provide a responsible range tied to validated assumptions.”</div>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" onclick="window.print()">Print results</button>
+          <button class="btn btn-secondary" type="button" onclick="restartCourse()">Restart simulation</button>
+        </div>`;
+      updateMeters();
+    }
+
+    function restartCourse() {
+      state.current=0;
+      state.answered={};
+      state.order=[0,1,2,3,4];
+      Object.keys(state.skills).forEach(k=>state.skills[k]={earned:0,possible:0});
+      updateMeters();
+      setProgress(0,'Welcome');
+      showScreen('intro');
+    }
+  </script>
+</body>
+</html>
+</user_query>
