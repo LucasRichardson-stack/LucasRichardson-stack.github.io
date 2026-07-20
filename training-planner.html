@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, sans-serif; background: #f4f5f7; color: #1a1d2e; font-size: 14px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.author-bar { flex-shrink: 0; margin: 0; padding: 6px 16px; font-size: 12px; color: #8b8fa8; background: #fff; border-bottom: 1px solid #e4e6ef; }
+.author-bar a { color: #5b4fcf; text-decoration: none; }
+.author-bar a:hover { text-decoration: underline; }
+.author-bar strong { color: #1a1d2e; font-weight: 600; }
+::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #d0d4e0; border-radius: 3px; }
+
+/* ── Top nav bar ── */
+#topnav {
+  background: #fff;
+  border-bottom: 1px solid #e4e6ef;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0;
+  overflow-x: auto;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 20px;
+  border-right: 1px solid #e4e6ef;
+  height: 48px;
+  flex-shrink: 0;
+}
+.nav-brand-icon {
+  width: 26px; height: 26px; border-radius: 7px;
+  background: #5b4fcf;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-brand-icon svg { width: 14px; height: 14px; }
+.nav-brand-name { font-size: 14px; font-weight: 600; color: #1a1d2e; letter-spacing: -.3px; }
+#course-tabs { display: flex; flex-shrink: 0; }
+.course-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 0 16px; height: 48px;
+  font-size: 12px; color: #8b8fa8;
+  border-right: 1px solid #e4e6ef;
+  cursor: pointer; user-select: none;
+  transition: background .1s, color .1s;
+  white-space: nowrap;
+}
+.course-tab:hover { background: #f8f9fc; color: #1a1d2e; }
+.course-tab.active { color: #1a1d2e; font-weight: 500; background: #f4f5f7; border-bottom: 2px solid #5b4fcf; }
+.course-tab .fw-tag {
+  font-size: 10px; font-weight: 600;
+  background: #eeedff; color: #5b4fcf;
+  padding: 1px 7px; border-radius: 20px;
+}
+#btn-new-course {
+  padding: 0 16px; height: 48px; display: flex; align-items: center;
+  font-size: 20px; color: #c0c4d8; background: none; border: none;
+  border-right: 1px solid #e4e6ef;
+  cursor: pointer; flex-shrink: 0; transition: color .1s;
+}
+#btn-new-course:hover { color: #5b4fcf; }
+.nav-right {
+  margin-left: auto; display: flex; align-items: center;
+  gap: 6px; padding: 0 16px; flex-shrink: 0;
+}
+#save-status { font-size: 11px; color: #a0a4b8; white-space: nowrap; }
+.nav-btn {
+  padding: 5px 12px; font-size: 12px; font-weight: 500;
+  border-radius: 7px; cursor: pointer;
+  border: 1px solid #e0e2ec; background: #fff; color: #5b6070;
+  transition: all .12s; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
+}
+.nav-btn:hover { background: #f4f5f7; border-color: #c8cad8; color: #1a1d2e; }
+.nav-btn.primary {
+  background: #5b4fcf; border-color: #5b4fcf; color: #fff;
+}
+.nav-btn.primary:hover { background: #4a40b5; border-color: #4a40b5; }
+
+/* ── Module bar ── */
+#modbar {
+  background: #fff;
+  border-bottom: 1px solid #e4e6ef;
+  flex-shrink: 0; min-height: 40px;
+  display: flex; align-items: center;
+  overflow-x: auto;
+}
+#mod-tabs { display: flex; flex-shrink: 0; }
+.mod-tab {
+  padding: 0 14px; height: 40px; display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: #8b8fa8;
+  border-right: 1px solid #f0f1f6;
+  cursor: pointer; user-select: none; white-space: nowrap;
+  transition: background .1s, color .1s;
+}
+.mod-tab:hover { background: #f8f9fc; color: #1a1d2e; }
+.mod-tab.active { color: #1a1d2e; font-weight: 500; border-bottom: 2px solid #5b4fcf; background: #f4f5f7; }
+.mod-tab .mod-tag { font-size: 9px; color: #5b4fcf; font-weight: 600; opacity: .8; }
+#btn-new-mod {
+  padding: 0 12px; height: 40px; font-size: 18px; color: #c0c4d8;
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  transition: color .1s; display: flex; align-items: center;
+}
+#btn-new-mod:hover { color: #5b4fcf; }
+.modbar-right { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 0 12px; flex-shrink: 0; }
+.view-toggle { display: flex; border: 1px solid #e0e2ec; border-radius: 7px; overflow: hidden; }
+.vtbtn {
+  padding: 4px 12px; font-size: 11px; font-weight: 500;
+  cursor: pointer; border: none; background: #fff; color: #8b8fa8;
+  transition: all .12s; white-space: nowrap;
+}
+.vtbtn:hover { background: #f4f5f7; color: #1a1d2e; }
+.vtbtn.active { background: #5b4fcf; color: #fff; }
+.mod-action-btn {
+  padding: 4px 10px; font-size: 11px; font-weight: 500;
+  border-radius: 6px; cursor: pointer;
+  border: 1px solid #e0e2ec; background: #fff; color: #8b8fa8;
+  transition: all .12s; white-space: nowrap;
+}
+.mod-action-btn:hover { background: #f4f5f7; color: #1a1d2e; border-color: #c8cad8; }
+.mod-action-btn.danger { color: #d94040; border-color: #f4c0c0; }
+.mod-action-btn.danger:hover { background: #fff5f5; }
+
+/* ── Planning context bar ── */
+#planning-context-bar {
+  display: none; align-items: center;
+  background: #fff; border-bottom: 1px solid #e4e6ef;
+  min-height: 40px; padding: 0 14px; gap: 10px;
+}
+.pcb-crumb { font-size: 12px; color: #a0a4b8; display: flex; align-items: center; gap: 6px; }
+.pcb-crumb .sep { color: #d0d4e0; }
+.pcb-crumb .active { color: #1a1d2e; font-weight: 500; }
+.pcb-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+
+/* ── Module info strip ── */
+#mod-info {
+  background: #fff; border-bottom: 1px solid #eef0f6;
+  padding: 7px 18px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px; min-height: 34px;
+}
+.fw-pill {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 9px; border-radius: 20px;
+  background: #eeedff; color: #5b4fcf;
+  white-space: nowrap; flex-shrink: 0;
+}
+#mod-desc-text { font-size: 12px; color: #a0a4b8; line-height: 1.4; flex: 1; }
+
+/* ── Stats bar ── */
+#stats {
+  display: flex; gap: 20px; padding: 5px 18px;
+  background: #f8f9fc; border-bottom: 1px solid #eef0f6;
+  flex-shrink: 0;
+}
+.stat { font-size: 11px; color: #a0a4b8; }
+.stat b { color: #1a1d2e; font-weight: 600; font-size: 12px; margin-right: 3px; }
+
+/* ── Screen area ── */
+#screen-area { flex: 1; overflow-y: auto; padding: 14px 18px; background: #f4f5f7; }
+#screen-table { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+
+.screen-row {
+  display: grid; grid-template-columns: 28px 1fr 110px 26px;
+  gap: 10px; align-items: center;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #e8eaf2;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: border-color .12s, box-shadow .12s;
+}
+.screen-row:hover { border-color: #c8cadc; box-shadow: 0 1px 4px rgba(91,79,207,.06); }
+.screen-row.active { border-color: #5b4fcf; box-shadow: 0 0 0 3px rgba(91,79,207,.08); }
+.row-num { font-size: 11px; color: #c0c4d8; text-align: center; font-weight: 600; }
+.row-info { min-width: 0; }
+.row-title { font-size: 13px; font-weight: 500; color: #1a1d2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-obj { font-size: 11px; color: #a0a4b8; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.type-badge { font-size: 10px; padding: 3px 9px; border-radius: 20px; text-align: center; font-weight: 500; white-space: nowrap; }
+.tb-title-slide { background: #eeedff; color: #5b4fcf; }
+.tb-content    { background: #e8f0ff; color: #2255cc; }
+.tb-activity   { background: #f3eeff; color: #7c3dcf; }
+.tb-scenario   { background: #fff4e6; color: #b45d0a; }
+.tb-quiz       { background: #e8f8ee; color: #1a7a3f; }
+.tb-video      { background: #fff0f5; color: #c0264e; }
+.tb-summary    { background: #e8f8f5; color: #0d6e5a; }
+.row-del { background: none; border: none; color: #d0d4e0; font-size: 16px; cursor: pointer; padding: 2px 3px; border-radius: 4px; line-height: 1; transition: color .1s; }
+.row-del:hover { color: #d94040; }
+
+#add-screen-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px; border: 1.5px dashed #d0d4e0; border-radius: 9px;
+  cursor: pointer; color: #a0a4b8; font-size: 12px;
+  transition: all .12s; background: transparent;
+}
+#add-screen-btn:hover { border-color: #5b4fcf; color: #5b4fcf; background: #f5f3ff; }
+.empty-msg { text-align: center; padding: 32px; color: #a0a4b8; font-size: 13px; }
+
+/* ── Editor ── */
+#editor {
+  background: #fff; border-top: 2px solid #5b4fcf;
+  flex-shrink: 0; max-height: 52vh; overflow-y: auto;
+}
+#editor.hidden { display: none; }
+#ed-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px 8px; border-bottom: 1px solid #eef0f6;
+  gap: 10px; flex-wrap: wrap; background: #faf9ff;
+}
+#ed-heading { font-size: 11px; font-weight: 600; color: #5b4fcf; text-transform: uppercase; letter-spacing: .08em; }
+#ed-type-row { display: flex; align-items: center; gap: 8px; }
+#ed-type-row label { font-size: 10px; color: #a0a4b8; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+#ed-type {
+  background: #fff; border: 1px solid #e0e2ec; border-radius: 6px;
+  color: #1a1d2e; font-family: inherit; font-size: 13px; padding: 4px 9px; cursor: pointer;
+}
+#ed-type:focus { outline: none; border-color: #5b4fcf; }
+#ed-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+.ebtn {
+  padding: 5px 11px; font-size: 11px; font-weight: 500; border-radius: 6px;
+  cursor: pointer; border: 1px solid #e0e2ec; background: #fff; color: #5b6070;
+  transition: all .1s; white-space: nowrap;
+}
+.ebtn:hover { background: #f4f5f7; border-color: #c8cad8; }
+.ebtn.primary { background: #5b4fcf; border-color: #5b4fcf; color: #fff; font-weight: 600; }
+.ebtn.primary:hover { background: #4a40b5; }
+.ebtn.danger { border-color: #f4c0c0; color: #d94040; background: transparent; }
+.ebtn.danger:hover { background: #fff5f5; }
+#ed-fields { padding: 14px 18px 18px; background: #fff; }
+.field-grid { display: grid; gap: 10px; }
+.fg { display: flex; flex-direction: column; gap: 4px; }
+.fg label { font-size: 10px; font-weight: 600; color: #a0a4b8; text-transform: uppercase; letter-spacing: .07em; }
+.fg input, .fg textarea {
+  background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 7px;
+  color: #1a1d2e; font-family: inherit; font-size: 13px; padding: 8px 11px;
+  transition: border-color .12s, box-shadow .12s; width: 100%;
+}
+.fg input:focus, .fg textarea:focus { outline: none; border-color: #5b4fcf; box-shadow: 0 0 0 3px rgba(91,79,207,.08); background: #fff; }
+.fg textarea { resize: vertical; line-height: 1.6; }
+.fg textarea.sm  { min-height: 56px; }
+.fg textarea.md  { min-height: 76px; }
+.fg textarea.lg  { min-height: 104px; }
+
+/* ── Planning panel ── */
+#planning-panel { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: #f4f5f7; }
+#plan-area { padding: 20px; display: flex; flex-direction: column; gap: 24px; }
+
+.plan-section { background: #fff; border: 1px solid #e4e6ef; border-radius: 12px; overflow: hidden; }
+.plan-section-hdr { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 20px 12px; border-bottom: 1px solid #eef0f6; gap: 12px; }
+.plan-section-title { font-size: 14px; font-weight: 600; color: #1a1d2e; margin-bottom: 3px; }
+.plan-section-sub { font-size: 12px; color: #a0a4b8; line-height: 1.4; }
+.plan-add-btn {
+  padding: 5px 13px; font-size: 12px; font-weight: 500; border-radius: 7px; cursor: pointer;
+  border: 1px solid #e0e2ec; background: #fff; color: #5b4fcf;
+  white-space: nowrap; flex-shrink: 0; transition: all .12s;
+}
+.plan-add-btn:hover { background: #eeedff; border-color: #c8c0f0; }
+
+/* ── Checklist ── */
+.checklist-head { display: grid; grid-template-columns: 1fr 80px 1fr 32px; gap: 8px; padding: 8px 20px; background: #f8f9fc; font-size: 10px; font-weight: 600; color: #a0a4b8; text-transform: uppercase; letter-spacing: .07em; }
+.checklist-row { display: grid; grid-template-columns: 1fr 80px 1fr 32px; gap: 8px; align-items: center; padding: 7px 20px; border-top: 1px solid #f0f1f8; transition: background .1s; }
+.checklist-row:hover { background: #fafbfd; }
+.checklist-row input[type="text"] { background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 6px; color: #1a1d2e; font-family: inherit; font-size: 12px; padding: 5px 9px; width: 100%; transition: border-color .1s; }
+.checklist-row input[type="text"]:focus { outline: none; border-color: #5b4fcf; }
+.checklist-row input[type="text"].note { color: #8b8fa8; font-size: 11px; }
+.check-toggle { display: flex; align-items: center; justify-content: center; }
+.check-toggle button { padding: 4px 11px; font-size: 11px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid; transition: all .12s; white-space: nowrap; }
+.check-toggle button.done { background: #e8f8ee; border-color: #8fd4a8; color: #1a7a3f; }
+.check-toggle button.not-done { background: #f4f5f7; border-color: #e0e2ec; color: #a0a4b8; }
+.check-toggle button:hover { opacity: .8; }
+.row-del-sm { background: none; border: none; cursor: pointer; color: #d0d4e0; font-size: 15px; line-height: 1; padding: 2px 4px; border-radius: 4px; transition: color .1s; }
+.row-del-sm:hover { color: #d94040; }
+
+/* ── Workflow grid ── */
+.workflow-meta { padding: 12px 20px 10px; border-bottom: 1px solid #f0f1f8; }
+.wf-meta-field { display: flex; flex-direction: column; gap: 4px; }
+.wf-meta-field label { font-size: 10px; font-weight: 600; color: #a0a4b8; text-transform: uppercase; letter-spacing: .07em; }
+.wf-meta-field input { background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 7px; color: #1a1d2e; font-family: inherit; font-size: 13px; padding: 8px 11px; width: 100%; transition: border-color .12s; }
+.wf-meta-field input:focus { outline: none; border-color: #5b4fcf; }
+#workflow-grid { padding: 16px 20px 18px; overflow-x: auto; }
+.wf-grid-inner { display: grid; gap: 0; min-width: 500px; }
+.wf-row { display: flex; align-items: stretch; gap: 0; }
+.wf-row-label { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; padding: 8px 12px 8px 0; }
+.wf-row-label-num { font-size: 10px; font-weight: 700; color: #5b4fcf; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 2px; }
+.wf-row-label-name { font-size: 12px; color: #5b6070; font-weight: 500; line-height: 1.3; }
+.wf-row-cells { display: flex; gap: 8px; flex: 1; align-items: stretch; padding: 8px 0; }
+.wf-row-arrows { display: flex; gap: 8px; margin-left: 130px; margin-bottom: 2px; }
+.wf-arrow-col { display: flex; justify-content: center; font-size: 16px; color: #c8cad8; line-height: 1; }
+.wf-cell { flex: 0 0 160px; background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+.wf-cell.wf-usecase-cell { flex: 1; background: #f8f7ff; border-color: #d8d0f8; }
+.wf-cell-content { flex: 1; }
+.wf-cell textarea { width: 100%; height: 100%; min-height: 54px; background: transparent; border: none; color: #1a1d2e; font-family: inherit; font-size: 12px; padding: 8px 10px; resize: none; line-height: 1.5; }
+.wf-cell textarea:focus { outline: none; }
+.wf-cell textarea::placeholder { color: #c0c4d8; }
+.wf-cell-label { font-size: 9px; font-weight: 700; color: #c0c4d8; text-transform: uppercase; letter-spacing: .07em; padding: 6px 10px 0; }
+.wf-cell.wf-stage { border-color: #d0caee; background: #f5f3ff; }
+.wf-cell.wf-stage textarea { color: #4a3db5; }
+.wf-cell.wf-tasks { border-color: #e4e6ef; }
+.wf-cell.wf-objective { border-color: #bbe0cc; background: #f0faf4; }
+.wf-cell.wf-objective textarea { color: #1a7a3f; font-size: 11px; }
+.wf-cell-del { position: absolute; top: 4px; right: 4px; background: none; border: none; cursor: pointer; color: #c0c4d8; font-size: 12px; line-height: 1; padding: 1px 3px; border-radius: 3px; opacity: 0; transition: all .1s; }
+.wf-cell:hover .wf-cell-del { opacity: 1; }
+.wf-cell-del:hover { color: #d94040; }
+.wf-add-col { flex: 0 0 36px; display: flex; align-items: center; justify-content: center; }
+.wf-add-col button { width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed #d0d4e0; background: none; color: #a0a4b8; font-size: 16px; cursor: pointer; line-height: 1; transition: all .1s; display: flex; align-items: center; justify-content: center; }
+.wf-add-col button:hover { border-color: #5b4fcf; color: #5b4fcf; background: #f5f3ff; }
+.wf-del { background: none; border: 1px solid #f4c0c0; border-radius: 5px; color: #d94040; font-size: 11px; padding: 3px 9px; cursor: pointer; transition: all .12s; }
+.wf-del:hover { background: #fff5f5; }
+
+/* ── Flow cards ── */
+#flow-cards { padding: 16px 20px 18px; display: flex; gap: 0; overflow-x: auto; }
+.flow-card { flex-shrink: 0; width: 200px; display: flex; flex-direction: column; }
+.flow-card-inner { background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 10px; padding: 13px 12px 10px; flex: 1; display: flex; flex-direction: column; gap: 8px; margin: 0 6px; transition: border-color .12s; }
+.flow-card-inner:hover { border-color: #c8cad8; }
+.flow-card-arrow { display: flex; align-items: center; justify-content: center; width: 20px; flex-shrink: 0; color: #c8cad8; font-size: 18px; margin-top: 26px; }
+.flow-card:first-child .flow-card-inner { margin-left: 0; }
+.flow-card:last-child .flow-card-inner { margin-right: 0; }
+.flow-card-hdr { display: flex; align-items: center; gap: 6px; }
+.flow-card-hdr input { flex: 1; background: transparent; border: none; border-bottom: 1.5px solid #e4e6ef; color: #1a1d2e; font-family: inherit; font-size: 13px; font-weight: 600; padding: 2px 0 3px; }
+.flow-card-hdr input:focus { outline: none; border-bottom-color: #5b4fcf; }
+.flow-card-hdr input::placeholder { color: #c0c4d8; font-weight: 400; }
+.flow-card-del { background: none; border: none; cursor: pointer; color: #d0d4e0; font-size: 14px; line-height: 1; padding: 1px 3px; border-radius: 3px; transition: color .1s; }
+.flow-card-del:hover { color: #d94040; }
+.flow-card textarea { flex: 1; background: transparent; border: none; color: #5b6070; font-family: inherit; font-size: 12px; padding: 4px 0; resize: none; min-height: 110px; line-height: 1.6; width: 100%; }
+.flow-card textarea:focus { outline: none; }
+.flow-card textarea::placeholder { color: #c0c4d8; }
+.flow-card-foot { display: flex; justify-content: space-between; align-items: center; }
+.flow-card-move { background: none; border: none; cursor: pointer; color: #c0c4d8; font-size: 12px; padding: 2px 5px; border-radius: 4px; transition: all .1s; }
+.flow-card-move:hover { color: #5b4fcf; background: #eeedff; }
+.flow-empty { padding: 24px; color: #a0a4b8; font-size: 13px; text-align: center; width: 100%; }
+
+/* ── Modals ── */
+.modal-ov { position: fixed; inset: 0; background: rgba(26,29,46,.45); display: flex; align-items: center; justify-content: center; z-index: 200; }
+.modal-ov.hidden { display: none; }
+.modal { background: #fff; border: 1px solid #e4e6ef; border-radius: 14px; padding: 28px; width: 480px; max-width: 95vw; box-shadow: 0 8px 32px rgba(26,29,46,.12); }
+.modal h2 { font-size: 18px; font-weight: 600; margin-bottom: 5px; letter-spacing: -.2px; }
+.modal p { font-size: 12px; color: #a0a4b8; margin-bottom: 20px; line-height: 1.5; }
+.mfields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.mf { display: flex; flex-direction: column; gap: 4px; }
+.mf label { font-size: 10px; font-weight: 600; color: #a0a4b8; text-transform: uppercase; letter-spacing: .07em; }
+.mf input, .mf textarea { background: #fafbfd; border: 1px solid #e4e6ef; border-radius: 7px; color: #1a1d2e; font-family: inherit; font-size: 13px; padding: 8px 11px; width: 100%; transition: border-color .12s; }
+.mf input:focus, .mf textarea:focus { outline: none; border-color: #5b4fcf; box-shadow: 0 0 0 3px rgba(91,79,207,.08); }
+.mf textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+.mf small { font-size: 11px; color: #a0a4b8; margin-top: 2px; }
+.mactions { display: flex; gap: 8px; justify-content: flex-end; }
+.mbtn { padding: 8px 18px; font-size: 13px; border-radius: 8px; cursor: pointer; border: 1px solid #e0e2ec; background: #fff; color: #5b6070; transition: all .1s; font-weight: 500; }
+.mbtn:hover { background: #f4f5f7; }
+.mbtn.accent { background: #5b4fcf; border-color: #5b4fcf; color: #fff; }
+.mbtn.accent:hover { background: #4a40b5; }
+.framework-note { background: #f5f3ff; border: 1px solid #d8d0f8; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #5b4fcf; line-height: 1.6; }
+.framework-note b { font-weight: 600; }
+
+/* ── Toast ── */
+.toast { position: fixed; bottom: 20px; right: 20px; background: #1a1d2e; color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 300; opacity: 0; transform: translateY(8px); transition: all .22s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── Utility ── */
+.view-hidden { display: none !important; }
+</style>
+</head>
+<body>
+<p class="author-bar">Created by <strong>Lucas Richardson</strong> · <a href="index.html">Portfolio</a></p>
+
+<!-- TOP NAV -->
+<div id="topnav">
+  <div class="nav-brand">
+    <div class="nav-brand-icon">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="5" height="5" rx="1.5" fill="white" opacity=".9"/>
+        <rect x="8" y="1" width="5" height="5" rx="1.5" fill="white" opacity=".6"/>
+        <rect x="1" y="8" width="5" height="5" rx="1.5" fill="white" opacity=".6"/>
+        <rect x="8" y="8" width="5" height="5" rx="1.5" fill="white" opacity=".3"/>
+      </svg>
+    </div>
+    <span class="nav-brand-name">Training Planner</span>
+  </div>
+  <div id="course-tabs"></div>
+  <button id="btn-new-course" title="New course">+</button>
+  <div class="nav-right">
+    <span id="save-status"></span>
+    <button class="nav-btn" onclick="openFile()">Open</button>
+    <button class="nav-btn" onclick="exportBackup()">Backup</button>
+    <button class="nav-btn" onclick="printSummary()">Print</button>
+    <button class="nav-btn primary" onclick="saveFile()">Save</button>
+  </div>
+</div>
+
+<!-- MODULE BAR -->
+<div id="modbar">
+  <div id="mod-tabs"></div>
+  <button id="btn-new-mod" title="Add module">+</button>
+  <div class="modbar-right">
+    <div class="view-toggle">
+      <button class="vtbtn active" id="vt-storyboard" onclick="switchView('storyboard')">Storyboard</button>
+      <button class="vtbtn" id="vt-planning" onclick="switchView('planning')">Planning</button>
+    </div>
+    <button class="mod-action-btn" onclick="editMod()">Edit module</button>
+    <button class="mod-action-btn" onclick="editCourse()">Edit course</button>
+    <button class="mod-action-btn danger" onclick="deleteCourse()">Delete course</button>
+  </div>
+</div>
+
+<!-- PLANNING CONTEXT BAR -->
+<div id="planning-context-bar">
+  <div class="pcb-crumb">
+    <span>All courses</span>
+    <span class="sep">/</span>
+    <span class="active" id="pcb-course-name"></span>
+    <span class="sep">/</span>
+    <span class="active">Course planning</span>
+  </div>
+  <div class="pcb-right">
+    <div class="view-toggle">
+      <button class="vtbtn" onclick="switchView('storyboard')">Storyboard</button>
+      <button class="vtbtn active" onclick="switchView('planning')">Planning</button>
+    </div>
+    <button class="mod-action-btn" onclick="editCourse()">Edit course</button>
+    <button class="mod-action-btn danger" onclick="deleteCourse()">Delete course</button>
+  </div>
+</div>
+
+<!-- MODULE INFO -->
+<div id="mod-info">
+  <span class="fw-pill" id="mod-framework-pill" style="display:none"></span>
+  <span id="mod-desc-text">Select a module above.</span>
+</div>
+
+<!-- STATS -->
+<div id="stats"></div>
+
+<!-- SCREEN LIST -->
+<div id="screen-area">
+  <div id="screen-table"></div>
+  <div id="add-screen-btn" onclick="addScreen()">+ Add screen to this module</div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor" class="hidden">
+  <div id="ed-top">
+    <span id="ed-heading">—</span>
+    <div id="ed-type-row">
+      <label>Screen type</label>
+      <select id="ed-type" onchange="onTypeChange()">
+        <option value="title-slide">Title slide</option>
+        <option value="content">Content</option>
+        <option value="activity">Activity</option>
+        <option value="scenario">Scenario</option>
+        <option value="quiz">Quiz</option>
+        <option value="video">Video</option>
+        <option value="summary">Summary</option>
+      </select>
+    </div>
+    <div id="ed-btns">
+      <button class="ebtn primary" onclick="saveScreen()">Save screen</button>
+      <button class="ebtn" onclick="moveScreen(-1)">↑ Up</button>
+      <button class="ebtn" onclick="moveScreen(1)">↓ Down</button>
+      <button class="ebtn" onclick="dupScreen()">Duplicate</button>
+      <button class="ebtn danger" onclick="deleteScreen()">Delete</button>
+      <button class="ebtn" onclick="closeEditor()">Close</button>
+    </div>
+  </div>
+  <div id="ed-fields"></div>
+</div>
+
+<!-- PLANNING PANEL -->
+<div id="planning-panel" class="hidden">
+  <div id="plan-area">
+
+    <div class="plan-section">
+      <div class="plan-section-hdr">
+        <div>
+          <div class="plan-section-title">Module design checklist</div>
+          <div class="plan-section-sub">Track design quality for this course. Check items off as you complete them.</div>
+        </div>
+        <button class="plan-add-btn" onclick="addCheckItem()">+ Add item</button>
+      </div>
+      <div id="checklist-table">
+        <div class="checklist-head">
+          <span>Design element</span>
+          <span style="text-align:center">Done?</span>
+          <span>Explanation / notes</span>
+          <span></span>
+        </div>
+        <div id="checklist-rows"></div>
+      </div>
+    </div>
+
+    <div class="plan-section">
+      <div class="plan-section-hdr">
+        <div>
+          <div class="plan-section-title">Workflow breakdown</div>
+          <div class="plan-section-sub">Map a real-life workflow into stages, tasks, and performance objectives. Each column is one path through the workflow.</div>
+        </div>
+        <button class="plan-add-btn" onclick="addWfColumn()">+ Add path</button>
+      </div>
+      <div class="workflow-meta">
+        <div class="wf-meta-field">
+          <label>Use case / real-life scenario</label>
+          <input type="text" id="wf-usecase" placeholder="e.g. Create a map for a mobile robot deployment" oninput="saveWorkflowMeta()">
+        </div>
+      </div>
+      <div id="workflow-grid"></div>
+    </div>
+
+    <div class="plan-section">
+      <div class="plan-section-hdr">
+        <div>
+          <div class="plan-section-title">Module flow</div>
+          <div class="plan-section-sub">Map the flow of each training module: Intro → Theory → Demo → Task → Wrap-up.</div>
+        </div>
+        <button class="plan-add-btn" onclick="addFlowCard()">+ Add card</button>
+      </div>
+      <div id="flow-cards"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COURSE MODAL -->
+<div class="modal-ov hidden" id="course-modal">
+  <div class="modal">
+    <h2 id="course-modal-title">New course</h2>
+    <p>Courses can use any framework or none at all — the planner works either way.</p>
+    <div class="mfields">
+      <div class="mf"><label>Course name</label><input id="cm-name" placeholder="e.g. New Employee Onboarding, Sales Methodology…"></div>
+      <div class="mf"><label>Description (optional)</label><textarea id="cm-desc" placeholder="What is this course about? Who is it for?"></textarea></div>
+      <div class="mf"><label>Framework / theme (optional)</label><input id="cm-framework" placeholder="e.g. LIFT, ADDIE, Kirkpatrick — or leave blank"><small>Used as a label only. Leaving it blank is fine.</small></div>
+      <div class="mf"><label>Audience</label><input id="cm-audience" placeholder="e.g. New sales hires, Technical trainers…"></div>
+      <div class="framework-note"><b>Using the LIFT framework?</b> Add "LIFT" above and each module can be tagged to a pillar (L / I / F / T).</div>
+    </div>
+    <div class="mactions">
+      <button class="mbtn" onclick="closeModal('course-modal')">Cancel</button>
+      <button class="mbtn accent" id="course-modal-save">Create course</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE MODAL -->
+<div class="modal-ov hidden" id="mod-modal">
+  <div class="modal">
+    <h2 id="mod-modal-title">New module</h2>
+    <p id="mod-modal-sub">Add a module to this course. You can edit everything later.</p>
+    <div class="mfields">
+      <div class="mf"><label>Module name</label><input id="mm-name" placeholder="e.g. Module 1 – Introduction…"></div>
+      <div class="mf"><label>Description (optional)</label><textarea id="mm-desc" placeholder="What does this module cover?"></textarea></div>
+      <div class="mf"><label id="mm-tag-label">Framework tag (optional)</label><input id="mm-tag" placeholder="e.g. L, I, F, T for LIFT — or leave blank"><small id="mm-tag-hint">Leave blank if not using a framework.</small></div>
+    </div>
+    <div class="mactions">
+      <button class="mbtn" onclick="closeModal('mod-modal')">Cancel</button>
+      <button class="mbtn accent" id="mod-modal-save">Add module</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+const TYPE_FIELDS = {
+  'title-slide': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Slide title',                              type:'input',    span:1, ph:'e.g. Welcome to the course'},
+    {key:'subtitle',    label:'Subtitle or tagline',                      type:'input',    span:1, ph:'e.g. What you will be able to do differently'},
+    {key:'mod_obj',     label:'Module learning objectives',               type:'textarea', span:2, cls:'md', ph:'By the end of this module, learners will be able to…'},
+    {key:'hook',        label:'Opening hook or prompt',                   type:'textarea', span:2, cls:'sm', ph:'An opening question, statistic, or story to draw learners in…'},
+    {key:'visual',      label:'Visual / design notes',                    type:'textarea', span:2, cls:'sm', ph:'Background image, animation, brand notes, tone…'},
+  ]},
+  'content': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Screen title',                             type:'input',    span:2, ph:'e.g. Why this matters'},
+    {key:'obj',         label:'Learning objective for this screen',       type:'input',    span:2, ph:'Learner will be able to…'},
+    {key:'narration',   label:'Key points / narration script',            type:'textarea', span:1, cls:'lg', ph:'Main content, key points, talking points or script…'},
+    {key:'visual',      label:'Visual / on-screen content',              type:'textarea', span:1, cls:'lg', ph:'What appears on screen — diagrams, images, text, quotes…'},
+    {key:'transition',  label:'Transition / bridge to next',             type:'textarea', span:2, cls:'sm', ph:'How does this connect to what comes next?'},
+  ]},
+  'activity': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Activity title',                           type:'input',    span:2, ph:'e.g. Apply what you just learned'},
+    {key:'obj',         label:'Learning objective',                       type:'input',    span:2, ph:'Learner will be able to…'},
+    {key:'instructions',label:'Learner instructions',                     type:'textarea', span:2, cls:'sm', ph:'What exactly do learners do? Be specific.'},
+    {key:'narration',   label:'Facilitator / narration notes',           type:'textarea', span:1, cls:'md', ph:'Setup, context, or script to introduce the activity…'},
+    {key:'interaction', label:'Interaction / platform notes',            type:'textarea', span:1, cls:'md', ph:'Click interactions, drag/drop, free-text, timer, polling…'},
+    {key:'debrief',     label:'Debrief questions',                       type:'textarea', span:1, cls:'sm', ph:'What do you ask after to consolidate the learning?'},
+    {key:'notes',       label:'Production notes / estimated time',       type:'textarea', span:1, cls:'sm', ph:'Time estimate, assets needed, design notes…'},
+  ]},
+  'scenario': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Scenario title',                           type:'input',    span:2, ph:'e.g. The difficult conversation'},
+    {key:'obj',         label:'Learning objective',                       type:'input',    span:2, ph:'Learner will be able to…'},
+    {key:'situation',   label:'Situation setup',                          type:'textarea', span:2, cls:'md', ph:'Describe the scenario. Who is involved, what is happening, what is at stake?'},
+    {key:'prompt',      label:'Decision prompt',                          type:'textarea', span:2, cls:'sm', ph:'What question or decision does the learner face?'},
+    {key:'options',     label:'Response options (A / B / C / D)',        type:'textarea', span:1, cls:'lg', ph:'A: …\nB: …\nC: …\nD: …'},
+    {key:'feedback',    label:'Consequence / feedback per choice',       type:'textarea', span:1, cls:'lg', ph:'What happens for each choice? What does the learner learn?'},
+    {key:'notes',       label:'Production notes',                        type:'textarea', span:2, cls:'sm', ph:'Branching logic, assets, design notes…'},
+  ]},
+  'quiz': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Quiz title',                               type:'input',    span:2, ph:'e.g. Module 1 knowledge check'},
+    {key:'obj',         label:'What this quiz is checking',               type:'input',    span:2, ph:'e.g. Understanding of the core framework introduced in this module'},
+    {key:'q1',          label:'Question 1',                               type:'textarea', span:2, cls:'sm', ph:'Question text\nA: …  B: …  C: …  D: …\nCorrect: '},
+    {key:'q2',          label:'Question 2',                               type:'textarea', span:2, cls:'sm', ph:'Question text\nA: …  B: …  C: …  D: …\nCorrect: '},
+    {key:'q3',          label:'Question 3',                               type:'textarea', span:2, cls:'sm', ph:'Question text\nA: …  B: …  C: …  D: …\nCorrect: '},
+    {key:'q4',          label:'Question 4 (optional)',                    type:'textarea', span:2, cls:'sm', ph:'Question text\nA: …  B: …  C: …  D: …\nCorrect: '},
+    {key:'feedback',    label:'Pass / fail feedback messages',            type:'textarea', span:2, cls:'sm', ph:'Pass: "Great work…"   Fail: "Review the section on…"'},
+    {key:'notes',       label:'Production notes',                         type:'textarea', span:2, cls:'sm', ph:'Attempts allowed, pass threshold, randomise order, time limit…'},
+  ]},
+  'video': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Screen title',                             type:'input',    span:2, ph:'e.g. See it in action'},
+    {key:'obj',         label:'Learning objective',                       type:'input',    span:2, ph:'Learner will be able to…'},
+    {key:'description', label:'Video description / script',              type:'textarea', span:2, cls:'lg', ph:'What does the video show? Key moments, who appears, approximate length…'},
+    {key:'highlights',  label:'Key moments to highlight',                type:'textarea', span:1, cls:'md', ph:'Timestamps or moments to call out with captions or annotations…'},
+    {key:'followup',    label:'Follow-up prompt or question',            type:'textarea', span:1, cls:'md', ph:'What do learners do or reflect on after watching?'},
+    {key:'notes',       label:'Production notes',                        type:'textarea', span:2, cls:'sm', ph:'Source, runtime, captions, accessibility notes…'},
+  ]},
+  'summary': { grid:'1fr 1fr', fields:[
+    {key:'title',       label:'Screen title',                             type:'input',    span:2, ph:'e.g. Module wrap-up'},
+    {key:'takeaways',   label:'Key takeaways (3–5 bullet points)',        type:'textarea', span:2, cls:'md', ph:'• …\n• …\n• …'},
+    {key:'reflection',  label:'Reflection prompt',                        type:'textarea', span:1, cls:'sm', ph:'What is one thing from this module you will apply right away?'},
+    {key:'bridge',      label:'Bridge to next module',                   type:'textarea', span:1, cls:'sm', ph:'How does this connect to what comes next?'},
+    {key:'visual',      label:'Visual / design notes',                   type:'textarea', span:2, cls:'sm', ph:'Progress indicator, completion animation, certificate…'},
+  ]},
+};
+
+const ALL_KEYS = ['title','subtitle','mod_obj','hook','obj','narration','visual','transition',
+  'instructions','interaction','debrief','situation','prompt','options','feedback',
+  'q1','q2','q3','q4','description','highlights','followup','takeaways','reflection','bridge','notes'];
+
+const TYPE_LABEL = {'title-slide':'Title slide','content':'Content','activity':'Activity','scenario':'Scenario','quiz':'Quiz','video':'Video','summary':'Summary'};
+
+// ── App data ──────────────────────────────────────────────────────────────────
+let data = {
+  activeCourse: 'c1',
+  courses: [
+    {
+      id: 'c1',
+      name: 'Trainer Certification',
+      desc: 'Adult learning principles for technical and sales professionals. Covers the LIFT framework.',
+      framework: 'LIFT',
+      audience: 'Technical and sales employees who need to train others',
+      activeMod: 'm1',
+      modules: [
+        {id:'m1',name:'M1 – Why Training Fails',        tag:'L',   desc:'Hook the learner. Bust the myth that expertise = teaching ability. Introduce the curse of knowledge and what highly-rated training actually looks like.'},
+        {id:'m2',name:'M2 – Learner First',             tag:'L',   desc:'Audience analysis, learner personas, motivation theory (ARCS). Who is in the room and why it changes everything about how you design training.'},
+        {id:'m3',name:'M3 – Intentional Design',        tag:'I',   desc:'Writing real objectives, structuring activities with purpose: Connect → Explore → Transform. The 20/80 rule and effective recap sessions.'},
+        {id:'m4',name:'M4 – Facilitation over Lecture', tag:'F',   desc:'Open questions, body language (55/38/7), tone of voice. Your role is guide and process driver — not broadcaster.'},
+        {id:'m5',name:'M5 – Transfer that Sticks',      tag:'T',   desc:'Flow theory, Zone of Proximal Development, practice design, reflection, and verbalizing to consolidate learning.'},
+        {id:'m6',name:'M6 – LIFT in Practice',          tag:'LIFT',desc:'Capstone. Self-assessment, full training design challenge, personal action plan, and certification.'},
+      ],
+      screens: [
+        {id:'s101',mid:'m1',type:'title-slide',title:'Train Like You Mean It',subtitle:'From expert to educator',mod_obj:'Explain why expertise does not equal teaching ability\nName the four pillars of the LIFT framework',hook:'Think of the best training you ever attended. What made it great?',visual:'Animated title reveal. Conversational, confident — not corporate.',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:'Set a conversational tone immediately.'},
+        {id:'s102',mid:'m1',type:'scenario',title:'Spot the bad training',subtitle:'',mod_obj:'',hook:'',visual:'',obj:"Recognize common trainer mistakes from the learner's perspective",narration:'',transition:'',instructions:'',interaction:'3 clickable scenario cards',debrief:'',situation:'Three realistic trainer scenarios. Each represents a common mistake.',prompt:'What is going wrong in each of these training sessions?',options:'Card 1: Expert talks non-stop for 45 minutes\nCard 2: Trainer assumes everyone has prior knowledge\nCard 3: Full day of slides, no practice',feedback:'Reveal the mistake and why it damages learning.',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:"Keep it relatable."},
+        {id:'s103',mid:'m1',type:'content',title:'The curse of knowledge',subtitle:'',mod_obj:'',hook:'',visual:'Piaget quote on screen.',obj:'Explain why subject matter experts often struggle to teach',narration:"Once you know something deeply, it is nearly impossible to recall what it felt like not to know it.",transition:'This is why we need a framework. Enter LIFT.',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:"Emotional hook. Don't rush it."},
+        {id:'s104',mid:'m1',type:'activity',title:'What makes great training?',subtitle:'',mod_obj:'',hook:'',visual:'',obj:"Surface the learner's own mental model before introducing theory",narration:'Before we tell you anything, we want to know what YOU think.',transition:'',instructions:'Reflect on your experience as a learner. What made the best training you attended so effective?',interaction:'Free-text input. After submitting, reveal the Highly Rated Training research list.',debrief:'How does your list compare to the research? What surprised you?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:"Key items: responded to my needs, two-way communication, relatable examples, didn't feel stupid."},
+        {id:'s105',mid:'m1',type:'content',title:'Introducing LIFT',subtitle:'',mod_obj:'',hook:'',visual:'Animated four-pillar reveal. Click each to expand.',obj:'Name and explain the four pillars of the LIFT framework',narration:"Great training is not accidental. It is built on four principles: Learner First, Intentional Design, Facilitation over Lecture, Transfer that Sticks.",transition:'The next five modules each go deep on one of these pillars.',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:'Framework anchor. Keep it visual.'},
+        {id:'s106',mid:'m1',type:'quiz',title:'Module 1 knowledge check',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Confirm understanding of the curse of knowledge and LIFT intro',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'Pass: Great — you have the foundations.\nFail: Review the curse of knowledge section.',q1:'What is the curse of knowledge?\nA: Knowing too much  B: Difficulty recalling not knowing something  C: Experts refusing to share  D: Information overload\nCorrect: B',q2:'Which LIFT pillar focuses on knowing your audience?\nA: Intentional Design  B: Facilitation over Lecture  C: Learner First  D: Transfer that Sticks\nCorrect: C',q3:'True or false: A great subject matter expert will automatically be a great trainer.\nCorrect: False',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:'3 questions. Immediate feedback. No penalty.'},
+        {id:'s107',mid:'m1',type:'summary',title:'Module 1 wrap-up',subtitle:'',mod_obj:'',hook:'',visual:'Progress bar showing M1 complete.',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'• Expertise and teaching are different skills\n• The curse of knowledge explains why experts default to poor training\n• Great training follows four principles: LIFT',reflection:'What is one assumption you make about your learners that you should challenge?',bridge:'In Module 2 we go deep on the L — who your learners actually are.',notes:''},
+        {id:'s201',mid:'m2',type:'title-slide',title:"Who's actually in the room?",subtitle:'The L in LIFT: Learner First',mod_obj:'Conduct a basic audience analysis\nApply the ARCS motivation model',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s202',mid:'m2',type:'activity',title:'Learner persona builder',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Practice identifying learner characteristics before designing',narration:'',transition:'',instructions:'Build a profile of a typical learner for a training session you deliver.',interaction:'Drag-and-drop persona cards: role, motivation, experience, attitude',debrief:'How does knowing this change how you would design the session?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s203',mid:'m2',type:'content',title:'What motivates adult learners',subtitle:'',mod_obj:'',hook:'',visual:'Interactive ARCS model diagram',obj:'Apply the four ARCS motivation factors to training design',narration:'',transition:'',instructions:'',interaction:'Click each letter to reveal the factor and a real example.',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s204',mid:'m2',type:'scenario',title:'"I was told to come"',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Apply motivation strategies to a resistant learner',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'You are facilitating training. One participant crosses their arms and says "I was told I had to be here."',prompt:'What do you do?',options:"A: Ignore and continue\nB: Call them out in front of the group\nC: Acknowledge privately and connect to their role\nD: Ask the group to convince them",feedback:"C is most effective — connects to Relevance in ARCS.",q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s205',mid:'m2',type:'quiz',title:'Module 2 knowledge check',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Apply ARCS to realistic situations',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'What does the R in ARCS stand for?\nA: Repetition  B: Relevance  C: Recall  D: Readiness\nCorrect: B',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s206',mid:'m2',type:'summary',title:'Module 2 wrap-up',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:"• Know your learner before you design anything\n• Adults are motivated by relevance, confidence, and satisfaction\n• Resistance is a signal, not a problem",reflection:'',bridge:'In Module 3 we tackle Intentional Design.',notes:''},
+        {id:'s301',mid:'m3',type:'title-slide',title:'Design before you deliver',subtitle:'The I in LIFT: Intentional Design',mod_obj:"Write measurable learner-focused objectives\nApply Connect → Explore → Transform\nFix sessions where one voice dominates",hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s302',mid:'m3',type:'content',title:'Writing real objectives',subtitle:'',mod_obj:'',hook:'',visual:'Before/after examples on screen',obj:'Write measurable, learner-focused objectives',narration:'',transition:'',instructions:'',interaction:'Learner spots the difference between two versions.',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s303',mid:'m3',type:'content',title:'Connect → Explore → Transform',subtitle:'',mod_obj:'',hook:'',visual:'Animated three-phase flow diagram',obj:'Apply the three-phase activity structure to any topic',narration:'',transition:'',instructions:'',interaction:'Click each phase to expand.',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s304',mid:'m3',type:'activity',title:'The 20/80 rule in action',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Identify and fix sessions where one voice dominates',narration:'',transition:'',instructions:'Watch the video clip then answer the debrief questions.',interaction:'Video scenario embedded',debrief:'What percentage of time did the trainer speak? What could be different?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s305',mid:'m3',type:'content',title:'Recap sessions: why and how',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Design effective recap moments that reinforce learning',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s306',mid:'m3',type:'quiz',title:'Module 3 knowledge check',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s307',mid:'m3',type:'summary',title:'Module 3 wrap-up',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'In Module 4 we tackle Facilitation.',notes:''},
+        {id:'s401',mid:'m4',type:'title-slide',title:"Guide, don't broadcast",subtitle:'The F in LIFT: Facilitation over Lecture',mod_obj:"Describe a facilitator's four core roles\nApply open questioning\nManage dominant participants",hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s402',mid:'m4',type:'content',title:"The facilitator's four roles",subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Describe the four core facilitation roles',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s403',mid:'m4',type:'content',title:'The 55/38/7 rule',subtitle:'',mod_obj:'',hook:'',visual:'Interactive visual breakdown',obj:'Explain how body language and tone outweigh the words you say',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s404',mid:'m4',type:'activity',title:'Open vs closed questions',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Rewrite closed questions as open ones',narration:'',transition:'',instructions:'Rewrite each of the five closed questions as an open question.',interaction:'5-question rewrite with immediate feedback',debrief:'When is a closed question appropriate in training?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s405',mid:'m4',type:'scenario',title:'The runaway expert',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Apply facilitation techniques when a participant dominates',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'A participant who clearly knows the subject keeps jumping in before others can respond.',prompt:"You're 20 minutes in. What do you do?",options:"A: Let them continue\nB: Interrupt and redirect\nC: Acknowledge expertise, invite others\nD: Call a break, speak privately",feedback:"C works in the moment. D if C has failed. B risks conflict. A sacrifices the group.",q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s406',mid:'m4',type:'quiz',title:'Module 4 knowledge check',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s407',mid:'m4',type:'summary',title:'Module 4 wrap-up',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'In Module 5 we tackle Transfer.',notes:''},
+        {id:'s501',mid:'m5',type:'title-slide',title:'Make it stick',subtitle:'The T in LIFT: Transfer that Sticks',mod_obj:'Apply flow theory to calibrate difficulty\nDesign using Zone of Proximal Development\nExplain why verbalizing consolidates learning',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s502',mid:'m5',type:'content',title:'Flow: challenge meets skill',subtitle:'',mod_obj:'',hook:'',visual:'Interactive challenge/skill axis',obj:'Apply flow theory to calibrate activity difficulty',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s503',mid:'m5',type:'content',title:'Zone of Proximal Development',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Design activities at the right level',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s504',mid:'m5',type:'content',title:'Verbalize to internalize',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Explain why learners must speak or write to consolidate learning',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s505',mid:'m5',type:'activity',title:'Design a sticky activity',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Apply Connect → Explore → Transform to a real training topic',narration:'',transition:'',instructions:'Design one activity using Connect → Explore → Transform for a topic you actually train on.',interaction:'Guided design template with field for each phase',debrief:'Would a learner leave this able to do something they could not before?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s506',mid:'m5',type:'quiz',title:'Module 5 knowledge check',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s507',mid:'m5',type:'summary',title:'Module 5 wrap-up',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'In the final module you bring all four LIFT pillars together.',notes:''},
+        {id:'s601',mid:'m6',type:'title-slide',title:'LIFT in practice',subtitle:'Capstone — putting it all together',mod_obj:'Self-assess across all four LIFT pillars\nDesign a complete 30-minute training session\nCommit to a personal action plan',hook:'',visual:'',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s602',mid:'m6',type:'activity',title:'LIFT self-assessment',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Identify personal strengths and gaps across all four LIFT pillars',narration:'',transition:'',instructions:'Rate yourself honestly on each LIFT pillar.',interaction:'Interactive self-rating wheel — L, I, F, T sliders',debrief:'What one area will you focus on first?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s603',mid:'m6',type:'activity',title:'Full training design challenge',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Apply all four LIFT pillars to plan a complete 30-minute training session',narration:'',transition:'',instructions:'Design a 30-minute session on a topic you actually deliver.',interaction:'Multi-section template: audience, objectives, activity structure, facilitation plan, transfer strategy',debrief:'Peer review: does this genuinely apply all four LIFT pillars?',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s604',mid:'m6',type:'content',title:'Trainer roles and responsibilities',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Understand ongoing expectations after certification',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s605',mid:'m6',type:'activity',title:'Personal action plan',subtitle:'',mod_obj:'',hook:'',visual:'',obj:'Commit to 3 specific changes in how you design or deliver training',narration:'',transition:'',instructions:'Complete your LIFT action plan. Be specific.',interaction:'Fill-in template: What will I do? By when? How will I know it worked?',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:'',reflection:'',bridge:'',notes:''},
+        {id:'s606',mid:'m6',type:'summary',title:"You're certified — now LIFT",subtitle:'',mod_obj:'',hook:'',visual:'Certification badge reveal. LIFT framework recap graphic.',obj:'',narration:'',transition:'',instructions:'',interaction:'',debrief:'',situation:'',prompt:'',options:'',feedback:'',q1:'',q2:'',q3:'',q4:'',description:'',highlights:'',followup:'',takeaways:"• Training is a skill — expertise alone is not enough\n• LIFT: Learner First, Intentional Design, Facilitation over Lecture, Transfer that Sticks\n• The best trainers keep learning how to train",reflection:'What will you do differently in your very next training session?',bridge:'Your certification is the beginning. Return to this framework every time you design.',notes:''},
+      ]
+    }
+  ]
+};
+
+// ── State helpers ─────────────────────────────────────────────────────────────
+let editingId  = null;
+let dirty      = false;
+let fileHandle = null;
+const fsOk     = 'showSaveFilePicker' in window;
+
+const course     = () => data.courses.find(c => c.id === data.activeCourse);
+const mod        = () => course()?.modules.find(m => m.id === course()?.activeMod);
+const modScreens = () => course()?.screens.filter(s => s.mid === course()?.activeMod) || [];
+
+// ── Render: Course tabs ───────────────────────────────────────────────────────
+function renderCourseTabs() {
+  document.getElementById('course-tabs').innerHTML = data.courses.map(c =>
+    `<div class="course-tab${c.id===data.activeCourse?' active':''}" onclick="switchCourse('${c.id}')">
+      ${esc(c.name)}${c.framework?`<span class="fw-tag">${esc(c.framework)}</span>`:''}
+    </div>`
+  ).join('');
+}
+
+// ── Render: Module tabs ───────────────────────────────────────────────────────
+function renderModTabs() {
+  const c = course();
+  if (!c) return;
+  document.getElementById('mod-tabs').innerHTML = (c.modules||[]).map(m =>
+    `<div class="mod-tab${m.id===c.activeMod?' active':''}" onclick="switchMod('${m.id}')">
+      ${esc(m.name)}${m.tag?`<span class="mod-tag">${esc(m.tag)}</span>`:''}
+    </div>`
+  ).join('');
+}
+
+// ── Render: Module info + stats ───────────────────────────────────────────────
+function renderModInfo() {
+  const c  = course();
+  const m  = mod();
+  const ms = modScreens();
+  const pill = document.getElementById('mod-framework-pill');
+  if (m && m.tag) {
+    pill.textContent = c?.framework ? `${c.framework}: ${m.tag}` : m.tag;
+    pill.style.display = '';
+  } else {
+    pill.style.display = 'none';
+  }
+  document.getElementById('mod-desc-text').textContent = m?.desc || (c ? `${c.name} — select a module above.` : '');
+  document.getElementById('stats').innerHTML = m
+    ? `<div class="stat"><b>${ms.length}</b> screens</div>
+       <div class="stat"><b>${ms.filter(s=>s.type==='quiz').length}</b> checks</div>
+       <div class="stat"><b>${ms.filter(s=>s.type==='activity'||s.type==='scenario').length}</b> activities &amp; scenarios</div>
+       <div class="stat"><b>${c?.screens?.length||0}</b> total in course</div>`
+    : '';
+}
+
+// ── Render: Screen list ───────────────────────────────────────────────────────
+function renderScreens() {
+  const ms    = modScreens();
+  const table = document.getElementById('screen-table');
+  if (!mod()) { table.innerHTML = '<div class="empty-msg">Select or create a module above.</div>'; return; }
+  if (!ms.length) { table.innerHTML = '<div class="empty-msg">No screens yet. Click "+ Add screen" below.</div>'; return; }
+  table.innerHTML = ms.map((s, i) => `
+    <div class="screen-row${s.id===editingId?' active':''}" onclick="handleRowClick('${s.id}')">
+      <div class="row-num">${i+1}</div>
+      <div class="row-info">
+        <div class="row-title">${esc(s.title)||'Untitled screen'}</div>
+        <div class="row-obj">${esc(s.obj||s.mod_obj)||'—'}</div>
+      </div>
+      <div class="type-badge tb-${s.type}">${TYPE_LABEL[s.type]||s.type}</div>
+      <button class="row-del" onclick="handleDelClick(event,'${s.id}')" title="Delete">×</button>
+    </div>`
+  ).join('');
+}
+
+function handleRowClick(sid) { editingId===sid ? closeEditor() : openEditor(sid); }
+function handleDelClick(e, sid) {
+  e.stopPropagation();
+  if (!confirm('Delete this screen?')) return;
+  const c = course();
+  c.screens = c.screens.filter(s => s.id !== sid);
+  if (editingId===sid) closeEditor();
+  dirty=true; updateStatus(); renderModInfo(); renderScreens();
+}
+
+// ── Editor ────────────────────────────────────────────────────────────────────
+function openEditor(sid) {
+  const c = course();
+  const s = c?.screens.find(s => s.id === sid);
+  if (!s) return;
+  editingId = sid;
+  document.getElementById('editor').classList.remove('hidden');
+  const ms  = modScreens();
+  const num = ms.indexOf(s)+1;
+  document.getElementById('ed-heading').textContent = `Screen ${num} — ${s.title||'Untitled'}`;
+  document.getElementById('ed-type').value = s.type || 'content';
+  buildFields(s.type, s);
+  renderScreens();
+  document.getElementById('editor').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function buildFields(type, s) {
+  const def = TYPE_FIELDS[type]; if (!def) return;
+  let html = `<div class="field-grid" style="grid-template-columns:${def.grid}">`;
+  def.fields.forEach(f => {
+    const span = f.span===2 ? 'grid-column:1/-1;' : '';
+    html += f.type==='input'
+      ? `<div class="fg" style="${span}"><label>${f.label}</label><input type="text" id="ef-${f.key}" placeholder="${esc(f.ph||'')}"></div>`
+      : `<div class="fg" style="${span}"><label>${f.label}</label><textarea id="ef-${f.key}" class="${f.cls||'md'}" placeholder="${esc(f.ph||'')}"></textarea></div>`;
+  });
+  html += '</div>';
+  document.getElementById('ed-fields').innerHTML = html;
+  def.fields.forEach(f => {
+    const el = document.getElementById('ef-'+f.key);
+    if (el && s) el.value = s[f.key] || '';
+  });
+}
+
+function onTypeChange() {
+  if (!editingId) return;
+  const c = course();
+  const s = c?.screens.find(s => s.id === editingId); if (!s) return;
+  const titleEl = document.getElementById('ef-title');
+  if (titleEl) s.title = titleEl.value;
+  buildFields(document.getElementById('ed-type').value, s);
+  renderScreens();
+}
+
+function closeEditor() {
+  editingId = null;
+  document.getElementById('editor').classList.add('hidden');
+  renderScreens();
+}
+
+function saveScreen() {
+  if (!editingId) return;
+  const c = course();
+  const s = c?.screens.find(s => s.id === editingId); if (!s) return;
+  s.type = document.getElementById('ed-type').value;
+  ALL_KEYS.forEach(k => { const el=document.getElementById('ef-'+k); if(el) s[k]=el.value; });
+  dirty=true; updateStatus();
+  const ms=modScreens(), num=ms.indexOf(s)+1;
+  document.getElementById('ed-heading').textContent=`Screen ${num} — ${s.title||'Untitled'}`;
+  renderScreens(); showToast('Screen saved');
+}
+
+// ── Screen management ─────────────────────────────────────────────────────────
+function addScreen() {
+  const c = course(); if (!mod()) return;
+  const newId = 'sc_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  const blank = {id:newId, mid:c.activeMod, type:'content', title:'New screen'};
+  ALL_KEYS.forEach(k => blank[k]='');
+  c.screens.push(blank);
+  dirty=true; updateStatus(); renderModInfo(); renderScreens();
+  openEditor(newId);
+}
+
+function moveScreen(dir) {
+  if (!editingId) return;
+  const c=course(), ms=modScreens();
+  const mi=ms.findIndex(s=>s.id===editingId), ni=mi+dir;
+  if (ni<0||ni>=ms.length) return;
+  const ai=c.screens.indexOf(ms[mi]), bi=c.screens.indexOf(ms[ni]);
+  [c.screens[ai],c.screens[bi]]=[c.screens[bi],c.screens[ai]];
+  dirty=true; updateStatus(); renderScreens();
+}
+
+function dupScreen() {
+  if (!editingId) return;
+  const c=course(), s=c.screens.find(s=>s.id===editingId); if(!s) return;
+  const newId='sc_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  const copy={...s,id:newId,title:s.title+' (copy)'};
+  c.screens.splice(c.screens.indexOf(s)+1,0,copy);
+  dirty=true; updateStatus(); renderModInfo(); renderScreens(); openEditor(newId);
+}
+
+function deleteScreen() {
+  if (!editingId||!confirm('Delete this screen?')) return;
+  const c=course(); c.screens=c.screens.filter(s=>s.id!==editingId);
+  closeEditor(); dirty=true; updateStatus(); renderModInfo(); renderScreens();
+}
+
+// ── Course management ─────────────────────────────────────────────────────────
+let _courseModalMode = 'new';
+
+function openNewCourseModal() {
+  _courseModalMode = 'new';
+  document.getElementById('course-modal-title').textContent = 'New course';
+  document.getElementById('course-modal-save').textContent = 'Create course';
+  ['cm-name','cm-desc','cm-framework','cm-audience'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('course-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('cm-name').focus(),50);
+}
+
+function editCourse() {
+  const c = course(); if (!c) return;
+  _courseModalMode = 'edit';
+  document.getElementById('course-modal-title').textContent = 'Edit course';
+  document.getElementById('course-modal-save').textContent = 'Save changes';
+  document.getElementById('cm-name').value      = c.name      || '';
+  document.getElementById('cm-desc').value      = c.desc      || '';
+  document.getElementById('cm-framework').value = c.framework || '';
+  document.getElementById('cm-audience').value  = c.audience  || '';
+  document.getElementById('course-modal').classList.remove('hidden');
+}
+
+document.getElementById('course-modal-save').onclick = () => {
+  const name = document.getElementById('cm-name').value.trim();
+  if (!name) { alert('Please enter a course name.'); return; }
+  if (_courseModalMode === 'new') {
+    const id = 'c_'+Date.now();
+    data.courses.push({ id, name,
+      desc: document.getElementById('cm-desc').value.trim(),
+      framework: document.getElementById('cm-framework').value.trim(),
+      audience: document.getElementById('cm-audience').value.trim(),
+      activeMod: null, modules: [], screens: [],
+    });
+    data.activeCourse = id; closeEditor();
+  } else {
+    const c = course();
+    c.name      = name;
+    c.desc      = document.getElementById('cm-desc').value.trim();
+    c.framework = document.getElementById('cm-framework').value.trim();
+    c.audience  = document.getElementById('cm-audience').value.trim();
+  }
+  closeModal('course-modal'); dirty=true; updateStatus(); renderAll();
+};
+
+function switchCourse(id) { data.activeCourse=id; closeEditor(); renderAll(); }
+
+function deleteCourse() {
+  if (data.courses.length<=1){alert('You need at least one course.');return;}
+  if (!confirm(`Delete "${course()?.name}" and all its content?`)) return;
+  data.courses=data.courses.filter(c=>c.id!==data.activeCourse);
+  data.activeCourse=data.courses[0].id;
+  closeEditor(); dirty=true; updateStatus(); renderAll();
+}
+
+// ── Module management ─────────────────────────────────────────────────────────
+let _modModalMode = 'new';
+
+function openNewModModal() {
+  _modModalMode = 'new';
+  document.getElementById('mod-modal-title').textContent = 'New module';
+  document.getElementById('mod-modal-save').textContent = 'Add module';
+  const c = course();
+  const hint = c?.framework ? `e.g. ${c.framework==='LIFT'?'L, I, F, T, or LIFT':c.framework}` : 'Leave blank if not using a framework';
+  document.getElementById('mm-tag-hint').textContent = hint;
+  ['mm-name','mm-desc','mm-tag'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('mod-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('mm-name').focus(),50);
+}
+
+function editMod() {
+  const m = mod(); if (!m) return;
+  _modModalMode = 'edit';
+  document.getElementById('mod-modal-title').textContent = 'Edit module';
+  document.getElementById('mod-modal-save').textContent = 'Save changes';
+  document.getElementById('mm-name').value = m.name||'';
+  document.getElementById('mm-desc').value = m.desc||'';
+  document.getElementById('mm-tag').value  = m.tag||'';
+  document.getElementById('mod-modal').classList.remove('hidden');
+}
+
+document.getElementById('mod-modal-save').onclick = () => {
+  const name = document.getElementById('mm-name').value.trim();
+  if (!name) { alert('Please enter a module name.'); return; }
+  const c = course();
+  if (_modModalMode === 'new') {
+    const id = 'mod_'+Date.now();
+    c.modules.push({id, name, desc: document.getElementById('mm-desc').value.trim(), tag: document.getElementById('mm-tag').value.trim().toUpperCase()});
+    c.activeMod=id; closeEditor();
+  } else {
+    const m=mod(); m.name=name; m.desc=document.getElementById('mm-desc').value.trim(); m.tag=document.getElementById('mm-tag').value.trim().toUpperCase();
+  }
+  closeModal('mod-modal'); dirty=true; updateStatus(); renderAll();
+};
+
+function switchMod(mid) {
+  const c=course(); if(!c) return;
+  c.activeMod=mid; closeEditor(); renderModTabs(); renderModInfo(); renderScreens();
+}
+
+// ── File I/O ──────────────────────────────────────────────────────────────────
+function updateStatus() {
+  document.getElementById('save-status').textContent =
+    fileHandle ? (dirty ? fileHandle.name+' — unsaved' : fileHandle.name+' — saved') : (dirty ? 'Unsaved changes' : '');
+}
+
+async function saveFile() {
+  if (!fsOk) { exportBackup(); return; }
+  try {
+    if (!fileHandle) {
+      fileHandle = await window.showSaveFilePicker({
+        suggestedName:'training_planner.json',
+        types:[{description:'Training Planner JSON',accept:{'application/json':['.json']}}],
+      });
+    }
+    const w = await fileHandle.createWritable();
+    await w.write(JSON.stringify(data,null,2));
+    await w.close();
+    dirty=false; updateStatus(); showToast('Saved to '+fileHandle.name);
+  } catch(e){ if(e.name!=='AbortError') showToast('Save failed — try Backup'); }
+}
+
+async function openFile() {
+  if (!fsOk) {
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='.json';
+    inp.onchange=async()=>{ try{loadData(JSON.parse(await inp.files[0].text()),null);showToast('Opened');}catch(e){alert('Could not read file.');} };
+    inp.click(); return;
+  }
+  try {
+    const [h]=await window.showOpenFilePicker({types:[{description:'Training Planner JSON',accept:{'application/json':['.json']}}]});
+    loadData(JSON.parse(await (await h.getFile()).text()),h);
+    showToast('Opened '+h.name);
+  } catch(e){ if(e.name!=='AbortError') alert('Could not open file.'); }
+}
+
+function loadData(d,handle) {
+  if (!d.courses) { alert('Invalid planner file.'); return; }
+  data=d; fileHandle=handle; dirty=false;
+  closeEditor(); updateStatus(); renderAll();
+}
+
+function exportBackup() {
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='training_planner_backup.json'; a.click();
+  showToast('Backup exported');
+}
+
+function printSummary() {
+  const c=course(); if(!c) return;
+  let h=`<html><head><title>${c.name}</title><style>
+    body{font-family:'Inter',sans-serif;max-width:760px;margin:40px auto;color:#1a1d2e;line-height:1.6;font-size:14px}
+    h1{font-size:22px;font-weight:600;margin-bottom:4px}
+    h2{font-size:16px;font-weight:600;margin-top:28px;border-bottom:1px solid #e4e6ef;padding-bottom:6px}
+    h3{font-size:13px;font-weight:500;margin:14px 0 3px}p{font-size:12px;color:#5b6070;margin:1px 0}
+    .t{font-size:10px;padding:2px 8px;border-radius:20px;background:#eeedff;color:#5b4fcf;margin-left:6px}
+  </style></head><body>
+  <h1>${esc(c.name)}${c.framework?` <span style="font-size:13px;color:#a0a4b8;font-weight:400">${esc(c.framework)}</span>`:''}</h1>
+  <p style="color:#a0a4b8">${esc(c.audience||'')} · ${new Date().toLocaleString()}</p>`;
+  c.modules.forEach(m=>{
+    const ms=c.screens.filter(s=>s.mid===m.id);
+    h+=`<h2>${esc(m.name)}${m.tag?` <span style="font-size:11px;color:#a0a4b8;font-weight:400">${esc(m.tag)}</span>`:''}</h2><p style="color:#a0a4b8">${esc(m.desc||'')}</p>`;
+    ms.forEach((s,i)=>{
+      h+=`<h3>${i+1}. ${esc(s.title||'Untitled')}<span class="t">${TYPE_LABEL[s.type]||s.type}</span></h3>`;
+      ALL_KEYS.filter(k=>k!=='title'&&s[k]).forEach(k=>{ h+=`<p><b>${k}:</b> ${esc(s[k])}</p>`; });
+    });
+  });
+  const w=window.open('','_blank'); w.document.write(h+'</body></html>'); w.document.close(); w.print();
+}
+
+// ── Modals ────────────────────────────────────────────────────────────────────
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+document.querySelectorAll('.modal-ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden');}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-ov').forEach(m=>m.classList.add('hidden'));});
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ── View switching ────────────────────────────────────────────────────────────
+let currentView = 'storyboard';
+
+function switchView(view) {
+  currentView = view;
+  const modbar = document.getElementById('modbar');
+  const pcb    = document.getElementById('planning-context-bar');
+  if (view==='planning') {
+    modbar.style.display='none'; pcb.style.display='flex';
+    const c=course();
+    document.getElementById('pcb-course-name').textContent = c ? c.name+(c.framework?' · '+c.framework:'') : '';
+  } else {
+    modbar.style.display=''; pcb.style.display='none';
+  }
+  document.getElementById('vt-storyboard').classList.toggle('active', view==='storyboard');
+  document.getElementById('vt-planning').classList.toggle('active', view==='planning');
+  ['mod-info','stats','screen-area'].forEach(id=>document.getElementById(id)?.classList.toggle('view-hidden',view==='planning'));
+  const ed=document.getElementById('editor');
+  view==='planning' ? ed.classList.add('view-hidden') : ed.classList.remove('view-hidden');
+  const plan=document.getElementById('planning-panel');
+  if (view==='planning') { plan.classList.remove('hidden'); renderPlanning(); }
+  else plan.classList.add('hidden');
+}
+
+// ── Planning ──────────────────────────────────────────────────────────────────
+const cl = () => 'p_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+
+function getPlan() {
+  const c=course();
+  if (!c.planning) c.planning={};
+  if (!c.planning.checklist) c.planning.checklist=getDefaultChecklist();
+  if (!c.planning.workflow)  c.planning.workflow={ useCase:'', columns:[
+    {id:cl(),stage:'',tasks:['','',''],objective:''},
+    {id:cl(),stage:'',tasks:['','',''],objective:''},
+    {id:cl(),stage:'',tasks:['','',''],objective:''},
+  ]};
+  if (!c.planning.flowCards) c.planning.flowCards=getDefaultFlowCards();
+  return c.planning;
+}
+
+function getDefaultChecklist() {
+  return [
+    {id:cl(),label:'Real-life use case identified',             done:false,note:'Is the training based on a real or ideal workflow that reflects actual job tasks?'},
+    {id:cl(),label:'Workflow broken into stages',               done:false,note:'Have you mapped the main stages of the use case?'},
+    {id:cl(),label:'Tasks defined within each stage',          done:false,note:'Stages broken down into smaller tasks'},
+    {id:cl(),label:'Performance goals written for each task',  done:false,note:'Are goals action-oriented and observable? (e.g. "Configure X", not "Understand X")'},
+    {id:cl(),label:'Training modules structured clearly',       done:false,note:'Does each module include intro, theory, demo, hands-on task, and wrap-up?'},
+    {id:cl(),label:'Theory is relevant and visualized',         done:false,note:'Are technical explanations put into practice? Supported by visuals?'},
+    {id:cl(),label:'Each slide has speaker notes and timing',   done:false,note:'Speaker notes guide the trainer on what to say, demonstrate, and ask.'},
+    {id:cl(),label:'Demo aligns with hands-on task',           done:false,note:'Does the trainer show exactly what participants will do themselves?'},
+    {id:cl(),label:'Hands-on task is realistic and challenging',done:false,note:'Does the task simulate a real-world scenario and require active problem-solving?'},
+    {id:cl(),label:'Links to relevant documentation included',  done:false,note:'Nudge participants to access documentation to solve the hands-on task themselves.'},
+    {id:cl(),label:'Wrap-up includes reflection and discussion',done:false,note:'Are participants encouraged to share outcomes, challenges, and questions?'},
+    {id:cl(),label:'Success criteria defined for tasks',        done:false,note:'Can participants and trainers easily assess whether the task was completed well?'},
+  ];
+}
+
+function getDefaultFlowCards() {
+  return [
+    {id:cl(),title:'Intro',            notes:'• What the module covers\n• Why it matters\n• What learners will be able to do'},
+    {id:cl(),title:'Theory / concepts',notes:'• Core concepts explained\n• Visuals or diagrams\n• Keep it brief — theory in service of practice'},
+    {id:cl(),title:'Demo',             notes:'• Trainer demonstrates the task\n• Step by step, narrated\n• Shows exactly what participants will do'},
+    {id:cl(),title:'Participant task', notes:'• Participants attempt the task themselves\n• Realistic scenario\n• Trainer facilitates, does not just watch'},
+    {id:cl(),title:'Wrap-up',          notes:'• Participant reflections\n• What was easy / hard?\n• Did they succeed?\n• Open questions'},
+  ];
+}
+
+function renderPlanning() { renderChecklist(); renderWorkflow(); renderFlowCards(); }
+
+function renderChecklist() {
+  const plan=getPlan();
+  const rows=document.getElementById('checklist-rows');
+  if (!plan.checklist.length) { rows.innerHTML='<div style="padding:14px 20px;color:#a0a4b8;font-size:13px">No items yet.</div>'; return; }
+  rows.innerHTML=plan.checklist.map(item=>`
+    <div class="checklist-row">
+      <input type="text" value="${esc(item.label)}" placeholder="Design element…" onchange="updateCheckItem('${item.id}','label',this.value)">
+      <div class="check-toggle">
+        <button class="${item.done?'done':'not-done'}" onclick="toggleCheck('${item.id}')">${item.done?'✓ Done':'—'}</button>
+      </div>
+      <input type="text" value="${esc(item.note)}" placeholder="Explanation / notes…" onchange="updateCheckItem('${item.id}','note',this.value)" class="note">
+      <button class="row-del-sm" onclick="deleteCheckItem('${item.id}')" title="Remove">×</button>
+    </div>`).join('');
+}
+
+function toggleCheck(id) {
+  const plan=getPlan(), item=plan.checklist.find(i=>i.id===id);
+  if(item){item.done=!item.done;dirty=true;updateStatus();renderChecklist();}
+}
+function updateCheckItem(id,field,val) {
+  const plan=getPlan(), item=plan.checklist.find(i=>i.id===id);
+  if(item){item[field]=val;dirty=true;updateStatus();}
+}
+function deleteCheckItem(id) {
+  const plan=getPlan(); plan.checklist=plan.checklist.filter(i=>i.id!==id);
+  dirty=true;updateStatus();renderChecklist();
+}
+function addCheckItem() {
+  const plan=getPlan(); plan.checklist.push({id:cl(),label:'New item',done:false,note:''});
+  dirty=true;updateStatus();renderChecklist();
+  const rows=document.querySelectorAll('.checklist-row');
+  rows[rows.length-1]?.querySelector('input')?.focus();
+}
+
+function renderWorkflow() {
+  const plan=getPlan();
+  if (!plan.workflow.columns && plan.workflow.stages) {
+    plan.workflow.columns=plan.workflow.stages.map(s=>({id:s.id,stage:s.name||'',tasks:(s.tasks||'').split('\n').filter(Boolean),objective:s.objective||''}));
+    delete plan.workflow.stages;
+  }
+  if (!plan.workflow.columns) plan.workflow.columns=[{id:cl(),stage:'',tasks:['','',''],objective:''},{id:cl(),stage:'',tasks:['','',''],objective:''},{id:cl(),stage:'',tasks:['','',''],objective:''}];
+  document.getElementById('wf-usecase').value=plan.workflow.useCase||'';
+  const grid=document.getElementById('workflow-grid');
+  const cols=plan.workflow.columns;
+  if (!cols.length) { grid.innerHTML='<div style="padding:14px 20px;color:#a0a4b8;font-size:13px">No columns yet. Click "+ Add path" to start.</div>'; return; }
+  const rows=[
+    {rowNum:'2',rowName:'Main stages',          cls:'wf-stage',    field:'stage',    ph:'Stage name…',          label:'Stage name', multiline:false},
+    {rowNum:'3',rowName:'Smaller tasks',         cls:'wf-tasks',    field:'tasks',    ph:'Task 1\nTask 2\nTask 3',label:'Tasks',      multiline:true },
+    {rowNum:'4',rowName:'Performance objectives',cls:'wf-objective',field:'objective',ph:'Performance objective…',label:'Objective',  multiline:false},
+  ];
+  let html='<div class="wf-grid-inner">';
+  html+=`<div class="wf-row">
+    <div class="wf-row-label"><div class="wf-row-label-num">1</div><div class="wf-row-label-name">Use case</div></div>
+    <div class="wf-row-cells" style="flex:1">
+      <div class="wf-cell wf-usecase-cell" style="flex:1;min-height:48px">
+        <div class="wf-cell-content"><textarea placeholder="Workflow of a real-life case…" style="min-height:44px" oninput="saveWorkflowUsecaseCell(this.value)">${esc(plan.workflow.useCase||'')}</textarea></div>
+      </div>
+    </div>
+    <div class="wf-add-col"><button onclick="addWfColumn()" title="Add path">+</button></div>
+  </div>`;
+  html+=`<div class="wf-row-arrows" style="margin-bottom:2px">${cols.map(()=>`<div class="wf-arrow-col" style="flex:0 0 160px;margin:0 4px">↓</div>`).join('')}</div>`;
+  rows.forEach((row,ri)=>{
+    html+=`<div class="wf-row">
+      <div class="wf-row-label"><div class="wf-row-label-num">${row.rowNum}</div><div class="wf-row-label-name">${row.rowName}</div></div>
+      <div class="wf-row-cells">
+        ${cols.map((col,ci)=>{
+          const val=row.field==='tasks'?(Array.isArray(col.tasks)?col.tasks.join('\n'):col.tasks||''):esc(col[row.field]||'');
+          return `<div class="wf-cell ${row.cls}" style="flex:0 0 160px">
+            <div class="wf-cell-label">${row.label}</div>
+            <div class="wf-cell-content"><textarea placeholder="${row.ph}" style="min-height:${row.multiline?72:44}px" oninput="updateWfCell('${col.id}','${row.field}',this.value)">${val}</textarea></div>
+            ${ri===0?`<button class="wf-cell-del" onclick="deleteWfColumn('${col.id}')" title="Remove">×</button>`:''}
+          </div>`;
+        }).join('')}
+        <div class="wf-add-col">${ri===0?`<button onclick="addWfColumn()" title="Add path">+</button>`:'<div style="width:28px"></div>'}</div>
+      </div>
+    </div>`;
+    if (ri<rows.length-1) html+=`<div class="wf-row-arrows" style="margin:2px 0">${cols.map(()=>`<div class="wf-arrow-col" style="flex:0 0 160px;margin:0 4px">↓</div>`).join('')}</div>`;
+  });
+  html+='</div>';
+  grid.innerHTML=html;
+}
+
+function saveWorkflowMeta() { const plan=getPlan(); plan.workflow.useCase=document.getElementById('wf-usecase').value; dirty=true;updateStatus(); }
+function saveWorkflowUsecaseCell(val) { const plan=getPlan(); plan.workflow.useCase=val; document.getElementById('wf-usecase').value=val; dirty=true;updateStatus(); }
+function addWfColumn() { const plan=getPlan(); if(!plan.workflow.columns)plan.workflow.columns=[]; plan.workflow.columns.push({id:cl(),stage:'',tasks:['','',''],objective:''}); dirty=true;updateStatus();renderWorkflow(); }
+function updateWfCell(colId,field,val) { const plan=getPlan(); const col=plan.workflow.columns.find(c=>c.id===colId); if(!col)return; if(field==='tasks')col.tasks=val.split('\n'); else col[field]=val; dirty=true;updateStatus(); }
+function deleteWfColumn(colId) { const plan=getPlan(); if(plan.workflow.columns.length<=1){alert('Keep at least one column.');return;} plan.workflow.columns=plan.workflow.columns.filter(c=>c.id!==colId); dirty=true;updateStatus();renderWorkflow(); }
+function addWorkflowStage(){addWfColumn();}
+function updateWfStage(id,field,val){updateWfCell(id,field,val);}
+function deleteWfStage(id){deleteWfColumn(id);}
+
+function renderFlowCards() {
+  const plan=getPlan();
+  const container=document.getElementById('flow-cards');
+  if (!plan.flowCards.length) { container.innerHTML='<div class="flow-empty">No cards yet. Click "+ Add card" to build your module flow.</div>'; return; }
+  container.innerHTML=plan.flowCards.map((card,i)=>{
+    const isFirst=i===0, isLast=i===plan.flowCards.length-1;
+    return `<div class="flow-card" id="fc-${card.id}">
+      ${i>0?'<div class="flow-card-arrow">→</div>':''}
+      <div class="flow-card-inner">
+        <div class="flow-card-hdr">
+          <input type="text" value="${esc(card.title)}" placeholder="Card title…" onchange="updateFlowCard('${card.id}','title',this.value)">
+          <button class="flow-card-del" onclick="deleteFlowCard('${card.id}')" title="Remove">×</button>
+        </div>
+        <textarea placeholder="• Key points\n• Activities\n• What trainer does\n• What learners do…" onchange="updateFlowCard('${card.id}','notes',this.value)">${esc(card.notes||'')}</textarea>
+        <div class="flow-card-foot">
+          <button class="flow-card-move" onclick="moveFlowCard('${card.id}',-1)" ${isFirst?'disabled style="opacity:.3"':''}>◀</button>
+          <button class="flow-card-move" onclick="moveFlowCard('${card.id}',1)"  ${isLast?'disabled style="opacity:.3"':''}>▶</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addFlowCard() { const plan=getPlan(); plan.flowCards.push({id:cl(),title:'New card',notes:''}); dirty=true;updateStatus();renderFlowCards(); }
+function updateFlowCard(id,field,val) { const plan=getPlan(); const card=plan.flowCards.find(c=>c.id===id); if(card){card[field]=val;dirty=true;updateStatus();} }
+function deleteFlowCard(id) { const plan=getPlan(); plan.flowCards=plan.flowCards.filter(c=>c.id!==id); dirty=true;updateStatus();renderFlowCards(); }
+function moveFlowCard(id,dir) { const plan=getPlan(); const i=plan.flowCards.findIndex(c=>c.id===id); const ni=i+dir; if(ni<0||ni>=plan.flowCards.length)return; [plan.flowCards[i],plan.flowCards[ni]]=[plan.flowCards[ni],plan.flowCards[i]]; dirty=true;updateStatus();renderFlowCards(); }
+
+// ── Wire buttons ──────────────────────────────────────────────────────────────
+document.getElementById('btn-new-course').onclick = openNewCourseModal;
+document.getElementById('btn-new-mod').onclick    = openNewModModal;
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+
+// ── Full render ───────────────────────────────────────────────────────────────
+function renderAll() {
+  renderCourseTabs(); renderModTabs(); renderModInfo(); renderScreens();
+  if (currentView==='planning') {
+    document.getElementById('modbar').style.display='none';
+    document.getElementById('planning-context-bar').style.display='flex';
+    const c=course();
+    document.getElementById('pcb-course-name').textContent=c?c.name+(c.framework?' · '+c.framework:''):'';
+    ['mod-info','stats','screen-area'].forEach(id=>document.getElementById(id)?.classList.add('view-hidden'));
+    document.getElementById('editor')?.classList.add('view-hidden');
+    document.getElementById('planning-panel').classList.remove('hidden');
+    renderPlanning();
+  } else {
+    document.getElementById('modbar').style.display='';
+    document.getElementById('planning-context-bar').style.display='none';
+    ['mod-info','stats','screen-area'].forEach(id=>document.getElementById(id)?.classList.remove('view-hidden'));
+    document.getElementById('editor')?.classList.remove('view-hidden');
+    document.getElementById('planning-panel').classList.add('hidden');
+  }
+}
+
+renderAll();
+</script>
+</body>
+</html>
