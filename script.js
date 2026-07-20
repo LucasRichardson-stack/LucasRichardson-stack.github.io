@@ -206,24 +206,29 @@
   let lightboxIndex = 0;
   let lastFocus = null;
 
-  function getZoomButtons(carousel) {
-    return carousel ? carousel.querySelectorAll(".carousel-zoom") : [];
+  function getZoomButtons(container) {
+    return container ? container.querySelectorAll(".carousel-zoom") : [];
   }
 
-  function openLightbox(carousel, index) {
-    const buttons = getZoomButtons(carousel);
+  function openLightbox(container, index) {
+    const buttons = getZoomButtons(container);
     const btn = buttons[index];
     if (!btn) return;
 
-    lightboxCarousel = carousel;
+    lightboxCarousel = container;
     lightboxIndex = index;
     lastFocus = document.activeElement;
 
     lightboxImg.src = btn.getAttribute("data-src") || "";
     lightboxImg.alt = btn.getAttribute("data-alt") || "";
     const slide = btn.closest(".carousel-slide");
+    const compareCaption = btn.closest(".compare-card");
     lightboxCaption.textContent =
-      (slide && slide.getAttribute("data-caption")) || "";
+      (slide && slide.getAttribute("data-caption")) ||
+      (compareCaption &&
+        compareCaption.querySelector("figcaption") &&
+        compareCaption.querySelector("figcaption").textContent) ||
+      "";
 
     lightbox.hidden = false;
     lightbox.setAttribute("aria-hidden", "false");
@@ -253,13 +258,16 @@
 
   document.querySelectorAll(".carousel-zoom").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      const carousel = btn.closest("[data-carousel]");
-      const slides = carousel.querySelectorAll(".carousel-slide");
+      const container =
+        btn.closest("[data-carousel]") || btn.closest(".compare-grid");
+      if (!container) return;
+
+      const buttons = container.querySelectorAll(".carousel-zoom");
       let index = 0;
-      slides.forEach(function (slide, i) {
-        if (slide.contains(btn)) index = i;
+      buttons.forEach(function (zoomBtn, i) {
+        if (zoomBtn === btn) index = i;
       });
-      openLightbox(carousel, index);
+      openLightbox(container, index);
     });
   });
 
