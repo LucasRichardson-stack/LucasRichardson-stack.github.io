@@ -1494,6 +1494,29 @@ body.lightbox-open {
   font-weight: 600;
 }
 
+.analytics-notice {
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--color-ink-muted);
+  opacity: 0.85;
+}
+
+.analytics-notice a {
+  font-weight: 500;
+  color: var(--color-ink-muted);
+  text-decoration: underline;
+  text-decoration-color: rgb(63 79 72 / 0.35);
+  text-underline-offset: 0.15em;
+}
+
+.analytics-notice a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
 .hint {
   display: block;
   font-size: 0.8125rem;
